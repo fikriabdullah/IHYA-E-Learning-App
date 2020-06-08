@@ -53,7 +53,7 @@ public class quiz extends AppCompatActivity {
 
     public void pick01(View view) {
         openDialogFragmentCorrect();
-        mHandler.postDelayed(mIntentRunnable, 1000);
+        mHandler.postDelayed(mIntentRunnable, 1500);
     }
 
 
