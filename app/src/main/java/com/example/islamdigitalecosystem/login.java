@@ -64,7 +64,7 @@ public class login extends AppCompatActivity {
             sharedPrefEdit.putString(getString(R.string.email), vName);
             sharedPrefEdit.commit();
 
-            String vPassword = password.getText().toString();
+            String vPassword = email.getText().toString();
             sharedPrefEdit.putString(getString(R.string.password), vPassword);
             sharedPrefEdit.commit();
         }else {

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.islamdigitalecosystem">
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".quiz"></activity>
-        <activity android:name=".setting" />
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".setting"></activity>
         <activity android:name=".regis" />
         <activity android:name=".login" />
         <activity android:name=".materi" />
+        <activity android:name=".kisah" />
         <activity
             android:name=".latihan"
             android:theme="@style/AppTheme.NoActionBar" />
