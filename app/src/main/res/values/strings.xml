@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Islam Digital Ecosystem</string>
+
+    <string name="checkbox">com.example.islamdigitalecosystem.checkbox</string>
+    <string name="email">com.example.islamdigitalecosystem.username</string>
+    <string name="password">com.example.islamdigitalecosystem.password</string>
+
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+
+</resources>

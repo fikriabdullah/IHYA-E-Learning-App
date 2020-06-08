@@ -1,0 +1,2 @@
+rootProject.name='Islam Digital Ecosystem'
+include ':app'

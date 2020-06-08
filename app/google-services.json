@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "837404513039",
+    "firebase_url": "https://islam-digital-ecosystem.firebaseio.com",
+    "project_id": "islam-digital-ecosystem",
+    "storage_bucket": "islam-digital-ecosystem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837404513039:android:045718409efada0912647a",
+        "android_client_info": {
+          "package_name": "com.example.islamdigitalecosystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837404513039-dlroqpd13r2mujv1c6ggobqprs0ja6hq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmN5Np491NU7TUVnbNOSGozvPbP0GBBtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837404513039-dlroqpd13r2mujv1c6ggobqprs0ja6hq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
