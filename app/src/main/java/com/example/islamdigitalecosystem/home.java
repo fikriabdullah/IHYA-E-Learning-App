@@ -22,29 +22,31 @@ import technolifestyle.com.imageslider.FlipperLayout;
 import technolifestyle.com.imageslider.FlipperView;
 
 public class home extends AppCompatActivity {
-DrawerLayout drawerLayout;
-NavigationView navigationView;
-androidx.appcompat.widget.Toolbar toolbar;
-FlipperLayout flipperLayout;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    androidx.appcompat.widget.Toolbar toolbar;
+    FlipperLayout flipperLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view1);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        flipperLayout=(FlipperLayout) findViewById(R.id.imageSlider);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        flipperLayout = (FlipperLayout) findViewById(R.id.imageSlider);
         setLayout();
     }
-    private void setLayout(){
+
+    private void setLayout() {
         int image[] = {
                 R.drawable.kata1,
                 R.drawable.kata2,
                 R.drawable.kata4,
                 R.drawable.kata3
         };
-        for (int i = 0; i <4; i++) {
-            FlipperView view=new FlipperView(getBaseContext());
+        for (int i = 0; i < 4; i++) {
+            FlipperView view = new FlipperView(getBaseContext());
             view.setImageDrawable(image[i]);
             flipperLayout.addFlipperView(view);
             view.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -66,5 +68,9 @@ FlipperLayout flipperLayout;
     }
 
     public void baca(View view) {
+    }
+
+    public void quizyok(View view) {
+        startActivity(new Intent(home.this, quiz.class));
     }
 }

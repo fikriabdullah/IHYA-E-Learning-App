@@ -46,7 +46,7 @@
                 <technolifestyle.com.imageslider.FlipperLayout
                     android:id="@+id/imageSlider"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="match_parent"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
                     app:sliderAutoCycleEnabled="true"
@@ -138,12 +138,14 @@
     <LinearLayout
         android:clipToPadding="false"
         android:gravity="center"
+        android:clickable="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
+            android:onClick="quizyok"
             android:layout_width="158dp"
             android:layout_height="147dp"
             app:cardCornerRadius="15dp"
