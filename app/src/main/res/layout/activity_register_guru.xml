@@ -16,36 +16,65 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="143dp"
-        android:layout_marginTop="141dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="148dp"
         app:srcCompat="@drawable/logofix" />
 
     <EditText
-        android:id="@+id/emailLgGru"
+        android:id="@+id/emailGru"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/passwordLgGru"
+        android:layout_above="@+id/notelpGru"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="86dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="-95dp"
         android:background="@drawable/bg_edit"
         android:ems="10"
         android:hint="E-mail"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textSize="16dp" />
 
     <EditText
-        android:id="@+id/passwordLgGru"
+        android:id="@+id/passwordGru"
         android:layout_width="250dp"
         android:layout_height="40dp"
+        android:layout_alignLeft="@+id/emailGru"
+        android:layout_above="@+id/emailGru"
+        android:layout_marginBottom="-99dp"
         android:background="@drawable/bg_edit"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_marginBottom="130dp"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/namaGru"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/notelpGru"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/bg_edit"
+        android:ems="10"
+        android:hint="Nama"
+        android:inputType="textPersonName"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/notelpGru"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/namaGru"
+        android:layout_alignLeft="@+id/namaGru"
         android:layout_alignBottom="@+id/cardView"
-        android:layout_alignLeft="@+id/emailLgGru"
-        android:layout_alignStart="@+id/emailLgGru" />
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginBottom="275dp"
+        android:background="@drawable/bg_edit"
+        android:ems="10"
+        android:hint="No Handphone"
+        android:inputType="text|number" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
@@ -54,7 +83,7 @@
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
         android:id="@+id/cardView"
-        android:onClick="masukGru"
+        android:onClick="regisGru"
         android:layout_marginBottom="31dp"
         android:layout_above="@+id/textView2"
         android:layout_centerHorizontal="true">
@@ -68,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Login"
+                android:text="Register"
                 android:textColor="#fff"
                 android:textSize="18sp" />
         </RelativeLayout>
@@ -97,23 +126,5 @@
 
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/checkBoxGru"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/cardView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="114dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="32dp"
-        android:text="Simpan Data Akun Saya"
-        android:textColor="@color/lightgray"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.774" />
 </RelativeLayout>
 
