@@ -16,7 +16,6 @@
         <activity android:name=".DashboardGuru" />
         <activity android:name=".register_guru" />
         <activity android:name=".login_guru" />
-        <activity android:name=".quiz2" />
         <activity android:name=".setting" />
         <activity android:name=".quiz" />
         <activity android:name=".regis" />

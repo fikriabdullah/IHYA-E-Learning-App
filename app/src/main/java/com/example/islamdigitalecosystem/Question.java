@@ -2,21 +2,19 @@ package com.example.islamdigitalecosystem;
 
 public class Question {
     private String question;
-    private byte [] imageByteArray;
     private String opt1, opt2, opt3, opt4;
-    private int answerNr;
+    private String crAnswer;
 
     public Question(){
 
     }
-    public Question(String question, String opt1, String opt2, String opt3, String opt4, int answerNr) {
+    public Question(String question, String opt1, String opt2, String opt3, String opt4, String CrAnswer) {
         this.question = question;
-        //this.imageByteArray = imageByteArray;
         this.opt1 = opt1;
         this.opt2 = opt2;
         this.opt3 = opt3;
         this.opt4 = opt4;
-        this.answerNr = answerNr;
+        this.crAnswer = CrAnswer;
     }
 
     public String getQuestion() {
@@ -25,14 +23,6 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public byte[] getImageByteArray() {
-        return imageByteArray;
-    }
-
-    public void setImageByteArray(byte[] imageByteArray) {
-        this.imageByteArray = imageByteArray;
     }
 
     public String getOpt1() {
@@ -67,11 +57,11 @@ public class Question {
         this.opt4 = opt4;
     }
 
-    public int getAnswerNr() {
-        return answerNr;
+    public String getCrAnswer() {
+        return crAnswer;
     }
 
-    public void setAnswerNr(int answerNr) {
-        this.answerNr = answerNr;
+    public void setCrAnswer(String crAnswer) {
+        this.crAnswer = crAnswer;
     }
 }
