@@ -172,30 +172,32 @@ public class quiz extends AppCompatActivity {
     }
 
     public void getNextQuestionImage() {
-        iRef++;
-        imageRef = iRef + ".png";
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child(iRef + ".png");
-        try {
-            final File file = File.createTempFile("image", "png");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    imageQuestion.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+        if (questionCount >= questionNow){
+            iRef++;
+            imageRef = iRef + ".png";
+            firebaseStorage = FirebaseStorage.getInstance();
+            storageReference = firebaseStorage.getReference().child(iRef + ".png");
+            try {
+                final File file = File.createTempFile("image", "png");
+                storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        imageQuestion.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Image Reference : " + imageRef);
+            Log.d(TAG, "question stage : " +questionNow);
         }
-        Log.d(TAG, "Image Reference : " + imageRef);
-        Log.d(TAG, "question stage : " +questionNow);
     }
 
     public void showQuestion() {
@@ -281,14 +283,16 @@ public class quiz extends AppCompatActivity {
     }
 
     public void updateProgressBar() {
-        double qNow = questionNow;
-        double prg = qNow / questionCount;
-        Log.d(TAG, "Question Count : " + questionCount);
-        Log.d(TAG, "Question Stage : " + questionNow);
-        Log.d(TAG, "prg : " + prg);
-        double progres = prg * 100;
-        progressBar.setProgress((int) progres);
-        Log.d(TAG, "progres bar stat : " + progres);
+        if (questionCount >= questionNow){
+            double qNow = questionNow;
+            double prg = qNow / questionCount;
+            Log.d(TAG, "Question Count : " + questionCount);
+            Log.d(TAG, "Question Stage : " + questionNow);
+            Log.d(TAG, "prg : " + prg);
+            double progres = prg * 100;
+            progressBar.setProgress((int) progres);
+            Log.d(TAG, "progres bar stat : " + progres);
+        }
     }
 
     public void clue(View view) {

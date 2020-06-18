@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".uploadQuestion">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.75"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.92"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.05"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideliner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
+        app:layout_constraintGuide_begin="162dp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08"
+        app:layout_constraintGuide_begin="162dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tvOpt1"
+        android:layout_height="wrap_content"
+        android:text="Pilihan 1 : "
+        android:layout_marginTop="90dp"
+        android:textSize="25sp"
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/guidelinet"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"/>
+
+    <EditText
+        android:id="@+id/etOpt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="88dp"
+        android:gravity="end"
+        android:hint="Pilihan 1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/tvOpt1"
+        app:layout_constraintTop_toBottomOf="@id/guidelinet" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tvOpt2"
+        android:layout_height="wrap_content"
+        android:text="Pilihan 2 : "
+        android:textSize="25sp"
+        android:layout_marginTop="88dp"
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tvPert"
+        android:layout_height="wrap_content"
+        android:text="Pertanyaan : "
+        android:textSize="25sp"
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/guidelinet"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:gravity="end"
+        android:id="@+id/etPert"
+        android:hint="Pertanyaan"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvPert"
+        app:layout_constraintTop_toBottomOf="@id/guidelinet" />
+
+    <EditText
+        android:id="@+id/etOpt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="76dp"
+        android:gravity="end"
+        android:hint="Pilihan 4"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/tvOpt4"
+        app:layout_constraintTop_toBottomOf="@id/etOpt3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tvOpt4"
+        android:layout_height="wrap_content"
+        android:text="Pilihan 4 : "
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:layout_marginTop="88dp"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"
+        app:layout_constraintTop_toBottomOf="@id/tvOpt3"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="72dp"
+        android:gravity="end"
+        android:id="@+id/etOpt3"
+        android:hint="Pilihan 3"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/tvOpt3"
+        app:layout_constraintTop_toBottomOf="@id/etOpt2" />
+
+    <TextView
+        android:id="@+id/tvOpt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="Pilihan 3 : "
+        android:textColor="#000"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"
+        app:layout_constraintTop_toBottomOf="@id/tvOpt2" />
+
+    <EditText
+        android:id="@+id/etOpt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:gravity="end"
+        android:hint="Pilihan 2"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
+        tools:layout_editor_absoluteX="307dp" />
+
+    <TextView
+        android:id="@+id/tvCrOpt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="Pilihan 3 : "
+        android:textColor="#000"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="@id/guidelinel"
+        app:layout_constraintTop_toBottomOf="@id/tvOpt4" />
+
+    <EditText
+        android:id="@+id/etCrOpt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="76dp"
+        android:gravity="end"
+        android:hint="Pilihan 2"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/tvCrOpt"
+        app:layout_constraintTop_toBottomOf="@id/etOpt4" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btUploadQuestion"
+        android:text="Upload Question"
+        android:onClick="addQuestion"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@id/guidelinel"
+        app:layout_constraintEnd_toStartOf="@id/guideliner"
+        app:layout_constraintTop_toBottomOf="@id/tvCrOpt"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

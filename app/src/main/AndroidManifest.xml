@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".loginOption"></activity>
         <activity android:name=".regOption" />
-        <activity android:name=".DashboardGuru" />
+        <activity android:name=".uploadQuestion" />
         <activity android:name=".register_guru" />
         <activity android:name=".login_guru" />
         <activity android:name=".setting" />
