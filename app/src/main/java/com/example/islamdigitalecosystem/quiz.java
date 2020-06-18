@@ -52,10 +52,13 @@ public class quiz extends AppCompatActivity {
     Integer userScore;
     int questionTotal;
     int questionNow;
+    int qNum;
     String docRef;
+    int iRef;
+    String imageRef;
     int questionCount;
     ProgressBar progressBar;
-    int qNum;
+
     RadioButton rbAnswer1, rbAnswer2, rbAnswer3, rbAnswer4;
 
     @Override
@@ -71,6 +74,7 @@ public class quiz extends AppCompatActivity {
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
         questionNow = 1;
+        iRef = 1;
 
 
         firebaseDatabase = FirebaseFirestore.getInstance();
@@ -79,46 +83,46 @@ public class quiz extends AppCompatActivity {
 
         putQuestion();
         showQuestion();
+        getQuestionImage();
         getQuestionSet();
         getQuestionCount();
         progressBar.setProgress(0);
-
 
 
     }
 
     public void putQuestion() {
         //addQuestion, Soon removed to dashboard guru
+
         Question question1 = new Question();
-        question1.setQuestion("aku apa?");
-        question1.setOpt1("binatang");
-        question1.setOpt2("ikan");
-        question1.setOpt3("manusia");
-        question1.setOpt4("kecoa");
-        question1.setCrAnswer("kecoa");
+        question1.setQuestion("Bagaimana Pelafalan Huruf ini?");
+        question1.setOpt1("A");
+        question1.setOpt2("Alif");
+        question1.setOpt3("Ghoin");
+        question1.setOpt4("Ha");
+        question1.setCrAnswer("A");
         question.document("Question1").set(question1);
 
         Question question2 = new Question();
-        question2.setQuestion("apa?");
-        question2.setOpt1("binatang");
-        question2.setOpt2("ikan");
-        question2.setOpt3("manusia");
-        question2.setOpt4("kecoa");
-        question2.setCrAnswer("binatang");
+        question2.setQuestion("Bagaimana Pelafalan Huruf berikut?");
+        question2.setOpt1("Ba");
+        question2.setOpt2("Ta");
+        question2.setOpt3("Tsa");
+        question2.setOpt4("Ain");
+        question2.setCrAnswer("Ba");
         question.document("Question2").set(question2);
 
         Question question3 = new Question();
-        question3.setQuestion("apa?");
-        question3.setOpt1("binatang");
-        question3.setOpt2("ikan");
-        question3.setOpt3("manusia");
-        question3.setOpt4("kecoa");
-        question3.setCrAnswer("binatang");
+        question3.setQuestion("Apa Nama Huruf Ini?");
+        question3.setOpt1("Alif");
+        question3.setOpt2("Ghoin");
+        question3.setOpt3("Fa");
+        question3.setOpt4("Ain");
+        question3.setCrAnswer("Alif");
         question.document("Question3").set(question3);
     }
 
     public void getQuestionSet() {
-        getQuestionImage();
         DocumentReference documentReference;
         documentReference = question.document(docRef); //kalo jawaban bener ini ganti harusnya
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -144,91 +148,9 @@ public class quiz extends AppCompatActivity {
             }
         });
     }
-
-    public void showQuestion(){
-        qNum = 1;
-        docRef = "Question" + qNum;
-        Log.d(TAG, "DocRef : " +qNum);
-        Log.d(TAG, "question stage : " + questionNow);
-    }
-
-    public void showNextQuestion(){
-        if (questionCount >= questionNow){
-            qNum++;
-            docRef = "Question" + qNum;
-            Log.d(TAG, "Question Stage, success " + questionNow);
-            Log.d(TAG, "Question Count After Next : " + questionCount);
-            Log.d(TAG, "Document next Reference : " + docRef);
-            getQuestionSet();
-        }else if (questionCount <= questionNow){
-            Log.d(TAG, "Question Count After Next, failed : " + questionCount);
-            Log.d(TAG, "Question Stage, failed " + questionNow);
-            Toast.makeText(this, "bikin end screen, show score", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void checkAnswer() {
-        final DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionAnswer = documentSnapshot.toObject(Question.class);
-                String corectAnswer = questionAnswer.getCrAnswer();
-
-                if (userAnswer.equals(corectAnswer)) {
-                    questionNow++;
-                    openDialogFragmentCorrect();
-                    showNextQuestion();
-                    clearAnswer();
-                    updateProgressBar();
-
-                } else {
-                    openDialogFragmentWrong();
-                }
-            }
-        });
-    }
-
-    public void getInput(){
-        if (rbAnswer1.isChecked()) {
-            userAnswer = rbAnswer1.getText().toString();
-        }else if(rbAnswer2.isChecked()){
-            userAnswer = rbAnswer2.getText().toString();
-        }else if(rbAnswer3.isChecked()){
-            userAnswer = rbAnswer3.getText().toString();
-        }else{
-            userAnswer = rbAnswer4.getText().toString();
-        }
-    }
-
-    public void clearAnswer(){
-        rbAnswer1.setChecked(false);
-        rbAnswer2.setChecked(false);
-        rbAnswer3.setChecked(false);
-        rbAnswer4.setChecked(false);
-
-
-    }
-
-    public void getQuestionCount(){
-        question.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    questionCount = task.getResult().size();
-                    Log.d(TAG, "Question Total on method : " + task.getResult().size());
-                    }
-                else {
-                    Log.d(TAG, "Error getting Documents : " + task.getException());
-                }
-            }
-        });
-    }
-
-    public void getQuestionImage() {
+    public void getQuestionImage(){
         firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child("ba.png");
+        storageReference = firebaseStorage.getReference().child(iRef + ".png");
         try {
             final File file = File.createTempFile("image", "png");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -249,13 +171,122 @@ public class quiz extends AppCompatActivity {
         }
     }
 
-    public void updateProgressBar(){
+    public void getNextQuestionImage() {
+        iRef++;
+        imageRef = iRef + ".png";
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference().child(iRef + ".png");
+        try {
+            final File file = File.createTempFile("image", "png");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageQuestion.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "Image Reference : " + imageRef);
+        Log.d(TAG, "question stage : " +questionNow);
+    }
+
+    public void showQuestion() {
+        qNum = 1;
+        docRef = "Question" + qNum;
+        Log.d(TAG, "DocRef : " + qNum);
+        Log.d(TAG, "question stage : " + questionNow);
+    }
+
+    public void showNextQuestion() {
+        if (questionCount >= questionNow) {
+            qNum++;
+            docRef = "Question" + qNum;
+            Log.d(TAG, "Question Stage, success " + questionNow);
+            Log.d(TAG, "Question Count After Next : " + questionCount);
+            Log.d(TAG, "Document next Reference : " + docRef);
+            getQuestionSet();
+        } else if (questionCount <= questionNow) {
+            Log.d(TAG, "Question Count After Next, failed : " + questionCount);
+            Log.d(TAG, "Question Stage, failed " + questionNow);
+            Toast.makeText(this, "bikin end screen, show score", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void checkAnswer() {
+        final DocumentReference documentReference;
+        documentReference = question.document(docRef);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Question questionAnswer = documentSnapshot.toObject(Question.class);
+                String corectAnswer = questionAnswer.getCrAnswer();
+
+                if (userAnswer.equals(corectAnswer)) {
+                    questionNow++;
+                    openDialogFragmentCorrect();
+                    showNextQuestion();
+                    getNextQuestionImage();
+                    clearAnswer();
+                    updateProgressBar();
+
+                } else {
+                    openDialogFragmentWrong();
+                    clearAnswer();
+                }
+            }
+        });
+    }
+
+    public void getInput() {
+        if (rbAnswer1.isChecked()) {
+            userAnswer = rbAnswer1.getText().toString();
+        } else if (rbAnswer2.isChecked()) {
+            userAnswer = rbAnswer2.getText().toString();
+        } else if (rbAnswer3.isChecked()) {
+            userAnswer = rbAnswer3.getText().toString();
+        } else {
+            userAnswer = rbAnswer4.getText().toString();
+        }
+    }
+
+    public void clearAnswer() {
+        rbAnswer1.setChecked(false);
+        rbAnswer2.setChecked(false);
+        rbAnswer3.setChecked(false);
+        rbAnswer4.setChecked(false);
+
+
+    }
+
+    public void getQuestionCount() {
+        question.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    questionCount = task.getResult().size();
+                    Log.d(TAG, "Question Total on method : " + task.getResult().size());
+                } else {
+                    Log.d(TAG, "Error getting Documents : " + task.getException());
+                }
+            }
+        });
+    }
+
+    public void updateProgressBar() {
         double qNow = questionNow;
-        double prg = qNow/questionCount;
+        double prg = qNow / questionCount;
         Log.d(TAG, "Question Count : " + questionCount);
         Log.d(TAG, "Question Stage : " + questionNow);
         Log.d(TAG, "prg : " + prg);
-        double progres = prg*100;
+        double progres = prg * 100;
         progressBar.setProgress((int) progres);
         Log.d(TAG, "progres bar stat : " + progres);
     }
@@ -281,7 +312,7 @@ public class quiz extends AppCompatActivity {
     private Runnable mIntentRunnable = new Runnable() {
         @Override
         public void run() {
-           // startActivity(new Intent(quiz.this, quiz2.class));
+            // startActivity(new Intent(quiz.this, quiz2.class));
         }
     };
 
@@ -335,7 +366,7 @@ public class quiz extends AppCompatActivity {
             getInput();
             Log.d(TAG, userAnswer);
             checkAnswer();
-        }else {
+        } else {
             Toast.makeText(this, "Pilih Jawaban", Toast.LENGTH_LONG).show();
         }
 
