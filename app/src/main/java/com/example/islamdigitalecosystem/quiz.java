@@ -67,7 +67,6 @@ public class quiz extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         tvQuestion = findViewById(R.id.question);
         imageQuestion = findViewById(R.id.questionImage);
-        textView = findViewById(R.id.opt1);
         rbAnswer1 = findViewById(R.id.option1);
         rbAnswer2 = findViewById(R.id.option2);
         rbAnswer3 = findViewById(R.id.option3);
@@ -184,6 +183,7 @@ public class quiz extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                         imageQuestion.setImageBitmap(bitmap);
+                       // Log.d(TAG, "dwnld Uerl : " + file);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
