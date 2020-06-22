@@ -17,10 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -35,6 +38,10 @@ public class uploadQuestion extends AppCompatActivity {
     private static final String TAG = "MyActivity";
     private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseFirestore firebaseFirestore;
+    CollectionReference babRef;
+    int questionReady;
+    int docRef;
+    int iref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,8 @@ public class uploadQuestion extends AppCompatActivity {
         progressUpload = findViewById(R.id.progressBarUpQ);
         ivPick = findViewById(R.id.imgSelection);
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        iref = 1;
     }
 
     public void pickImage(View view) {
@@ -74,9 +83,29 @@ public class uploadQuestion extends AppCompatActivity {
         }
     }
 
+    public void getQuestionReady(){ //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+        babRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    questionReady = task.getResult().size()-1;
+                    questionReady++;
+                    Log.d(TAG, "success question" +"bab : " + babQuiz.getText().toString() + " count : " + questionReady + "incrementing");
+                    docRef = questionReady;
+                    Log.d(TAG, "docref : " + docRef);// ini docref bisa 0
+                }else{
+                    Toast.makeText(uploadQuestion.this, task.getException() + "", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Question Ready : " + questionReady + " ,making new collection " + task.getException());
+                }
+            }
+        });
+    }
+
     public void addQuestion(View view) {
+        int iRef = iref++;
         if (imageSelectUri != null){
-            final StorageReference imageReference = FirebaseStorage.getInstance().getReference("anjing");//ERROR
+            final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef++ + "");//probably fixed, need testingpik
+            Log.d(TAG, "Image Ref : " + iRef);
             imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -96,8 +125,9 @@ public class uploadQuestion extends AppCompatActivity {
                     question.setOpt4(opt4.getText().toString().trim());
                     question.setCrAnswer(crAn.getText().toString().trim());
 
-                    CollectionReference babRef = firebaseFirestore.collection(babQuiz.getText().toString());//taruh pertanyaan sesuai bab
-                    babRef.document("AWAS INI BELOM KEPIKIR")//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 1
+                    babRef = firebaseFirestore.collection(babQuiz.getText().toString());//taruh pertanyaan sesuai bab
+                    getQuestionReady();
+                    babRef.document("Question" + docRef)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
                             .set(question).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {

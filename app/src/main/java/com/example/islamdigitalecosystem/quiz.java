@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.example.islamdigitalecosystem.uploadQuestion.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,9 +79,8 @@ public class quiz extends AppCompatActivity {
 
         firebaseDatabase = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        question = firebaseDatabase.collection("QuizQuestion");
+        question = firebaseDatabase.collection("ah");
 
-        putQuestion();
         showQuestion();
         getQuestionImage();
         getQuestionSet();
@@ -88,37 +88,6 @@ public class quiz extends AppCompatActivity {
         progressBar.setProgress(0);
 
 
-    }
-
-    public void putQuestion() {
-        //addQuestion, Soon removed to dashboard guru
-
-        Question question1 = new Question();
-        question1.setQuestion("Bagaimana Pelafalan Huruf ini?");
-        question1.setOpt1("A");
-        question1.setOpt2("Alif");
-        question1.setOpt3("Ghoin");
-        question1.setOpt4("Ha");
-        question1.setCrAnswer("A");
-        question.document("Question1").set(question1);
-
-        Question question2 = new Question();
-        question2.setQuestion("Bagaimana Pelafalan Huruf berikut?");
-        question2.setOpt1("Ba");
-        question2.setOpt2("Ta");
-        question2.setOpt3("Tsa");
-        question2.setOpt4("Ain");
-        question2.setCrAnswer("Ba");
-        question.document("Question2").set(question2);
-
-        Question question3 = new Question();
-        question3.setQuestion("Apa Nama Huruf Ini?");
-        question3.setOpt1("Alif");
-        question3.setOpt2("Ghoin");
-        question3.setOpt3("Fa");
-        question3.setOpt4("Ain");
-        question3.setCrAnswer("Alif");
-        question.document("Question3").set(question3);
     }
 
     public void getQuestionSet() {
@@ -149,7 +118,7 @@ public class quiz extends AppCompatActivity {
     }
     public void getQuestionImage(){
         firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child(iRef + ".png");
+        storageReference = firebaseStorage.getReference().child(iRef + "");
         try {
             final File file = File.createTempFile("image", "png");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -201,7 +170,7 @@ public class quiz extends AppCompatActivity {
     }
 
     public void showQuestion() {
-        qNum = 1;
+        qNum = 0;
         docRef = "Question" + qNum;
         Log.d(TAG, "DocRef : " + qNum);
         Log.d(TAG, "question stage : " + questionNow);
