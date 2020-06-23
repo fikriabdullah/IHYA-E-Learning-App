@@ -73,7 +73,7 @@ public class quiz extends AppCompatActivity {
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
         questionNow = 1;
-        iRef = 0;
+        iRef = 1;
 
 
         firebaseDatabase = FirebaseFirestore.getInstance();

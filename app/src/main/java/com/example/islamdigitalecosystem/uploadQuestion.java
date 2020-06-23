@@ -119,6 +119,7 @@ public class uploadQuestion extends AppCompatActivity {
                     }, 500);
                     Question question = new Question();
                     question.setImgDwnldUrl(imageReference.getDownloadUrl().toString());//Error, need testing getDownloadUrl tu hasilnya uri bukan url
+                    //gakepake, kita pake get image (disimpen file temp terus di decode see getquestionimage
                     question.setQuestion(pert.getText().toString().trim());
                     question.setOpt1(opt1.getText().toString().trim());
                     question.setOpt2(opt2.getText().toString().trim());
