@@ -29,7 +29,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.example.islamdigitalecosystem.uploadQuestion.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,12 +73,12 @@ public class quiz extends AppCompatActivity {
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
         questionNow = 1;
-        iRef = 1;
+        iRef = 0;
 
 
         firebaseDatabase = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        question = firebaseDatabase.collection("ah");
+        question = firebaseDatabase.collection(uploadQuestion.babrefImp);
 
         showQuestion();
         getQuestionImage();
@@ -142,9 +141,9 @@ public class quiz extends AppCompatActivity {
     public void getNextQuestionImage() {
         if (questionCount >= questionNow){
             iRef++;
-            imageRef = iRef + ".png";
+            imageRef = iRef + "";
             firebaseStorage = FirebaseStorage.getInstance();
-            storageReference = firebaseStorage.getReference().child(iRef + ".png");
+            storageReference = firebaseStorage.getReference().child(iRef + "");
             try {
                 final File file = File.createTempFile("image", "png");
                 storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {

@@ -39,6 +39,7 @@ public class uploadQuestion extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseFirestore firebaseFirestore;
     CollectionReference babRef;
+    public static String babrefImp;
     int questionReady;
     int docRef;
     int iref;
@@ -125,7 +126,8 @@ public class uploadQuestion extends AppCompatActivity {
                     question.setOpt4(opt4.getText().toString().trim());
                     question.setCrAnswer(crAn.getText().toString().trim());
 
-                    babRef = firebaseFirestore.collection(babQuiz.getText().toString());//taruh pertanyaan sesuai bab
+                    babrefImp = babQuiz.getText().toString();
+                    babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
                     getQuestionReady();
                     babRef.document("Question" + docRef)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
                             .set(question).addOnFailureListener(new OnFailureListener() {
