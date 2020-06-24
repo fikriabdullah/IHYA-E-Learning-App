@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/android"
     tools:context=".AuthOption">
 
     <androidx.constraintlayout.widget.Guideline
@@ -16,23 +16,6 @@
         app:layout_constraintGuide_percent="0.0" />
 
 
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="114dp"
-        app:layout_constraintGuide_percent="0.50" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="501dp"
-        app:layout_constraintGuide_percent="0.75" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
@@ -42,16 +25,16 @@
         app:layout_constraintGuide_percent="1.00" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="262dp"
-        android:layout_height="156dp"
+        android:id="@+id/appCompatImageView"
+        android:layout_width="210dp"
 
+        android:layout_height="122dp"
+        android:layout_marginTop="212dp"
         android:src="@drawable/logofix"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <Button
         android:id="@+id/regis"
@@ -61,11 +44,12 @@
         android:onClick="regis"
         android:text="Register"
         android:textColor="@color/lightgray"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.248" />
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+        app:layout_constraintVertical_bias="0.755" />
 
     <Button
         android:id="@+id/button"
@@ -75,11 +59,12 @@
         android:onClick="login"
         android:text="Login"
         android:textColor="@color/lightgray"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regis"
-        app:layout_constraintVertical_bias="0.359" />
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+        app:layout_constraintVertical_bias="0.755" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,15 +28,15 @@ public class register_guru extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_guru);
 
-        nama = findViewById(R.id.namaGru);
-        kontak = findViewById(R.id.notelpGru);
-        email = findViewById(R.id.emailGru);
-        password = findViewById(R.id.passwordGru);
+        nama = findViewById(R.id.nama1);
+        kontak = findViewById(R.id.notelp1);
+        email = findViewById(R.id.email1);
+        password = findViewById(R.id.password1);
 
         firebaseAuth = firebaseAuth.getInstance();
     }
 
-    public void regisGru(View view) {
+    public void regis1(View view) {
         final String username = nama.getText().toString();
         final String Email = email.getText().toString();
         final String Password = password.getText().toString();

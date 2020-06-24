@@ -18,7 +18,7 @@ public class materi extends AppCompatActivity {
         startActivity(new Intent(materi.this, kisah.class));
     }
 
-    public void hijariyah(View view) {
-        startActivity(new Intent(materi.this, level1.class));
+    public void pengetahuan(View view)  {
+        startActivity(new Intent(materi.this, pengetahuan.class));
     }
-}
+    }

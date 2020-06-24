@@ -15,6 +15,7 @@ public class AuthOption extends AppCompatActivity {
     }
 
 
+
     public void login(View view) {
         Intent intent = new Intent(AuthOption.this, loginOption.class);
         startActivity(intent);

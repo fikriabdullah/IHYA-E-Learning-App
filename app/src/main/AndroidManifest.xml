@@ -3,6 +3,8 @@
     package="com.example.islamdigitalecosystem">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".quiz2"></activity>
+        <activity android:name=".setting" />
         <activity android:name=".loginOption"></activity>
         <activity android:name=".regOption" />
-        <activity android:name=".uploadQuestion" />
+        <activity android:name=".DashboardGuru" />
         <activity android:name=".register_guru" />
         <activity android:name=".login_guru" />
-        <activity android:name=".setting" />
         <activity android:name=".quiz" />
         <activity android:name=".regis" />
         <activity android:name=".login" />
         <activity android:name=".materi" />
         <activity android:name=".kisah" />
+        <activity android:name=".alquranfitur" />
+        <activity android:name=".pengetahuan" />
+        <activity android:name=".uploadQuestion" />
+        <activity android:name=".soalSuara" />
+        <activity android:name=".pilihanSoal" />
+        <activity android:name=".ListSurahActivity" />
+        <activity android:name=".ListVerseActivity" />
+        <activity android:name=".Main" />
         <activity
             android:name=".latihan"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -35,6 +46,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+
     </application>
 
 </manifest>

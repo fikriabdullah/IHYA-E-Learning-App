@@ -151,7 +151,7 @@ public class quiz extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                         imageQuestion.setImageBitmap(bitmap);
-                       // Log.d(TAG, "dwnld Uerl : " + file);
+                        // Log.d(TAG, "dwnld Uerl : " + file);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

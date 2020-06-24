@@ -51,7 +51,7 @@ public class regis extends AppCompatActivity {
                             Email,
                             NoTelp
                     );
-                    FirebaseDatabase.getInstance().getReference("UserDatabase").child("Student")
+                    FirebaseDatabase.getInstance().getReference("UserDatabase")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userCntr)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

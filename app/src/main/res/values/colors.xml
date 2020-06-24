@@ -12,9 +12,14 @@
     <color name="testcolorblue">#152b38</color>
     <color name="pink">#fe104d</color>
     <color name="black_overlay">#66000000</color>
-    <color name="color1">#424549</color>
-    <color name="color2">#6A82D5</color>
-    <color name="color3">#304735</color>
-    <color name="color4">#854D82</color>
-
+    <color name="color1">#00A896</color>
+    <color name="color2">#FFFFFF</color>
+    <color name="color3">#246377</color>
+    <color name="color4">#499E64</color>
+    <color name="colors1">#304735</color>
+    <color name="colors2">#424549</color>
+    <color name="colors3">#304735</color>
+    <color name="colors4">#424549</color>
+    <color name="colors5">#304735</color>
+    <color name="colors6">#424549</color>
 </resources>

@@ -59,6 +59,7 @@ public class kisah extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
+
             }
 
             @Override

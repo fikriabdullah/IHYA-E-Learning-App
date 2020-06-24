@@ -5,21 +5,24 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/android"
     >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:orientation="vertical"
     >
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Pilih Level Mu!"
-    android:textSize="35dp"
-    android:textAlignment="center"
-    android:textStyle="bold"
-    android:textColor="#000000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/baloo_bhai"
+        android:gravity="center_vertical"
+        android:text="Pilih Level Mu!"
+        android:textAlignment="center"
+        android:textColor="#BCFFFFFF"
+        android:textSize="35dp"
+        tools:ignore="RtlCompat" />
 </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -29,111 +32,152 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="80dp">
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="100dp"
-        android:onClick="dasar"
-        android:orientation="horizontal"
-        android:background="@drawable/level1_bg"
-        android:layout_marginTop="30dp"
-        android:padding="3dp"
-        android:layout_gravity="center">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="357dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LEVEL 1"
-            android:textStyle="bold"
-            android:textSize="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="15dp"
-            android:textColor="#000000"/>
-            <TextView
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/level1_bg"
+            android:clickable="true"
+            android:onClick="dasar"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Level 1 untuk pemula"
-                android:textStyle="bold"
-                android:textSize="2dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#000000"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="LEVEL 1"
+                    android:textColor="#000000"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#000000"
+                    android:textSize="2dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
             android:background="@drawable/level2_bg"
-            android:layout_marginTop="30dp"
-            android:padding="3dp"
-            android:layout_gravity="center">
+            android:orientation="horizontal"
+            android:padding="3dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="LEVEL 2"
-                    android:textStyle="bold"
+                    android:textColor="#000000"
                     android:textSize="25dp"
-                    android:layout_marginTop="10dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:textColor="#000000"/>
+                    android:layout_marginTop="10dp"
+                    android:textColor="#000000"
+                    android:textSize="2dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
             android:background="@drawable/level3_bg"
-            android:layout_marginTop="30dp"
-            android:padding="3dp"
-            android:layout_gravity="center">
+            android:orientation="horizontal"
+            android:padding="3dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LEVEL 3"
-                    android:textStyle="bold"
-                    android:textSize="25dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="#000000"/>
+                    android:layout_marginTop="10dp"
+                    android:text="LEVEL 3"
+                    android:textColor="#000000"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#000000"
+                    android:textSize="2dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:background="@drawable/level4_bg"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:padding="3dp"
-            android:layout_gravity="center">
+            android:clickable="true"
+            android:background="@drawable/level4_bg"
+            android:onClick="dasar"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LEVEL 4"
-                    android:textStyle="bold"
-                    android:textSize="25dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="#000000"/>
+                    android:layout_marginTop="10dp"
+                    android:text="LEVEL 4"
+                    android:textColor="#000000"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#000000"
+                    android:textSize="2dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
-
 
 </RelativeLayout>
 

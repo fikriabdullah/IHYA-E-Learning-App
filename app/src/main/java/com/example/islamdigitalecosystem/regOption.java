@@ -18,7 +18,7 @@ public class regOption extends AppCompatActivity {
         startActivity(new Intent(regOption.this, register_guru.class));
     }
 
-    public void regStudent(View view) {
+    public void regStudent1(View view) {
         startActivity(new Intent(regOption.this, register_guru.class));
     }
 }
