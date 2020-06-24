@@ -48,7 +48,7 @@ public class soalSuara extends AppCompatActivity {
         ProgressBar progressUpload;
         private Button eRecordBtn;
         private MediaRecorder mRecorder;
-        private String mFileName = null;
+        private String mFileName;
         private static final String LOG_TAG ="Record_log";
         private StorageReference mStorage;
         private ProgressDialog mProgress;
@@ -61,7 +61,6 @@ public class soalSuara extends AppCompatActivity {
         int docRef;
         int iref;
 
-        @SuppressLint("ClickableViewAccessibility")
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -79,23 +78,24 @@ public class soalSuara extends AppCompatActivity {
             firebaseFirestore = FirebaseFirestore.getInstance();
             eRecordBtn = findViewById(R.id.suara);
             mProgress = new ProgressDialog(this);
-            mFileName +="/recorded_audio_3gp";
-            mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-
             iref = 1;
             eRecordBtn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if(event.getAction() == MotionEvent.ACTION_DOWN){
-                        if(ActivityCompat.checkSelfPermission(soalSuara.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+                        if(ActivityCompat.checkSelfPermission(soalSuara.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(soalSuara.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                             ActivityCompat.requestPermissions(soalSuara.this, new String[]{Manifest.permission.RECORD_AUDIO},10);
+                            ActivityCompat.requestPermissions(soalSuara.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
                         }else {
                             startRecording();
+                            v.performClick();
                         }
 
 
                     } else if (event.getAction() == MotionEvent.ACTION_UP){
                         stopRecording();
+                        v.performClick();
                     }
                     return false;
                 }
@@ -200,14 +200,17 @@ public class soalSuara extends AppCompatActivity {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
+        mRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/recorded_audio_3gp");
+        Log.d(TAG, "Dir : " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/recorded_audio_3gp");
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
             mRecorder.prepare();
             mRecorder.start();
+            Log.d(TAG, "Recording Started ");
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            e.printStackTrace();
+            Log.e(LOG_TAG,  "Recording Failed : " + e.getMessage());
         }
 
 
@@ -215,9 +218,10 @@ public class soalSuara extends AppCompatActivity {
 
     private void stopRecording() {
         mRecorder.stop();
+        Log.d(TAG, "Recording Stopped");
         mRecorder.release();
 
-        uploadAudio();
+        //uploadAudio();
     }
 
     private void uploadAudio() {
