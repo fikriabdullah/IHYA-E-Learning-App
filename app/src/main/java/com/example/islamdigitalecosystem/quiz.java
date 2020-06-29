@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -38,23 +40,17 @@ public class quiz extends AppCompatActivity {
     CollectionReference question;
 
     MediaPlayer mediaPlayer;
-    private Handler mHandler = new Handler();
-    private Handler mHandler1 = new Handler();
-    private Handler mHandler2 = new Handler();
-    private Handler mHandler3 = new Handler();
     TextView tvQuestion;
     private static final String TAG = "MyActivity";
     ImageView imageQuestion;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     String userAnswer;
-    TextView textView, scoreUser;
-    Integer userScore;
-    int questionTotal;
     int questionNow;
     int qNum;
     String docRef;
     int iRef;
+    int aref;
     String imageRef;
     int questionCount;
     ProgressBar progressBar;
@@ -74,6 +70,7 @@ public class quiz extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar1);
         questionNow = 1;
         iRef = 1;
+        aref = 1;
 
 
         firebaseDatabase = FirebaseFirestore.getInstance();
@@ -91,7 +88,7 @@ public class quiz extends AppCompatActivity {
 
     public void getQuestionSet() {
         DocumentReference documentReference;
-        documentReference = question.document(docRef); //kalo jawaban bener ini ganti harusnya
+        documentReference = question.document(docRef);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -101,7 +98,12 @@ public class quiz extends AppCompatActivity {
                 String Option2 = questionread.getOpt2();
                 String Option3 = questionread.getOpt3();
                 String Option4 = questionread.getOpt4();
-                tvQuestion.setText(questionResult);
+                if (questionResult.equals(null)){
+                    Log.d(TAG, "question result : " + questionResult);
+                    getSoundQuestion();
+                }else {
+                    tvQuestion.setText(questionResult);
+                }
                 rbAnswer1.setText(Option1);
                 rbAnswer2.setText(Option2);
                 rbAnswer3.setText(Option3);
@@ -115,6 +117,35 @@ public class quiz extends AppCompatActivity {
             }
         });
     }
+
+    private void getSoundQuestion() {//need testing
+        int aRef;
+        aRef = aref++;
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference().child("Audio").child(aRef+".3gp");
+        try {
+            final File file = File.createTempFile("audio", "wav");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) { //tampilin icon play, terus kalo si user ngeklik play player ngeplay
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(file));
+                    mediaPlayer.start();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    getNextQuestionImage();
+                    Log.d(TAG, "GetSoundQuestonError : " + e.getMessage());
+                    Toast.makeText(quiz.this, "Media Player Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Stack Trace : " + e.getMessage());
+        }
+    }
+
     public void getQuestionImage(){
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference().child(iRef + "");
@@ -129,10 +160,12 @@ public class quiz extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, e.getMessage());
+                    getSoundQuestion();
+                    imageQuestion.setVisibility(View.INVISIBLE);
                     Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,8 +265,6 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
-
-
     }
 
     public void getQuestionCount() {
@@ -280,53 +311,18 @@ public class quiz extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "My Fragment");
     }
 
-
-    private Runnable mIntentRunnable = new Runnable() {
-        @Override
-        public void run() {
-            // startActivity(new Intent(quiz.this, quiz2.class));
-        }
-    };
-
     public void pick01(View view) {
         rbAnswer1.setChecked(true);
     }
 
-
-    private Runnable mIntentRunnable1 = new Runnable() {
-        @Override
-        public void run() {
-            //startActivity(new Intent(quiz.this, quiz2.class));
-        }
-    };
-
     public void pick02(View view) {
         rbAnswer2.setChecked(true);
-
-        //openDialogFragmentWrong();
-        //mHandler1.postDelayed(mIntentRunnable1, 2000);
     }
-
-
-    private Runnable mIntentRunnable2 = new Runnable() {
-        @Override
-        public void run() {
-            //startActivity(new Intent(quiz.this, quiz2.class));
-        }
-    };
 
     public void pick03(View view) {
         rbAnswer3.setChecked(true);
     }
 
-    ;
-
-    private Runnable mIntentRunnable3 = new Runnable() {
-        @Override
-        public void run() {
-            //startActivity(new Intent(quiz.this, quiz2.class));
-        }
-    };
 
     public void pick04(View view) {
         rbAnswer4.setChecked(true);

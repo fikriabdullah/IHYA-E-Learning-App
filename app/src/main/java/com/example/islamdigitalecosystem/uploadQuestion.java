@@ -64,6 +64,7 @@ public class uploadQuestion extends AppCompatActivity {
 
     public void pickImage(View view) {
         openImageExplorer();
+        getQuestionReady();
     }
 
     private void openImageExplorer() {
@@ -85,15 +86,16 @@ public class uploadQuestion extends AppCompatActivity {
     }
 
     public void getQuestionReady(){ //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+        babRef = firebaseFirestore.collection(babQuiz.getText().toString());
         babRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    questionReady = task.getResult().size()-1;
+                    questionReady = task.getResult().size();
+                    Log.d(TAG, "success question" +"bab : " + babQuiz.getText().toString() + " count : " + questionReady + " incrementing");
                     questionReady++;
-                    Log.d(TAG, "success question" +"bab : " + babQuiz.getText().toString() + " count : " + questionReady + "incrementing");
                     docRef = questionReady;
-                    Log.d(TAG, "docref : " + docRef);// ini docref bisa 0
+                    Log.d(TAG, "docref : " + docRef);
                 }else{
                     Toast.makeText(uploadQuestion.this, task.getException() + "", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Question Ready : " + questionReady + " ,making new collection " + task.getException());
@@ -105,7 +107,7 @@ public class uploadQuestion extends AppCompatActivity {
     public void addQuestion(View view) {
         int iRef = iref++;
         if (imageSelectUri != null){
-            final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef++ + "");//probably fixed, need testingpik
+            final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef + "");//probably fixed, need testingpik
             Log.d(TAG, "Image Ref : " + iRef);
             imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -126,10 +128,9 @@ public class uploadQuestion extends AppCompatActivity {
                     question.setOpt3(opt3.getText().toString().trim());
                     question.setOpt4(opt4.getText().toString().trim());
                     question.setCrAnswer(crAn.getText().toString().trim());
-
                     babrefImp = babQuiz.getText().toString();
                     babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
-                    getQuestionReady();
+                    Log.d(TAG, "Doc Ref : " + docRef);
                     babRef.document("Question" + docRef)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
                             .set(question).addOnFailureListener(new OnFailureListener() {
                         @Override

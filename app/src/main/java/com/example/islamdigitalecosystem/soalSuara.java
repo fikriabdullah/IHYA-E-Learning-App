@@ -53,12 +53,11 @@ public class soalSuara extends AppCompatActivity {
     private StorageReference mStorage;
     private ProgressDialog mProgress;
     private static final String TAG = "MyActivity";
-    private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseFirestore firebaseFirestore;
     CollectionReference babRef;
     public static String babrefImp;
     int questionReady;
-    int docRef;
+    public int DOCREF;
     int aref;
     File file;
 
@@ -80,6 +79,7 @@ public class soalSuara extends AppCompatActivity {
         eRecordBtn = findViewById(R.id.suara);
         mProgress = new ProgressDialog(this);
         aref = 1;
+
         eRecordBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -90,6 +90,7 @@ public class soalSuara extends AppCompatActivity {
                         ActivityCompat.requestPermissions(soalSuara.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
                     } else {
                         startRecording();
+                        questionReady();
                         v.performClick();
                     }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -101,31 +102,34 @@ public class soalSuara extends AppCompatActivity {
         });
     }
 
-    public void getQuestionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+    public int questionReady(){ //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+        babRef = firebaseFirestore.collection(babQuiz.getText().toString());
         babRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    questionReady = task.getResult().size() - 1;
+                if (task.isSuccessful()){
+                    questionReady = task.getResult().size();
+                    Log.d(TAG, "success question" +" bab : " + babQuiz.getText().toString() + " count : " + questionReady + " incrementing");
                     questionReady++;
-                    Log.d(TAG, "success question" + "bab : " + babQuiz.getText().toString() + " count : " + questionReady + "incrementing");
-                    docRef = questionReady;
-                    Log.d(TAG, "docref : " + docRef);// ini docref bisa 0
-                } else {
-                    Toast.makeText(com.example.islamdigitalecosystem.soalSuara.this, task.getException() + "", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Question Ready : " + questionReady + " ,making new collection " + task.getException());
+                    DOCREF = questionReady;
+                    Log.d(TAG, "docref : " + questionReady);// ini docref bisa 0
+                }else{
+                    Toast.makeText(soalSuara.this, task.getException() + "", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Question Ready : " + questionReady + " making new collection " + task.getException());
                 }
             }
         });
+        return questionReady;
     }
 
-    public void addQuestion2(View view) {
+     public void addQuestion2(View view) {
         int aRef = aref++;
         audioUri = Uri.fromFile(new File(file.getAbsolutePath()));
         if (audioUri != null) {
             mProgress.setMessage("Uploading Audio.....");
             mProgress.show();
             StorageReference filepath = mStorage.child("Audio").child(aRef + ".3gp");
+            Log.d(TAG, "aRef : " + aRef); //simpan aRef ke shared pref besok wkwkwk hope work, di satunya juga
             Log.d(TAG, "Dir : " + file.getAbsolutePath());
             filepath.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -145,11 +149,10 @@ public class soalSuara extends AppCompatActivity {
             question.setOpt3(opt3.getText().toString().trim());
             question.setOpt4(opt4.getText().toString().trim());
             question.setCrAnswer(crAn.getText().toString().trim());
-
             babrefImp = babQuiz.getText().toString();
+            Log.d(TAG, "Doc ref : " + questionReady);
             babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
-            getQuestionReady();
-            babRef.document("Question" + docRef)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
+            babRef.document("Question" + questionReady)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
                     .set(question).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -159,7 +162,6 @@ public class soalSuara extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Silahkan Rekam Audio", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void startRecording() {
@@ -182,8 +184,6 @@ public class soalSuara extends AppCompatActivity {
             e.printStackTrace();
             Log.e(LOG_TAG, "Recording Failed : " + e.getMessage());
         }
-
-
     }
 
     private void stopRecording() {
