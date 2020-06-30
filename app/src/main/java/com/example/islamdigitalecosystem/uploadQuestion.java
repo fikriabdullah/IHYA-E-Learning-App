@@ -21,6 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,11 +43,13 @@ public class uploadQuestion extends AppCompatActivity {
     private static final String TAG = "MyActivity";
     private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseFirestore firebaseFirestore;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     CollectionReference babRef;
     public static String babrefImp;
     int questionReady;
     int docRef;
-    int iref;
+    int iRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +65,14 @@ public class uploadQuestion extends AppCompatActivity {
         progressUpload = findViewById(R.id.progressBarUpQ);
         ivPick = findViewById(R.id.imgSelection);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-        iref = 1;
+        //iref = 1;
     }
 
     public void pickImage(View view) {
         openImageExplorer();
+        saveImageCount();
         getQuestionReady();
     }
 
@@ -104,8 +113,36 @@ public class uploadQuestion extends AppCompatActivity {
         });
     }
 
+    public void saveImageCount() {
+        databaseReference = firebaseDatabase.getReference("Asset Count ").child("image");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) {
+                    Log.d(TAG, "image count : " + dataSnapshot.getValue());
+                    iRef = 1;
+                    databaseReference.setValue(iRef);
+                    Log.d(TAG, "image count after add : " + dataSnapshot.getValue());
+                } else {
+                    Log.d(TAG, "image count not null : " + dataSnapshot.getValue());
+                    int imageCount = Integer.parseInt(dataSnapshot.getValue().toString());
+                    Log.d(TAG, "imageCount :  " + imageCount);
+                    imageCount++;
+                    iRef = imageCount;
+                    Log.d(TAG, "iref new : " + iRef);
+                    databaseReference.setValue(iRef);
+                    Log.d(TAG, "image count not null after add : " + dataSnapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void addQuestion(View view) {
-        int iRef = iref++;
         if (imageSelectUri != null){
             final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef + "");//probably fixed, need testingpik
             Log.d(TAG, "Image Ref : " + iRef);

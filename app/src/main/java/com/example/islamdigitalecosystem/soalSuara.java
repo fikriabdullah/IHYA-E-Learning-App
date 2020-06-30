@@ -29,6 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -54,11 +59,13 @@ public class soalSuara extends AppCompatActivity {
     private ProgressDialog mProgress;
     private static final String TAG = "MyActivity";
     FirebaseFirestore firebaseFirestore;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     CollectionReference babRef;
     public static String babrefImp;
     int questionReady;
     public int DOCREF;
-    int aref;
+    int aRef;
     File file;
 
     @Override
@@ -74,11 +81,11 @@ public class soalSuara extends AppCompatActivity {
         babQuiz = findViewById(R.id.etBabQuiz);
         progressUpload = findViewById(R.id.progressBarUpQ);
         ivPick = findViewById(R.id.imgSelection);
+        firebaseDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
         eRecordBtn = findViewById(R.id.suara);
         mProgress = new ProgressDialog(this);
-        aref = 1;
 
         eRecordBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -91,6 +98,7 @@ public class soalSuara extends AppCompatActivity {
                     } else {
                         startRecording();
                         questionReady();
+                        saveAudioCount();
                         v.performClick();
                     }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -102,18 +110,19 @@ public class soalSuara extends AppCompatActivity {
         });
     }
 
-    public int questionReady(){ //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+
+    public int questionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
         babRef = firebaseFirestore.collection(babQuiz.getText().toString());
         babRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     questionReady = task.getResult().size();
-                    Log.d(TAG, "success question" +" bab : " + babQuiz.getText().toString() + " count : " + questionReady + " incrementing");
+                    Log.d(TAG, "success question" + " bab : " + babQuiz.getText().toString() + " count : " + questionReady + " incrementing");
                     questionReady++;
                     DOCREF = questionReady;
                     Log.d(TAG, "docref : " + questionReady);// ini docref bisa 0
-                }else{
+                } else {
                     Toast.makeText(soalSuara.this, task.getException() + "", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Question Ready : " + questionReady + " making new collection " + task.getException());
                 }
@@ -122,14 +131,42 @@ public class soalSuara extends AppCompatActivity {
         return questionReady;
     }
 
-     public void addQuestion2(View view) {
-        int aRef = aref++;
+    public void saveAudioCount() {
+        databaseReference = firebaseDatabase.getReference("Asset Count ").child("audio");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) {
+                    Log.d(TAG, "audio count : " + dataSnapshot.getValue());
+                    aRef = 1;
+                    databaseReference.setValue(aRef);
+                    Log.d(TAG, "audio count after add : " + dataSnapshot.getValue());
+                } else {
+                    Log.d(TAG, "audio count not null : " + dataSnapshot.getValue());
+                    int audioCount = Integer.parseInt(dataSnapshot.getValue().toString());
+                    Log.d(TAG, "audioCount :  " + audioCount);
+                    audioCount++;
+                    aRef = audioCount;
+                    Log.d(TAG, "aref new : " + aRef);
+                    databaseReference.setValue(aRef);
+                    Log.d(TAG, "audio count not null after add : " + dataSnapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addQuestion2(View view) {
         audioUri = Uri.fromFile(new File(file.getAbsolutePath()));
         if (audioUri != null) {
             mProgress.setMessage("Uploading Audio.....");
             mProgress.show();
             StorageReference filepath = mStorage.child("Audio").child(aRef + ".3gp");
-            Log.d(TAG, "aRef : " + aRef); //simpan aRef ke shared pref besok wkwkwk hope work, di satunya juga
+            Log.d(TAG, "aRef : " + aRef);
             Log.d(TAG, "Dir : " + file.getAbsolutePath());
             filepath.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
