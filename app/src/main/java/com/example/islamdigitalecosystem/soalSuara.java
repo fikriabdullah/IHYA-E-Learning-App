@@ -181,6 +181,7 @@ public class soalSuara extends AppCompatActivity {
                 }
             });
             Question question = new Question();
+            question.setAudioDwnldUrl(filepath.getDownloadUrl().toString());
             question.setOpt1(opt1.getText().toString().trim());
             question.setOpt2(opt2.getText().toString().trim());
             question.setOpt3(opt3.getText().toString().trim());

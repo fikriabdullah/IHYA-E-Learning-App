@@ -42,7 +42,7 @@ public class quiz extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     TextView tvQuestion;
     private static final String TAG = "MyActivity";
-    ImageView imageQuestion;
+    ImageView imageQuestion, playAudio;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     String userAnswer;
@@ -63,6 +63,7 @@ public class quiz extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         tvQuestion = findViewById(R.id.question);
         imageQuestion = findViewById(R.id.questionImage);
+        playAudio = findViewById(R.id.playAudio);
         rbAnswer1 = findViewById(R.id.option1);
         rbAnswer2 = findViewById(R.id.option2);
         rbAnswer3 = findViewById(R.id.option3);
@@ -76,6 +77,7 @@ public class quiz extends AppCompatActivity {
         firebaseDatabase = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         question = firebaseDatabase.collection(uploadQuestion.babrefImp);
+        Log.d(TAG, "babRef Imp : " + uploadQuestion.babrefImp);
 
         showQuestion();
         getQuestionImage();
@@ -98,10 +100,11 @@ public class quiz extends AppCompatActivity {
                 String Option2 = questionread.getOpt2();
                 String Option3 = questionread.getOpt3();
                 String Option4 = questionread.getOpt4();
-                if (questionResult.equals(null)){
+                if (questionResult == null){
+                    tvQuestion.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "question result : " + questionResult);
-                    getSoundQuestion();
                 }else {
+                    tvQuestion.setVisibility(View.VISIBLE);
                     tvQuestion.setText(questionResult);
                 }
                 rbAnswer1.setText(Option1);
@@ -118,91 +121,154 @@ public class quiz extends AppCompatActivity {
         });
     }
 
-    private void getSoundQuestion() {//need testing
-        int aRef;
-        aRef = aref++;
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child("Audio").child(aRef+".3gp");
-        try {
-            final File file = File.createTempFile("audio", "wav");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) { //tampilin icon play, terus kalo si user ngeklik play player ngeplay
-                    mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(file));
-                    mediaPlayer.start();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    getNextQuestionImage();
-                    Log.d(TAG, "GetSoundQuestonError : " + e.getMessage());
-                    Toast.makeText(quiz.this, "Media Player Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d(TAG, "Stack Trace : " + e.getMessage());
-        }
-    }
-
     public void getQuestionImage(){
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child(iRef + "");
-        try {
-            final File file = File.createTempFile("image", "png");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    imageQuestion.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, e.getMessage());
-                    getSoundQuestion();
+        DocumentReference documentReference;
+        documentReference = question.document(docRef);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Question questionCheck =  documentSnapshot.toObject(Question.class);
+                if (questionCheck.getAudioDwnldUrl() == null){//check object kalo url audio null dia load image
+                    imageQuestion.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "audio dwnld url: " + questionCheck.getAudioDwnldUrl());//telemetry
+                    firebaseStorage = FirebaseStorage.getInstance();
+                    storageReference = firebaseStorage.getReference().child(iRef + "");
+                    try {
+                        final File file = File.createTempFile("image", "png");
+                        storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                imageQuestion.setImageBitmap(bitmap);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.getMessage());
+                                Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {//kalo dia ga null dia pindah ke method suara
                     imageQuestion.setVisibility(View.INVISIBLE);
-                    Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //tampilin icon play
                 }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, " "  + e.getMessage());
+            }
+        });
     }
 
     public void getNextQuestionImage() {
-        if (questionCount >= questionNow){
-            iRef++;
-            imageRef = iRef + "";
-            firebaseStorage = FirebaseStorage.getInstance();
-            storageReference = firebaseStorage.getReference().child(iRef + "");
-            try {
-                final File file = File.createTempFile("image", "png");
-                storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                        imageQuestion.setImageBitmap(bitmap);
-                        // Log.d(TAG, "dwnld Uerl : " + file);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        DocumentReference documentReference;
+        documentReference = question.document(docRef);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Question questionCheck = documentSnapshot.toObject(Question.class);
+                if (questionCheck.getAudioDwnldUrl() == null){//kalo audio url null, load image
+                    imageQuestion.setVisibility(View.VISIBLE);
+                    if (questionCount >= questionNow){
+                        iRef++;
+                        imageRef = iRef + "";
+                        firebaseStorage = FirebaseStorage.getInstance();
+                        storageReference = firebaseStorage.getReference().child(iRef + "");
+                        try {
+                            final File file = File.createTempFile("image", "png");
+                            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                    imageQuestion.setImageBitmap(bitmap);
+                                    // Log.d(TAG, "dwnld Uerl : " + file);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d(TAG, "Image Reference : " + imageRef);
+                        Log.d(TAG, "question stage : " +questionNow);
+                    }
+                }else {//kalo url audio ga null
+                    imageQuestion.setVisibility(View.INVISIBLE);
+                    //tampilin icon play
+                }
             }
-            Log.d(TAG, "Image Reference : " + imageRef);
-            Log.d(TAG, "question stage : " +questionNow);
-        }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    public void clue(View view) {
+        final DocumentReference documentReference;
+        documentReference = question.document(docRef);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Question questionCheck = documentSnapshot.toObject(Question.class);
+                if (questionCheck.getAudioDwnldUrl() == null){
+                    //audioUrl null, play icon invisible, load image)
+                    playAudio.setVisibility(View.INVISIBLE);
+
+                }else {
+                    //audio url ada, play icon visible, get audio
+                    playAudio.setVisibility(View.VISIBLE);
+                    int aRef;
+                    aRef = aref++;
+                    firebaseStorage = FirebaseStorage.getInstance();
+                    storageReference = firebaseStorage.getReference().child("Audio").child(aRef+".3gp");
+                    try {
+                        final File file = File.createTempFile("audio", "wav");
+                        storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) { //tampilin icon play, terus kalo si user ngeklik play player ngeplay
+                                mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(file));
+                                mediaPlayer.start();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                getNextQuestionImage();
+                                Log.d(TAG, "GetSoundQuestonError : " + e.getMessage());
+                                Toast.makeText(quiz.this, "Media Player Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Stack Trace : " + e.getMessage());
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+        //if (mediaPlayer == null) {
+        //  mediaPlayer = MediaPlayer.create(this, R.raw.alf);
+        //}
+        //mediaPlayer.start();
     }
 
     public void showQuestion() {
-        qNum = 0;
+        qNum = 1;
         docRef = "Question" + qNum;
         Log.d(TAG, "DocRef : " + qNum);
         Log.d(TAG, "question stage : " + questionNow);
@@ -292,13 +358,6 @@ public class quiz extends AppCompatActivity {
             progressBar.setProgress((int) progres);
             Log.d(TAG, "progres bar stat : " + progres);
         }
-    }
-
-    public void clue(View view) {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.alf);
-        }
-        mediaPlayer.start();
     }
 
     public void openDialogFragmentWrong() {

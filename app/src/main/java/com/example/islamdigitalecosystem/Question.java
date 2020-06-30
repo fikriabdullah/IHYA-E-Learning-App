@@ -5,12 +5,13 @@ public class Question {
     private String opt1, opt2, opt3, opt4;
     private String crAnswer;
     private String imgDwnldUrl;
+    private String audioDwnldUrl;
 
     public Question() {
 
     }
 
-    public Question(String question, String opt1, String opt2, String opt3, String opt4, String CrAnswer, String imgDwnldUrl) {
+    public Question(String question, String opt1, String opt2, String opt3, String opt4, String CrAnswer, String imgDwnldUrl, String audioDwnldUrl) {
         this.question = question;
         this.opt1 = opt1;
         this.opt2 = opt2;
@@ -18,6 +19,7 @@ public class Question {
         this.opt4 = opt4;
         this.crAnswer = CrAnswer;
         this.imgDwnldUrl = imgDwnldUrl;
+        this.audioDwnldUrl = audioDwnldUrl;
     }
 
     public String getImgDwnldUrl() {
@@ -26,6 +28,14 @@ public class Question {
 
     public void setImgDwnldUrl(String imgDwnldUrl) {
         this.imgDwnldUrl = imgDwnldUrl;
+    }
+
+    public String getAudioDwnldUrl() {
+        return audioDwnldUrl;
+    }
+
+    public void setAudioDwnldUrl(String audioDwnldUrl) {
+            this.audioDwnldUrl = audioDwnldUrl;
     }
 
 
