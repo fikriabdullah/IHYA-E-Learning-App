@@ -49,24 +49,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:src="@drawable/alif"
+            android:onClick="clue"
             android:textColor="#000" />
-
-        <ImageView
-            android:id="@+id/playAudio"
-            android:layout_width="250dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:onClick="clue"
-            android:src="@drawable/ic_play_audio" />
-
-        <ImageView
-            android:id="@+id/listen"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:onClick="clue"
-            android:src="@drawable/speaker" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

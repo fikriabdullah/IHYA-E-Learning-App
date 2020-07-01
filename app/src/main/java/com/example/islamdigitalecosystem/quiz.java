@@ -63,14 +63,13 @@ public class quiz extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         tvQuestion = findViewById(R.id.question);
         imageQuestion = findViewById(R.id.questionImage);
-        playAudio = findViewById(R.id.playAudio);
         rbAnswer1 = findViewById(R.id.option1);
         rbAnswer2 = findViewById(R.id.option2);
         rbAnswer3 = findViewById(R.id.option3);
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
         questionNow = 1;
-        iRef = 1;
+        iRef = 0;
         aref = 1;
 
 
@@ -80,7 +79,6 @@ public class quiz extends AppCompatActivity {
         Log.d(TAG, "babRef Imp : " + uploadQuestion.babrefImp);
 
         showQuestion();
-        getQuestionImage();
         getQuestionSet();
         getQuestionCount();
         progressBar.setProgress(0);
@@ -102,10 +100,13 @@ public class quiz extends AppCompatActivity {
                 String Option4 = questionread.getOpt4();
                 if (questionResult == null){
                     tvQuestion.setVisibility(View.INVISIBLE);
+                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
                     Log.d(TAG, "question result : " + questionResult);
+
                 }else {
                     tvQuestion.setVisibility(View.VISIBLE);
                     tvQuestion.setText(questionResult);
+                    getQuestionImage();
                 }
                 rbAnswer1.setText(Option1);
                 rbAnswer2.setText(Option2);
@@ -132,7 +133,9 @@ public class quiz extends AppCompatActivity {
                     imageQuestion.setVisibility(View.VISIBLE);
                     Log.d(TAG, "audio dwnld url: " + questionCheck.getAudioDwnldUrl());//telemetry
                     firebaseStorage = FirebaseStorage.getInstance();
+                    iRef++;
                     storageReference = firebaseStorage.getReference().child(iRef + "");
+                    Log.d(TAG, "i ref ajg : "  + iRef);
                     try {
                         final File file = File.createTempFile("image", "png");
                         storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -152,7 +155,7 @@ public class quiz extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }else {//kalo dia ga null dia pindah ke method suara
-                    imageQuestion.setVisibility(View.INVISIBLE);
+                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
                     //tampilin icon play
                 }
             }
@@ -172,7 +175,6 @@ public class quiz extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Question questionCheck = documentSnapshot.toObject(Question.class);
                 if (questionCheck.getAudioDwnldUrl() == null){//kalo audio url null, load image
-                    imageQuestion.setVisibility(View.VISIBLE);
                     if (questionCount >= questionNow){
                         iRef++;
                         imageRef = iRef + "";
@@ -190,7 +192,7 @@ public class quiz extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "getNextQuestion :  " + e.getMessage());
                                 }
                             });
 
@@ -201,14 +203,14 @@ public class quiz extends AppCompatActivity {
                         Log.d(TAG, "question stage : " +questionNow);
                     }
                 }else {//kalo url audio ga null
-                    imageQuestion.setVisibility(View.INVISIBLE);
+                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
                     //tampilin icon play
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Log.d(TAG, "" + e.getMessage());
             }
         });
     }
@@ -222,11 +224,12 @@ public class quiz extends AppCompatActivity {
                 Question questionCheck = documentSnapshot.toObject(Question.class);
                 if (questionCheck.getAudioDwnldUrl() == null){
                     //audioUrl null, play icon invisible, load image)
-                    playAudio.setVisibility(View.INVISIBLE);
+                    getNextQuestionImage();
+
 
                 }else {
                     //audio url ada, play icon visible, get audio
-                    playAudio.setVisibility(View.VISIBLE);
+                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
                     int aRef;
                     aRef = aref++;
                     firebaseStorage = FirebaseStorage.getInstance();
@@ -257,7 +260,7 @@ public class quiz extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Log.d(TAG, " " +  e.getMessage());
             }
         });
 
@@ -372,18 +375,31 @@ public class quiz extends AppCompatActivity {
 
     public void pick01(View view) {
         rbAnswer1.setChecked(true);
+        rbAnswer2.setChecked(false);
+        rbAnswer3.setChecked(false);
+        rbAnswer4.setChecked(false);
+
     }
 
     public void pick02(View view) {
+        rbAnswer1.setChecked(false);
         rbAnswer2.setChecked(true);
+        rbAnswer3.setChecked(false);
+        rbAnswer4.setChecked(false);
     }
 
     public void pick03(View view) {
+        rbAnswer1.setChecked(false);
+        rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(true);
+        rbAnswer4.setChecked(false);
     }
 
 
     public void pick04(View view) {
+        rbAnswer1.setChecked(false);
+        rbAnswer2.setChecked(false);
+        rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(true);
     }
 
