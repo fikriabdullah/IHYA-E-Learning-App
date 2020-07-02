@@ -224,21 +224,22 @@ public class quiz extends AppCompatActivity {
                 Question questionCheck = documentSnapshot.toObject(Question.class);
                 if (questionCheck.getAudioDwnldUrl() == null){
                     //audioUrl null, play icon invisible, load image)
+                    Log.d(TAG, "audio url : " + questionCheck.getAudioDwnldUrl());
                     getNextQuestionImage();
-
-
                 }else {
                     //audio url ada, play icon visible, get audio
                     imageQuestion.setImageResource(R.drawable.ic_play_audio);
                     int aRef;
                     aRef = aref++;
                     firebaseStorage = FirebaseStorage.getInstance();
+                    Log.d(TAG, "Getting audio :");
                     storageReference = firebaseStorage.getReference().child("Audio").child(aRef+".3gp");
                     try {
                         final File file = File.createTempFile("audio", "wav");
                         storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) { //tampilin icon play, terus kalo si user ngeklik play player ngeplay
+                                Log.d(TAG, "Get audio success : " + file.getAbsolutePath());
                                 mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(file));
                                 mediaPlayer.start();
                             }

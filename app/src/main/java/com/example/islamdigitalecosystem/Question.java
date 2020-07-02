@@ -35,7 +35,7 @@ public class Question {
     }
 
     public void setAudioDwnldUrl(String audioDwnldUrl) {
-            this.audioDwnldUrl = audioDwnldUrl;
+        this.audioDwnldUrl = audioDwnldUrl;
     }
 
 

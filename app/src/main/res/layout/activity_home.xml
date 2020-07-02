@@ -99,7 +99,7 @@
                     android:layout_height="64dp"
                     android:background="@drawable/cercleshapes"
                     android:padding="10dp"
-                    android:src="@drawable/islam" />
+                    android:src="@drawable/home2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                     android:layout_height="64dp"
                     android:background="@drawable/cercleshapes"
                     android:padding="10dp"
-                    android:src="@drawable/calendar" />
+                    android:src="@drawable/home4" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="@drawable/cercleshapes"
-                    android:src="@drawable/brain"
+                    android:src="@drawable/home1"
                     android:padding="10dp"/>
 
                 <TextView
@@ -199,7 +199,7 @@
                     android:layout_height="64dp"
                     android:background="@drawable/cercleshapes"
                     android:padding="10dp"
-                    android:src="@drawable/tourism" />
+                    android:src="@drawable/home3" />
 
                 <TextView
                     android:layout_width="wrap_content"

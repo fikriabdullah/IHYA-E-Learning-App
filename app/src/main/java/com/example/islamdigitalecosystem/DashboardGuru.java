@@ -18,4 +18,9 @@ public class DashboardGuru extends AppCompatActivity {
         Intent intent = new Intent(DashboardGuru.this, pilihanSoal.class);
         startActivity(intent);
     }
+
+    public void uploadMateri(View view) {
+        Intent intent = new Intent(DashboardGuru.this, uploadMateri.class);
+        startActivity(intent);
+    }
 }

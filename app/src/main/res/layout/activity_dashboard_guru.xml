@@ -55,7 +55,7 @@
     <androidx.cardview.widget.CardView
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:onClick="kisahNabi"
+        android:onClick="uploadMateri"
         app:cardCornerRadius="10dp"
         android:layout_width="160dp"
         android:layout_height="190dp"

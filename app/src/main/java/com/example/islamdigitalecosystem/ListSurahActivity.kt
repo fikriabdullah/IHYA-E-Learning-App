@@ -8,7 +8,6 @@ import com.example.islamdigitalecosystem.Entities.Models.SurahModel
 import com.example.islamdigitalecosystem.Support.Utils.Adapter
 import com.example.islamdigitalecosystem.ViewHolders.SurahViewHolder
 import kotlinx.android.synthetic.main.activity_list_surah.*
-import java.util.*
 
 class ListSurahActivity: AppCompatActivity(){
 
