@@ -113,4 +113,8 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         super.onBackPressed();
     }
+
+    public void YokNgobs(View view) {
+        startActivity(new Intent(home.this, forumMain.class));
+    }
 }

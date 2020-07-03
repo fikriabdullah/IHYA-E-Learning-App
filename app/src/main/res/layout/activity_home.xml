@@ -110,6 +110,44 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="YokNgobs"
+                app:cardCornerRadius="15dp"
+                android:layout_width="158dp"
+                android:layout_height="147dp"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="156dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/cercleshapes"
+                        android:padding="10dp"
+                        android:src="@drawable/home4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Forum Diskusi"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
         <androidx.cardview.widget.CardView
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
