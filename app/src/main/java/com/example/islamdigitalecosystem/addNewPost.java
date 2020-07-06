@@ -56,7 +56,7 @@ public class addNewPost extends AppCompatActivity {
             postProgress.show();
 
             final Map<String, Object> postMap = new HashMap<>();
-            postMap.put("Question", question);
+            postMap.put("Content", question);
             postMap.put("UserID", firebaseUser.getDisplayName());
             Log.d(TAG, "Display Name : " + firebaseUser.getDisplayName());
             postMap.put("TimeStamp", FieldValue.serverTimestamp());
