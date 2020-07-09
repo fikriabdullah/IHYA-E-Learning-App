@@ -1,6 +1,7 @@
 package com.example.islamdigitalecosystem;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
 import java.util.List;
 
 public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.ViewHolder> {
@@ -33,6 +35,15 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
         String commentMessage = comments_list.get(position).getMessage();
         holder.setCommentMessage(commentMessage);
+
+        String userID = comments_list.get(position).getUserID();
+        holder.setUserId(userID);
+
+        long dateText = comments_list.get(position).getTimestamp().getTime();
+        String dateString = DateFormat.format("dd/MM/yyy", new Date(dateText)).toString();
+        holder.setCommentDate(dateString);
+
+
     }
 
     @Override
@@ -47,7 +58,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private View mView;
-        private TextView commentMessage;
+        private TextView commentMessage, cmnUsername, commentDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +68,16 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         public void setCommentMessage(String message){
             commentMessage = mView.findViewById(R.id.commentPH);
             commentMessage.setText(message);
+        }
+
+        public void setUserId(String userId){
+            cmnUsername = mView.findViewById(R.id.cmnUsername);
+            cmnUsername.setText(userId);
+        }
+
+        public void setCommentDate(String dateText){
+            commentDate = mView.findViewById(R.id.commentDate);
+            commentDate.setText(dateText);
         }
     }
 }

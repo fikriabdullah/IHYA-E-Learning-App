@@ -36,7 +36,7 @@
                 app:layout_constraintVertical_bias="0.068" />
 
             <TextView
-                android:id="@+id/blogDate"
+                android:id="@+id/commentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -60,7 +60,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blogDate"
+                app:layout_constraintTop_toBottomOf="@+id/commentDate"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView

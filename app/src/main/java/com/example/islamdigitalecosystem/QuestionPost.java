@@ -3,7 +3,7 @@ package com.example.islamdigitalecosystem;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class QuestionPost {
+public class QuestionPost extends ForumPostId {
     private String UserID, Content;
     private Date TimeStamp;
 

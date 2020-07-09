@@ -39,13 +39,15 @@ public class forumMain extends AppCompatActivity {
         forumListView.setAdapter(forumRecyclerAdapter);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("Post").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        Query firstQuery = firebaseFirestore.collection("Post").orderBy("TimeStamp", Query.Direction.DESCENDING);
+        firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()){
                     if (doc.getType() == DocumentChange.Type.ADDED){
 
-                        QuestionPost questionPost = doc.getDocument().toObject(QuestionPost.class);
+                        String forumPostId = doc.getDocument().getId();
+                        QuestionPost questionPost = doc.getDocument().toObject(QuestionPost.class).withId(forumPostId);
                         forumList.add(questionPost);
 
                         forumRecyclerAdapter.notifyDataSetChanged();
