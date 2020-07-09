@@ -15,8 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
-        <activity android:name=".forumMain"></activity>
-        <activity android:name=".addNewPost" android:parentActivityName=".forumMain" />
+        <activity android:name=".commentActivity"></activity>
+        <activity android:name=".forumMain" />
+        <activity
+            android:name=".addNewPost"
+            android:parentActivityName=".forumMain" />
         <activity android:name=".setting" />
         <activity android:name=".loginOption" />
         <activity android:name=".regOption" />

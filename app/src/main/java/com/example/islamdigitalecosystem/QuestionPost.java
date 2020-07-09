@@ -5,16 +5,16 @@ import java.util.Date;
 
 public class QuestionPost {
     private String UserID, Content;
-    private Date timestamp;
+    private Date TimeStamp;
 
     public QuestionPost(){
 
     }
 
-    public QuestionPost(String UserID, String content, Date timestamp) {
+    public QuestionPost(String UserID, String content, Date TimeStamp) {
         this.UserID = UserID;
         Content = content;
-        this.timestamp = timestamp;
+        this.TimeStamp = TimeStamp;
     }
 
     public String getUserID() {
@@ -26,7 +26,7 @@ public class QuestionPost {
     }
 
     public Date getTimestamp() {
-        return timestamp;
+        return TimeStamp;
     }
 
     public void setUserID(String UserID) {
@@ -37,7 +37,7 @@ public class QuestionPost {
         Content = content;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setTimestamp(Timestamp TimeStamp) {
+        this.TimeStamp = TimeStamp;
     }
 }
