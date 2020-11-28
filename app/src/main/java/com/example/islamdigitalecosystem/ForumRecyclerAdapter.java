@@ -77,7 +77,6 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
-
             blogCommentBtn = mView.findViewById(R.id.forumComents);
         }
         public void setQuestionView(String questionText){

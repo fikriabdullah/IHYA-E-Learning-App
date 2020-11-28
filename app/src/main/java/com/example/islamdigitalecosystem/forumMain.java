@@ -25,7 +25,6 @@ public class forumMain extends AppCompatActivity {
     private List<QuestionPost> forumList;
     private FirebaseFirestore firebaseFirestore;
     private ForumRecyclerAdapter forumRecyclerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +42,8 @@ public class forumMain extends AppCompatActivity {
         firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()){
-                    if (doc.getType() == DocumentChange.Type.ADDED){
+                for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (doc.getType() == DocumentChange.Type.ADDED) {
 
                         String forumPostId = doc.getDocument().getId();
                         QuestionPost questionPost = doc.getDocument().toObject(QuestionPost.class).withId(forumPostId);

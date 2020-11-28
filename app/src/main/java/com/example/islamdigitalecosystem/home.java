@@ -84,7 +84,7 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     public void quizyok(View view) {
-        startActivity(new Intent(home.this, quiz.class));
+        startActivity(new Intent(home.this, SelectBabQuiz.class));
     }
 
     @Override

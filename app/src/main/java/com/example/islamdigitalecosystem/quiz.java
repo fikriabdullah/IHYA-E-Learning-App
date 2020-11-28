@@ -54,6 +54,7 @@ public class quiz extends AppCompatActivity {
     String imageRef;
     int questionCount;
     ProgressBar progressBar;
+    String FinalBabRefereence;
 
     RadioButton rbAnswer1, rbAnswer2, rbAnswer3, rbAnswer4;
 
@@ -75,8 +76,9 @@ public class quiz extends AppCompatActivity {
 
         firebaseDatabase = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        question = firebaseDatabase.collection(uploadQuestion.babrefImp);
-        Log.d(TAG, "babRef Imp : " + uploadQuestion.babrefImp);
+        FinalBabRefereence = getIntent().getStringExtra("BabReference");
+        question = firebaseDatabase.collection(FinalBabRefereence);
+        Log.d(TAG, "babRef : " + FinalBabRefereence);
 
         showQuestion();
         getQuestionSet();

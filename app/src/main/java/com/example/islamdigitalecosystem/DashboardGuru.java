@@ -23,4 +23,9 @@ public class DashboardGuru extends AppCompatActivity {
         Intent intent = new Intent(DashboardGuru.this, uploadMateri.class);
         startActivity(intent);
     }
+
+    public void gotoForum(View view) {
+        Intent intent = new Intent(DashboardGuru.this, forumMain.class);
+        startActivity(intent);
+    }
 }

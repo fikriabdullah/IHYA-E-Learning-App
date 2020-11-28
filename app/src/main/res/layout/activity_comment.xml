@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/android"
     tools:context=".commentActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@
         android:layout_height="57dp"
         android:layout_marginBottom="28dp"
         android:ems="10"
+        android:background="@drawable/bg_edit"
         android:hint="Your Comment"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"

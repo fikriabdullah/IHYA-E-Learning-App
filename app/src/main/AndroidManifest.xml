@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
-        <activity android:name=".commentActivity"></activity>
+        <activity android:name=".SelectBabQuiz"></activity>
+        <activity android:name=".commentActivity" />
         <activity android:name=".forumMain" />
         <activity
             android:name=".addNewPost"

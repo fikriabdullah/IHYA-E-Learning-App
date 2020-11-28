@@ -73,57 +73,89 @@
         </LinearLayout>
 
         <LinearLayout
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="158dp"
-            android:layout_height="147dp"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            app:cardCornerRadius="15dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="baca">
+            <androidx.cardview.widget.CardView
+                android:layout_width="110dp"
+                android:layout_height="121dp"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="baca"
+                app:cardCornerRadius="15dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/cercleshapes"
-                    android:padding="10dp"
-                    android:src="@drawable/home2" />
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/cercleshapes"
+                        android:padding="10dp"
+                        android:src="@drawable/home2" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Al-Quran"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Al-Quran"
+                        android:textStyle="bold" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="110dp"
+                android:layout_height="121dp"
+                android:layout_margin="10dp"
                 android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="YokNgobs"
-                app:cardCornerRadius="15dp"
-                android:layout_width="158dp"
-                android:layout_height="147dp"
-                android:layout_margin="10dp">
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
-                    android:layout_width="156dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/cercleshapes"
+                        android:padding="10dp"
+                        android:src="@drawable/forum" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Forum Diskusi"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="110dp"
+                android:layout_height="121dp"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="latihankuy"
+                app:cardCornerRadius="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -139,48 +171,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Forum Diskusi"
+                        android:text="Latihan"
                         android:textStyle="bold" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-
-
-
-        <androidx.cardview.widget.CardView
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="latihankuy"
-            app:cardCornerRadius="15dp"
-            android:layout_width="158dp"
-            android:layout_height="147dp"
-            android:layout_margin="10dp">
-
-            <LinearLayout
-                android:layout_width="156dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/cercleshapes"
-                    android:padding="10dp"
-                    android:src="@drawable/home4" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Latihan"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+        </LinearLayout>
     <LinearLayout
         android:clipToPadding="false"
         android:gravity="center"
