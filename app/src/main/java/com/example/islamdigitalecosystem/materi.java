@@ -19,6 +19,6 @@ public class materi extends AppCompatActivity {
     }
 
     public void pengetahuan(View view)  {
-        startActivity(new Intent(materi.this, pengetahuan.class));
+        startActivity(new Intent(materi.this, home.class));
     }
     }

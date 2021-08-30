@@ -19,6 +19,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,8 +37,12 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class quiz extends AppCompatActivity {
     FirebaseFirestore firebaseDatabase;
@@ -69,21 +78,44 @@ public class quiz extends AppCompatActivity {
         rbAnswer3 = findViewById(R.id.option3);
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
-        questionNow = 1;
-        iRef = 0;
-        aref = 1;
+        String bab = "bab1";
+        //questionNow = 1;
+        // iRef = 0;
+        // aref = 1;
+
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
+                .addPathParameter("bab", bab)
+                .setTag(this)
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsObjectList(Question.class, new ParsedRequestListener<List<Question>>() {
+                    @Override
+                    public void onResponse(List<Question> questions) {
+                        Log.d(TAG, "Question List Size :" + questions.size());
+                        for (Question question : questions){
+                            Log.d(TAG, "Question 1 :" + question.getQuestion());
+                            Log.d(TAG, "Opt1 : " + question.getOpt1());
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "Error getting result : " + anError.getCause());
+                    }
+                });
 
 
-        firebaseDatabase = FirebaseFirestore.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
-        FinalBabRefereence = getIntent().getStringExtra("BabReference");
-        question = firebaseDatabase.collection(FinalBabRefereence);
-        Log.d(TAG, "babRef : " + FinalBabRefereence);
 
-        showQuestion();
-        getQuestionSet();
-        getQuestionCount();
-        progressBar.setProgress(0);
+
+      //  firebaseDatabase = FirebaseFirestore.getInstance();
+       // firebaseStorage = FirebaseStorage.getInstance();
+        //FinalBabRefereence = getIntent().getStringExtra("BabReference");
+//        question = firebaseDatabase.collection(FinalBabRefereence);
+ //       Log.d(TAG, "babRef : " + FinalBabRefereence);
+
+//        showQuestion();
+//        getQuestionSet();
+  //      getQuestionCount();
+    //    progressBar.setProgress(0);
 
 
     }
@@ -340,17 +372,7 @@ public class quiz extends AppCompatActivity {
     }
 
     public void getQuestionCount() {
-        question.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    questionCount = task.getResult().size();
-                    Log.d(TAG, "Question Total on method : " + task.getResult().size());
-                } else {
-                    Log.d(TAG, "Error getting Documents : " + task.getException());
-                }
-            }
-        });
+
     }
 
     public void updateProgressBar() {
