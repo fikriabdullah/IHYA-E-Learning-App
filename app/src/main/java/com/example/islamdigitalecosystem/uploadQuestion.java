@@ -44,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class uploadQuestion extends AppCompatActivity {
@@ -51,6 +52,7 @@ public class uploadQuestion extends AppCompatActivity {
     ImageView ivPick;
     Uri imageSelectUri;
     Uri imageSelectUriTemp;
+    Uri imgDownloadURL;
     ProgressBar progressUpload;
     private static final String TAG = "MyActivity";
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -84,13 +86,9 @@ public class uploadQuestion extends AppCompatActivity {
     }
 
     public void pickImage(View view) {
-        if(babQuiz.getText().toString().equals("")){
-            Toast.makeText(this, "Silahkan Isi Forum Bab", Toast.LENGTH_SHORT).show();
-        }else {
             openImageExplorer();
             saveImageCount();
             getQuestionReady();
-        }
     }
 
     private void openImageExplorer() {
@@ -103,7 +101,6 @@ public class uploadQuestion extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             imageSelectUri = data.getData();
@@ -177,43 +174,52 @@ public class uploadQuestion extends AppCompatActivity {
     }
 
     public void addQuestion(View view) {
-        if (imageSelectUri == null || imageSelectUri == imageSelectUriTemp){
-            Log.d(TAG, "Pick image button hasn't pressed");
-            Toast.makeText(this, "Silahkan Plih Gambar!!", Toast.LENGTH_SHORT).show();
-        }else {
             saveBabList();
             if (imageSelectUri != null){
-                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef + "");//probably fixed, need testingpik
+                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef + "");
                 Log.d(TAG, "Image Ref : " + iRef);
                 imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressUpload.setProgress(0);
-                            }
-                        }, 500);
-                        Question question = new Question();
-                        question.setImgDwnldUrl(imageReference.getDownloadUrl().toString());//Error, need testing getDownloadUrl tu hasilnya uri bukan url
-                        //gakepake, kita pake get image (disimpen file temp terus di decode see getquestionimage
-                        question.setQuestion(pert.getText().toString().trim());
-                        question.setOpt1(opt1.getText().toString().trim());
-                        question.setOpt2(opt2.getText().toString().trim());
-                        question.setOpt3(opt3.getText().toString().trim());
-                        question.setOpt4(opt4.getText().toString().trim());
-                        question.setCrAnswer(crAn.getText().toString().trim());
-                        babrefImp = babQuiz.getText().toString();
-                        babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
-                        Log.d(TAG, "Doc Ref : " + docRef);
-                        babRef.document("Question" + docRef)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
-                                .set(question).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(uploadQuestion.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        imgDownloadURL = uri;
+                                        Log.d(TAG, "Image Download URL : " + imgDownloadURL);
+
+                                        Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressUpload.setProgress(0);
+                                            }
+                                        }, 500);
+                                        Question question = new Question();
+                                        Log.d(TAG, "Download URL on set : " + imgDownloadURL);
+                                        question.setImgDwnldUrl(imgDownloadURL.toString());
+                                        question.setQuestion(pert.getText().toString().trim());
+                                        question.setOpt1(opt1.getText().toString().trim());
+                                        question.setOpt2(opt2.getText().toString().trim());
+                                        question.setOpt3(opt3.getText().toString().trim());
+                                        question.setOpt4(opt4.getText().toString().trim());
+                                        question.setCrAnswer(crAn.getText().toString().trim());
+                                        babrefImp = babQuiz.getText().toString();
+                                        babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
+                                        Log.d(TAG, "Doc Ref : " + docRef);
+                                        babRef.document("Question" + docRef)
+                                                .set(question).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(uploadQuestion.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG,"Get Download URL error : " + Arrays.toString(e.getStackTrace()));
+                                    }
+                                });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -231,6 +237,5 @@ public class uploadQuestion extends AppCompatActivity {
             }else {
                 Toast.makeText(this, "Silahkan Pilih Gambar", Toast.LENGTH_SHORT).show();
             }
-        }
     }
 }

@@ -25,6 +25,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,11 +49,15 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class soalSuara extends AppCompatActivity {
     EditText pert, opt1, opt2, opt3, opt4, crAn, babQuiz;
     ImageView ivPick;
     Uri audioUri;
+    Uri audioDwnldUrl;
+    int docRef;
     ProgressBar progressUpload;
     private Button eRecordBtn;
     private MediaRecorder mRecorder;
@@ -111,24 +119,25 @@ public class soalSuara extends AppCompatActivity {
     }
 
 
-    public int questionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
-        babRef = firebaseFirestore.collection(babQuiz.getText().toString());
-        babRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    questionReady = task.getResult().size();
-                    Log.d(TAG, "success question" + " bab : " + babQuiz.getText().toString() + " count : " + questionReady + " incrementing");
-                    questionReady++;
-                    DOCREF = questionReady;
-                    Log.d(TAG, "docref : " + questionReady);// ini docref bisa 0
-                } else {
-                    Toast.makeText(soalSuara.this, task.getException() + "", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Question Ready : " + questionReady + " making new collection " + task.getException());
-                }
-            }
-        });
-        return questionReady;
+    public void questionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
+                .setPriority(Priority.LOW)
+                .setTag("test")
+                .addPathParameter("bab", babQuiz.getText().toString())
+                .build()
+                .getAsObjectList(Question.class, new ParsedRequestListener<List<Question>>() {
+                    @Override
+                    public void onResponse(List<Question> questions) {
+                        Log.d(TAG, "Question Ready :"+ questions.size());
+                        questionReady = questions.size();
+                        questionReady++;
+                        docRef = questionReady;
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "API Request Errror : " +anError.getCause());
+                    }
+                });
     }
 
     public void saveAudioCount() {
@@ -165,36 +174,48 @@ public class soalSuara extends AppCompatActivity {
         if (audioUri != null) {
             mProgress.setMessage("Uploading Audio.....");
             mProgress.show();
-            StorageReference filepath = mStorage.child("Audio").child(aRef + ".3gp");
+            final StorageReference filepath = mStorage.child("Audio").child(aRef + ".3gp");
             Log.d(TAG, "aRef : " + aRef);
             Log.d(TAG, "Dir : " + file.getAbsolutePath());
             filepath.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgress.dismiss();
+                    filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Question question = new Question();
+                            audioDwnldUrl = uri;
+                            Log.d(TAG, "Audio Dwnld URL : " + audioDwnldUrl);
+                            question.setAudioDwnldUrl(audioDwnldUrl.toString());
+                            question.setOpt1(opt1.getText().toString().trim());
+                            question.setOpt2(opt2.getText().toString().trim());
+                            question.setOpt3(opt3.getText().toString().trim());
+                            question.setOpt4(opt4.getText().toString().trim());
+                            question.setCrAnswer(crAn.getText().toString().trim());
+                            babrefImp = babQuiz.getText().toString();
+                            Log.d(TAG, "Doc ref : " + questionReady);
+                            babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
+                            babRef.document("Question" + questionReady)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
+                                    .set(question).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(com.example.islamdigitalecosystem.soalSuara.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Audio Dwnld URL eror : " + Arrays.toString(e.getStackTrace()));
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d(TAG, "Upload Voice Error : " + e.getMessage());
                     Toast.makeText(soalSuara.this, "Uploading Voice Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-            Question question = new Question();
-            question.setAudioDwnldUrl(filepath.getDownloadUrl().toString());
-            question.setOpt1(opt1.getText().toString().trim());
-            question.setOpt2(opt2.getText().toString().trim());
-            question.setOpt3(opt3.getText().toString().trim());
-            question.setOpt4(opt4.getText().toString().trim());
-            question.setCrAnswer(crAn.getText().toString().trim());
-            babrefImp = babQuiz.getText().toString();
-            Log.d(TAG, "Doc ref : " + questionReady);
-            babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
-            babRef.document("Question" + questionReady)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
-                    .set(question).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(com.example.islamdigitalecosystem.soalSuara.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -230,7 +251,5 @@ public class soalSuara extends AppCompatActivity {
         mRecorder.release();
 
     }
-
-
 }
 
