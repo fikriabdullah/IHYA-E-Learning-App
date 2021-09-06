@@ -42,22 +42,26 @@
         android:background="@drawable/bgquestion"
         android:orientation="vertical">
 
+
         <ImageView
             android:id="@+id/questionImage"
             android:layout_width="250dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:onClick="playAudio"
             android:src="@drawable/alif"
             android:textColor="#000" />
 
-        <ImageView
-            android:id="@+id/listen"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="?android:attr/indeterminateProgressStyle"
+            android:id="@+id/loadQuiz"
             android:layout_gravity="center"
-            android:onClick="clue"
-            android:src="@drawable/speaker" />
+            />
+
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

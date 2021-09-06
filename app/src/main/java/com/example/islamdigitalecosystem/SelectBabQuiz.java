@@ -37,7 +37,6 @@ public class SelectBabQuiz extends AppCompatActivity {
 
         recyclerView.setAdapter(babListAdapter);
 
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

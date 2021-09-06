@@ -20,12 +20,9 @@ import android.widget.Toast;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.ParsedRequestListener;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,18 +30,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class uploadQuestion extends AppCompatActivity {
@@ -80,9 +75,6 @@ public class uploadQuestion extends AppCompatActivity {
         ivPick = findViewById(R.id.imgSelection);
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-
-
-        //iref = 1;
     }
 
     public void pickImage(View view) {
@@ -159,24 +151,46 @@ public class uploadQuestion extends AppCompatActivity {
 
     public void saveBabList(){
         databaseReference = firebaseDatabase.getReference("BabList");
-        bablistmodel bablistmodel = new bablistmodel(babQuiz.getText().toString());
-        databaseReference.push().setValue(bablistmodel).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Bab List Saved!!");
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                bablistmodel bablistmodel = new bablistmodel(babQuiz.getText().toString());
+                String bablist = null;
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    bablist = dataSnapshot1.child("babList").getValue(String.class);
+                }
+                final ArrayList<String> list = new ArrayList<>(Collections.singleton(bablist));
+                if (!list.contains(babQuiz.getText().toString())){
+                    databaseReference.push().setValue(bablistmodel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Bab List Saved!!");
+                            Log.d(TAG, "bablist : " + list);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, e.getMessage());
+                        }
+                    });
+                }else {
+                    Log.d(TAG, "Bab available ok");
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, e.getMessage());
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, "Database Error : " + databaseError);
             }
         });
+
     }
 
     public void addQuestion(View view) {
             saveBabList();
             if (imageSelectUri != null){
-                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child(iRef + "");
+                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(iRef + "");
                 Log.d(TAG, "Image Ref : " + iRef);
                 imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

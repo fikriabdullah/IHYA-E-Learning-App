@@ -61,7 +61,6 @@ public class soalSuara extends AppCompatActivity {
     ProgressBar progressUpload;
     private Button eRecordBtn;
     private MediaRecorder mRecorder;
-    private String mFileName;
     private static final String LOG_TAG = "Record_log";
     private StorageReference mStorage;
     private ProgressDialog mProgress;
@@ -106,7 +105,6 @@ public class soalSuara extends AppCompatActivity {
                     } else {
                         startRecording();
                         questionReady();
-                        saveAudioCount();
                         v.performClick();
                     }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -140,41 +138,13 @@ public class soalSuara extends AppCompatActivity {
                 });
     }
 
-    public void saveAudioCount() {
-        databaseReference = firebaseDatabase.getReference("Asset Count ").child("audio");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() == null) {
-                    Log.d(TAG, "audio count : " + dataSnapshot.getValue());
-                    aRef = 1;
-                    databaseReference.setValue(aRef);
-                    Log.d(TAG, "audio count after add : " + dataSnapshot.getValue());
-                } else {
-                    Log.d(TAG, "audio count not null : " + dataSnapshot.getValue());
-                    int audioCount = Integer.parseInt(dataSnapshot.getValue().toString());
-                    Log.d(TAG, "audioCount :  " + audioCount);
-                    audioCount++;
-                    aRef = audioCount;
-                    Log.d(TAG, "aref new : " + aRef);
-                    databaseReference.setValue(aRef);
-                    Log.d(TAG, "audio count not null after add : " + dataSnapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     public void addQuestion2(View view) {
         audioUri = Uri.fromFile(new File(file.getAbsolutePath()));
         if (audioUri != null) {
             mProgress.setMessage("Uploading Audio.....");
             mProgress.show();
-            final StorageReference filepath = mStorage.child("Audio").child(aRef + ".3gp");
+            Log.d(TAG, "Audio File Name : " + file.getName());
+            final StorageReference filepath = mStorage.child("Audio").child(file.getName());
             Log.d(TAG, "aRef : " + aRef);
             Log.d(TAG, "Dir : " + file.getAbsolutePath());
             filepath.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -249,7 +219,6 @@ public class soalSuara extends AppCompatActivity {
         mRecorder.stop();
         Log.d(TAG, "Recording Stopped");
         mRecorder.release();
-
     }
 }
 

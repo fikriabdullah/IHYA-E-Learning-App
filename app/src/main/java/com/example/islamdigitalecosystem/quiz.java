@@ -1,12 +1,24 @@
 package com.example.islamdigitalecosystem;
 
+import android.content.Intent;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -36,6 +48,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,22 +58,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class quiz extends AppCompatActivity {
-    FirebaseFirestore firebaseDatabase;
-    CollectionReference question;
-
     MediaPlayer mediaPlayer;
     TextView tvQuestion;
+    ProgressBar loadQuis;
     private static final String TAG = "MyActivity";
-    ImageView imageQuestion, playAudio;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
+    ImageView imageQuestion;
     String userAnswer;
     int questionNow;
     int qNum;
     String docRef;
-    int iRef;
-    int aref;
-    String imageRef;
     int questionCount;
     ProgressBar progressBar;
     String FinalBabRefereence;
@@ -78,238 +84,143 @@ public class quiz extends AppCompatActivity {
         rbAnswer3 = findViewById(R.id.option3);
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
-        String bab = "bab1";
-        //questionNow = 1;
-        // iRef = 0;
-        // aref = 1;
+        loadQuis = findViewById(R.id.loadQuiz);
+        questionNow = 1;
+        qNum = 1;
 
-        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
-                .addPathParameter("bab", bab)
+        docRef = "Question" + qNum;
+        loadQuis.setVisibility(View.INVISIBLE);
+
+        FinalBabRefereence = getIntent().getStringExtra("BabReference");
+        Log.d(TAG, "babRef : " + FinalBabRefereence);
+
+        getQuestionSet();
+        getQuestionCount();
+        progressBar.setProgress(0);
+    }
+
+    public void getQuestionSet() {
+        loadQuis.setVisibility(View.VISIBLE);
+        loadQuis.setIndeterminate(true);
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                .addPathParameter("bab", FinalBabRefereence)
+                .addPathParameter("QNumber",docRef )
                 .setTag(this)
-                .setPriority(Priority.LOW)
+                .setPriority(Priority.IMMEDIATE)
                 .build()
-                .getAsObjectList(Question.class, new ParsedRequestListener<List<Question>>() {
+                .getAsObject(Question.class, new ParsedRequestListener<Question>() {
                     @Override
-                    public void onResponse(List<Question> questions) {
-                        Log.d(TAG, "Question List Size :" + questions.size());
-                        for (Question question : questions){
-                            Log.d(TAG, "Question 1 :" + question.getQuestion());
-                            Log.d(TAG, "Opt1 : " + question.getOpt1());
+                    public void onResponse(Question question) {
+                       String Quest =  question.getQuestion();
+                       String opt1 = question.getOpt1();
+                       String opt2 = question.getOpt2();
+                       String opt3 = question.getOpt3();
+                       String opt4 = question.getOpt4();
+
+                        if (Quest == null){
+                            tvQuestion.setVisibility(View.INVISIBLE);
+                            imageQuestion.setImageResource(R.drawable.ic_play_audio);
+                            Log.d(TAG, "question result : " + Quest);
+                            getQuestionImage(); //check and load audio
+
+                        }else {
+                            tvQuestion.setVisibility(View.VISIBLE);
+                            tvQuestion.setText(Quest);
+                            getQuestionImage();//load question image using picasso
+                        }
+                        rbAnswer1.setText(opt1);
+                        rbAnswer2.setText(opt2);
+                        rbAnswer3.setText(opt3);
+                        rbAnswer4.setText(opt4);
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "Getting Question Errror : " + anError.getCause());
+                    }
+                });
+            }
+
+    public void getQuestionImage(){
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                .addPathParameter("bab", FinalBabRefereence)
+                .addPathParameter("QNumber", docRef)
+                .setTag(this)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsObject(Question.class, new ParsedRequestListener<Question>() {
+                    @Override
+                    public void onResponse(Question question) {
+                        if (question.getAudioDwnldUrl() == null){
+                            imageQuestion.setVisibility(View.VISIBLE);
+                            Log.d(TAG, "image dwnld url : "+question.getAudioDwnldUrl());
+                            String imageUri = question.getImgDwnldUrl();
+                            ImageView ivBasicImage = (ImageView) findViewById(R.id.questionImage);
+                            Picasso.with(quiz.this).load(imageUri).into(ivBasicImage);
+                        }else {
+                            imageQuestion.setImageResource(R.drawable.ic_play_audio);
+                            //load audio
+                        }
+                        loadQuis.setIndeterminate(false);
+                        loadQuis.setVisibility(View.INVISIBLE);
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "Getting Question Resource Errror : " + anError.getCause());
+                    }
+                });
+    }
+
+    public void playAudio(View view) {
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                .setTag(this)
+                .setPriority(Priority.IMMEDIATE)
+                .addPathParameter("bab", FinalBabRefereence)
+                .addPathParameter("QNumber", docRef)
+                .build()
+                .getAsObject(Question.class, new ParsedRequestListener<Question>() {
+                    @Override
+                    public void onResponse(Question response) {
+                        String audioUrl = response.getAudioDwnldUrl();
+                        mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setAudioAttributes(
+                                new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_MEDIA)
+                                .build()
+                        );
+                        try {
+                            mediaPlayer.setDataSource(audioUrl);
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                        }catch (IOException e){
+                            Log.d(TAG, "Media Player error : " + e.getCause());
                         }
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Log.d(TAG, "Error getting result : " + anError.getCause());
+                        Log.d(TAG, "Download Audio URL error : " + anError.getCause());
                     }
                 });
-
-
-
-
-      //  firebaseDatabase = FirebaseFirestore.getInstance();
-       // firebaseStorage = FirebaseStorage.getInstance();
-        //FinalBabRefereence = getIntent().getStringExtra("BabReference");
-//        question = firebaseDatabase.collection(FinalBabRefereence);
- //       Log.d(TAG, "babRef : " + FinalBabRefereence);
-
-//        showQuestion();
-//        getQuestionSet();
-  //      getQuestionCount();
-    //    progressBar.setProgress(0);
-
-
     }
 
-    public void getQuestionSet() {
-        DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionread = documentSnapshot.toObject(Question.class);
-                String questionResult = questionread.getQuestion();
-                String Option1 = questionread.getOpt1();
-                String Option2 = questionread.getOpt2();
-                String Option3 = questionread.getOpt3();
-                String Option4 = questionread.getOpt4();
-                if (questionResult == null){
-                    tvQuestion.setVisibility(View.INVISIBLE);
-                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                    Log.d(TAG, "question result : " + questionResult);
-
-                }else {
-                    tvQuestion.setVisibility(View.VISIBLE);
-                    tvQuestion.setText(questionResult);
-                    getQuestionImage();
-                }
-                rbAnswer1.setText(Option1);
-                rbAnswer2.setText(Option2);
-                rbAnswer3.setText(Option3);
-                rbAnswer4.setText(Option4);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(quiz.this, "Question Retrieve Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d(TAG, e.getMessage());
-            }
-        });
-    }
-
-    public void getQuestionImage(){
-        DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionCheck =  documentSnapshot.toObject(Question.class);
-                if (questionCheck.getAudioDwnldUrl() == null){//check object kalo url audio null dia load image
-                    imageQuestion.setVisibility(View.VISIBLE);
-                    Log.d(TAG, "audio dwnld url: " + questionCheck.getAudioDwnldUrl());//telemetry
-                    firebaseStorage = FirebaseStorage.getInstance();
-                    iRef++;
-                    storageReference = firebaseStorage.getReference().child(iRef + "");
-                    Log.d(TAG, "i ref ajg : "  + iRef);
-                    try {
-                        final File file = File.createTempFile("image", "png");
-                        storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                                imageQuestion.setImageBitmap(bitmap);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, e.getMessage());
-                                Toast.makeText(quiz.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
+    public void getQuestionCount(){
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
+                .addPathParameter("bab", FinalBabRefereence)
+                .setPriority(Priority.IMMEDIATE)
+                .setTag(this)
+                .build()
+                .getAsObjectList(Question.class, new ParsedRequestListener<List<Question>>() {
+                    @Override
+                    public void onResponse(List<Question> response) {
+                       questionCount = response.size();
+                        Log.d(TAG, "Bab Question Count : " + questionCount);
                     }
-                }else {//kalo dia ga null dia pindah ke method suara
-                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                    //tampilin icon play
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, " "  + e.getMessage());
-            }
-        });
-    }
 
-    public void getNextQuestionImage() {
-        DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionCheck = documentSnapshot.toObject(Question.class);
-                if (questionCheck.getAudioDwnldUrl() == null){//kalo audio url null, load image
-                    if (questionCount >= questionNow){
-                        iRef++;
-                        imageRef = iRef + "";
-                        firebaseStorage = FirebaseStorage.getInstance();
-                        storageReference = firebaseStorage.getReference().child(iRef + "");
-                        try {
-                            final File file = File.createTempFile("image", "png");
-                            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                                    imageQuestion.setImageBitmap(bitmap);
-                                    // Log.d(TAG, "dwnld Uerl : " + file);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "getNextQuestion :  " + e.getMessage());
-                                }
-                            });
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d(TAG, "Image Reference : " + imageRef);
-                        Log.d(TAG, "question stage : " +questionNow);
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "get question count err : " + anError.getCause());
                     }
-                }else {//kalo url audio ga null
-                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                    //tampilin icon play
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "" + e.getMessage());
-            }
-        });
-    }
-
-    public void clue(View view) {
-        final DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionCheck = documentSnapshot.toObject(Question.class);
-                if (questionCheck.getAudioDwnldUrl() == null){
-                    //audioUrl null, play icon invisible, load image)
-                    Log.d(TAG, "audio url : " + questionCheck.getAudioDwnldUrl());
-                    getNextQuestionImage();
-                }else {
-                    //audio url ada, play icon visible, get audio
-                    imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                    int aRef;
-                    aRef = aref++;
-                    firebaseStorage = FirebaseStorage.getInstance();
-                    Log.d(TAG, "Getting audio :");
-                    storageReference = firebaseStorage.getReference().child("Audio").child(aRef+".3gp");
-                    try {
-                        final File file = File.createTempFile("audio", "wav");
-                        storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) { //tampilin icon play, terus kalo si user ngeklik play player ngeplay
-                                Log.d(TAG, "Get audio success : " + file.getAbsolutePath());
-                                mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(file));
-                                mediaPlayer.start();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                getNextQuestionImage();
-                                Log.d(TAG, "GetSoundQuestonError : " + e.getMessage());
-                                Toast.makeText(quiz.this, "Media Player Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.d(TAG, "Stack Trace : " + e.getMessage());
-                    }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, " " +  e.getMessage());
-            }
-        });
-
-        //if (mediaPlayer == null) {
-        //  mediaPlayer = MediaPlayer.create(this, R.raw.alf);
-        //}
-        //mediaPlayer.start();
-    }
-
-    public void showQuestion() {
-        qNum = 1;
-        docRef = "Question" + qNum;
-        Log.d(TAG, "DocRef : " + qNum);
-        Log.d(TAG, "question stage : " + questionNow);
+                });
     }
 
     public void showNextQuestion() {
@@ -328,28 +239,36 @@ public class quiz extends AppCompatActivity {
     }
 
     public void checkAnswer() {
-        final DocumentReference documentReference;
-        documentReference = question.document(docRef);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Question questionAnswer = documentSnapshot.toObject(Question.class);
-                String corectAnswer = questionAnswer.getCrAnswer();
+        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                .setTag(this)
+                .addPathParameter("bab", FinalBabRefereence)
+                .addPathParameter("QNumber", docRef)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsObject(Question.class, new ParsedRequestListener<Question>() {
+                    @Override
+                    public void onResponse(Question response) {
+                        String corectAnswer = response.getCrAnswer();
+                        if (userAnswer.equals(corectAnswer)) {
+                            questionNow++;
+                            openDialogFragmentCorrect();
+                            showNextQuestion();
+                            clearAnswer();
+                            getQuestionSet();
+                            updateProgressBar();
 
-                if (userAnswer.equals(corectAnswer)) {
-                    questionNow++;
-                    openDialogFragmentCorrect();
-                    showNextQuestion();
-                    getNextQuestionImage();
-                    clearAnswer();
-                    updateProgressBar();
-
-                } else {
-                    openDialogFragmentWrong();
-                    clearAnswer();
-                }
-            }
-        });
+                        } else {
+                            openDialogFragmentWrong();
+                            clearAnswer();
+                            showNextQuestion();
+                            getQuestionSet();
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "Get crAnswer Error : " + anError.getCause());
+                    }
+                });
     }
 
     public void getInput() {
@@ -369,10 +288,6 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
-    }
-
-    public void getQuestionCount() {
-
     }
 
     public void updateProgressBar() {
@@ -403,7 +318,6 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
-
     }
 
     public void pick02(View view) {
@@ -419,7 +333,6 @@ public class quiz extends AppCompatActivity {
         rbAnswer3.setChecked(true);
         rbAnswer4.setChecked(false);
     }
-
 
     public void pick04(View view) {
         rbAnswer1.setChecked(false);
@@ -437,6 +350,5 @@ public class quiz extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Pilih Jawaban", Toast.LENGTH_LONG).show();
         }
-
     }
 }
