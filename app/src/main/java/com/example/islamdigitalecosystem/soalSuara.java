@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -50,7 +51,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class soalSuara extends AppCompatActivity {
     EditText pert, opt1, opt2, opt3, opt4, crAn, babQuiz;
@@ -119,7 +122,7 @@ public class soalSuara extends AppCompatActivity {
 
     public void questionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
-                .setPriority(Priority.LOW)
+                .setPriority(Priority.MEDIUM)
                 .setTag("test")
                 .addPathParameter("bab", babQuiz.getText().toString())
                 .build()
@@ -163,10 +166,14 @@ public class soalSuara extends AppCompatActivity {
                             question.setOpt3(opt3.getText().toString().trim());
                             question.setOpt4(opt4.getText().toString().trim());
                             question.setCrAnswer(crAn.getText().toString().trim());
-                            babrefImp = babQuiz.getText().toString();
+                            babrefImp = babQuiz.getText().toString().toLowerCase().trim();
                             Log.d(TAG, "Doc ref : " + questionReady);
-                            babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
-                            babRef.document("Question" + questionReady)//ini harusnya kalo si user upload di babRef yg sama dia increment. tapi kalo gak, dia reset dari 0
+                            babRef = firebaseFirestore.collection("quiz");//taruh pertanyaan sesuai bab
+                            DocumentReference babRefDummy = babRef.document(babrefImp);
+                            Map<String, Object> dummyMapping = new HashMap<>();
+                            dummyMapping.put("dummy", "dummy");
+                            babRefDummy.set(dummyMapping);
+                            babRef.document(babrefImp).collection(babrefImp).document("Question"+docRef)
                                     .set(question).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {

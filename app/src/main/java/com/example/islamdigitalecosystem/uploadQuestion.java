@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -40,7 +41,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class uploadQuestion extends AppCompatActivity {
     EditText pert, opt1, opt2, opt3, opt4, crAn, babQuiz;
@@ -79,7 +82,6 @@ public class uploadQuestion extends AppCompatActivity {
 
     public void pickImage(View view) {
             openImageExplorer();
-            saveImageCount();
             getQuestionReady();
     }
 
@@ -103,7 +105,7 @@ public class uploadQuestion extends AppCompatActivity {
 
     public void getQuestionReady(){ //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
-                .setPriority(Priority.LOW)
+                .setPriority(Priority.MEDIUM)
                 .setTag("test")
                 .addPathParameter("bab", babQuiz.getText().toString())
                 .build()
@@ -122,36 +124,9 @@ public class uploadQuestion extends AppCompatActivity {
                 });
         }
 
-    public void saveImageCount() {
-        databaseReference = firebaseDatabase.getReference("Asset Count ").child("image");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() == null) {
-                    Log.d(TAG, "image count : " + dataSnapshot.getValue());
-                    iRef = 1;
-                    databaseReference.setValue(iRef);
-                    Log.d(TAG, "image count after add : " + dataSnapshot.getValue());
-                } else {
-                    Log.d(TAG, "image count not null : " + dataSnapshot.getValue());
-                    int imageCount = Integer.parseInt(dataSnapshot.getValue().toString());
-                    Log.d(TAG, "imageCount :  " + imageCount);
-                    imageCount++;
-                    iRef = imageCount;
-                    Log.d(TAG, "iref new : " + iRef);
-                    databaseReference.setValue(iRef);
-                    Log.d(TAG, "image count not null after add : " + dataSnapshot.getValue());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
 
     public void saveBabList(){
         databaseReference = firebaseDatabase.getReference("BabList");
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,9 +163,11 @@ public class uploadQuestion extends AppCompatActivity {
     }
 
     public void addQuestion(View view) {
+            double imageName = Math.random();
+            String imgName = String.valueOf(imageName);
             saveBabList();
             if (imageSelectUri != null){
-                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(iRef + "");
+                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(imgName);
                 Log.d(TAG, "Image Ref : " + iRef);
                 imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -218,9 +195,13 @@ public class uploadQuestion extends AppCompatActivity {
                                         question.setOpt4(opt4.getText().toString().trim());
                                         question.setCrAnswer(crAn.getText().toString().trim());
                                         babrefImp = babQuiz.getText().toString();
-                                        babRef = firebaseFirestore.collection(babrefImp);//taruh pertanyaan sesuai bab
+                                        babRef = firebaseFirestore.collection("quiz");//taruh pertanyaan sesuai bab
+                                        DocumentReference babRefDummy = babRef.document(babrefImp);
+                                        Map<String, Object> dummyMapping = new HashMap<>();
+                                        dummyMapping.put("dummy", "dummy");
+                                        babRefDummy.set(dummyMapping);
                                         Log.d(TAG, "Doc Ref : " + docRef);
-                                        babRef.document("Question" + docRef)
+                                        babRef.document(babrefImp).collection(babrefImp).document("Question" + docRef)
                                                 .set(question).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
