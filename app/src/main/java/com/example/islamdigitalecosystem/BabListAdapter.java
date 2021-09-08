@@ -24,9 +24,9 @@ public class BabListAdapter extends RecyclerView.Adapter<BabListAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singleitembablistview, parent, false);
-       context = parent.getContext();
-       return new MyViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singleitembablistview, parent, false);
+        context = parent.getContext();
+        return new MyViewHolder(view);
     }
 
     @Override
