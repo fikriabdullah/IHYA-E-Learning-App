@@ -6,36 +6,33 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SelectBabQuiz extends AppCompatActivity {
+public class BabListEditKuis extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
     private RecyclerView recyclerView;
-    BabListAdapter babListAdapter;
+    EditQuizAdapter editQuizAdapter;
     private ArrayList<bablistmodel> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_bab_quiz);
+        setContentView(R.layout.bab_list_edit_kuis);
         list = new ArrayList<>();
-        recyclerView = findViewById(R.id.babselectquizRecyclerView);
-        babListAdapter = new BabListAdapter(list);
+        recyclerView = findViewById(R.id.bablistEditQuizRV);
+        editQuizAdapter = new EditQuizAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference().child("BabList");
-
-        recyclerView.setAdapter(babListAdapter);
+        recyclerView.setAdapter(editQuizAdapter);
 
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -46,7 +43,7 @@ public class SelectBabQuiz extends AppCompatActivity {
                     bablistmodel bablistmodel = new bablistmodel(bablist);
                     list.add(bablistmodel);
                 }
-                babListAdapter.notifyDataSetChanged();
+                editQuizAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -54,5 +51,7 @@ public class SelectBabQuiz extends AppCompatActivity {
 
             }
         });
+
+
     }
 }

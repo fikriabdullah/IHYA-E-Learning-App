@@ -11,7 +11,7 @@ public class DashboardGuru extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard_guru);
+        setContentView(R.layout.dashboard_guru);
     }
 
     public void uploadQuiz(View view) {
@@ -26,6 +26,11 @@ public class DashboardGuru extends AppCompatActivity {
 
     public void gotoForum(View view) {
         Intent intent = new Intent(DashboardGuru.this, forumMain.class);
+        startActivity(intent);
+    }
+
+    public void EditQuiz(View view) {
+        Intent intent = new Intent(DashboardGuru.this, BabListEditKuis.class);
         startActivity(intent);
     }
 }

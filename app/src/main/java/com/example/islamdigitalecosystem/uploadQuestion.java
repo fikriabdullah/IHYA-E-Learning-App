@@ -81,8 +81,8 @@ public class uploadQuestion extends AppCompatActivity {
     }
 
     public void pickImage(View view) {
-            openImageExplorer();
-            getQuestionReady();
+        openImageExplorer();
+        getQuestionReady();
     }
 
     private void openImageExplorer() {
@@ -122,115 +122,94 @@ public class uploadQuestion extends AppCompatActivity {
                         Log.d(TAG, "API Request Errror : " +anError.getCause());
                     }
                 });
-        }
+    }
 
 
     public void saveBabList(){
         databaseReference = firebaseDatabase.getReference("BabList");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        bablistmodel bablistmodel = new bablistmodel(babQuiz.getText().toString());
+        databaseReference.push().setValue(bablistmodel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                bablistmodel bablistmodel = new bablistmodel(babQuiz.getText().toString());
-                String bablist = null;
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    bablist = dataSnapshot1.child("babList").getValue(String.class);
-                }
-                final ArrayList<String> list = new ArrayList<>(Collections.singleton(bablist));
-                if (!list.contains(babQuiz.getText().toString())){
-                    databaseReference.push().setValue(bablistmodel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Bab List Saved!!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+        });
+    }
+
+    public void addQuestion(View view) {
+        double imageName = Math.random();
+        String imgName = String.valueOf(imageName);
+        saveBabList();
+        if (imageSelectUri != null){
+            final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(imgName);
+            Log.d(TAG, "Image Ref : " + iRef);
+            imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Bab List Saved!!");
-                            Log.d(TAG, "bablist : " + list);
+                        public void onSuccess(Uri uri) {
+                            imgDownloadURL = uri;
+                            Log.d(TAG, "Image Download URL : " + imgDownloadURL);
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressUpload.setProgress(0);
+                                }
+                            }, 500);
+                            Question question = new Question();
+                            Log.d(TAG, "Download URL on set : " + imgDownloadURL);
+                            question.setImgDwnldUrl(imgDownloadURL.toString());
+                            question.setQuestion(pert.getText().toString().trim());
+                            question.setOpt1(opt1.getText().toString().trim());
+                            question.setOpt2(opt2.getText().toString().trim());
+                            question.setOpt3(opt3.getText().toString().trim());
+                            question.setOpt4(opt4.getText().toString().trim());
+                            question.setCrAnswer(crAn.getText().toString().trim());
+                            babrefImp = babQuiz.getText().toString();
+                            babRef = firebaseFirestore.collection("quiz");//taruh pertanyaan sesuai bab
+                            DocumentReference babRefDummy = babRef.document(babrefImp);
+                            Map<String, Object> dummyMapping = new HashMap<>();
+                            dummyMapping.put("dummy", "dummy");
+                            babRefDummy.set(dummyMapping);
+                            Log.d(TAG, "Doc Ref : " + docRef);
+                            babRef.document(babrefImp).collection(babrefImp).document("Question" + docRef)
+                                    .set(question).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(uploadQuestion.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, e.getMessage());
+                            Log.d(TAG,"Get Download URL error : " + Arrays.toString(e.getStackTrace()));
                         }
                     });
-                }else {
-                    Log.d(TAG, "Bab available ok");
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d(TAG, "Database Error : " + databaseError);
-            }
-        });
-
-    }
-
-    public void addQuestion(View view) {
-            double imageName = Math.random();
-            String imgName = String.valueOf(imageName);
-            saveBabList();
-            if (imageSelectUri != null){
-                final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(imgName);
-                Log.d(TAG, "Image Ref : " + iRef);
-                imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        imgDownloadURL = uri;
-                                        Log.d(TAG, "Image Download URL : " + imgDownloadURL);
-
-                                        Handler handler = new Handler();
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                progressUpload.setProgress(0);
-                                            }
-                                        }, 500);
-                                        Question question = new Question();
-                                        Log.d(TAG, "Download URL on set : " + imgDownloadURL);
-                                        question.setImgDwnldUrl(imgDownloadURL.toString());
-                                        question.setQuestion(pert.getText().toString().trim());
-                                        question.setOpt1(opt1.getText().toString().trim());
-                                        question.setOpt2(opt2.getText().toString().trim());
-                                        question.setOpt3(opt3.getText().toString().trim());
-                                        question.setOpt4(opt4.getText().toString().trim());
-                                        question.setCrAnswer(crAn.getText().toString().trim());
-                                        babrefImp = babQuiz.getText().toString();
-                                        babRef = firebaseFirestore.collection("quiz");//taruh pertanyaan sesuai bab
-                                        DocumentReference babRefDummy = babRef.document(babrefImp);
-                                        Map<String, Object> dummyMapping = new HashMap<>();
-                                        dummyMapping.put("dummy", "dummy");
-                                        babRefDummy.set(dummyMapping);
-                                        Log.d(TAG, "Doc Ref : " + docRef);
-                                        babRef.document(babrefImp).collection(babrefImp).document("Question" + docRef)
-                                                .set(question).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(uploadQuestion.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG,"Get Download URL error : " + Arrays.toString(e.getStackTrace()));
-                                    }
-                                });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(uploadQuestion.this, "Uploading Image Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Uploading Image Error : " + e.getMessage() );
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0* taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                        progressUpload.setProgress((int) progress);
-                    }
-                });
-            }else {
-                Toast.makeText(this, "Silahkan Pilih Gambar", Toast.LENGTH_SHORT).show();
-            }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(uploadQuestion.this, "Uploading Image Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Uploading Image Error : " + e.getMessage() );
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0* taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressUpload.setProgress((int) progress);
+                }
+            });
+        }else {
+            Toast.makeText(this, "Silahkan Pilih Gambar", Toast.LENGTH_SHORT).show();
+        }
     }
 }
