@@ -23,7 +23,7 @@ public class EditQuizAdapter extends RecyclerView.Adapter<EditQuizAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_kuis_single_item_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_kuis_single_bablist_item_view, parent, false);
         context = parent.getContext();
         return new MyViewHolder(view);
     }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
+import com.androidnetworking.AndroidNetworking;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +37,6 @@ public class SelectBabQuiz extends AppCompatActivity {
         reference = firebaseDatabase.getReference().child("BabList");
 
         recyclerView.setAdapter(babListAdapter);
-
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

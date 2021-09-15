@@ -1,59 +1,24 @@
 package com.example.islamdigitalecosystem;
 
-import android.content.Intent;
 import android.media.AudioAttributes;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.nfc.Tag;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.ParsedRequestListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -76,7 +41,7 @@ public class quiz extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+        setContentView(R.layout.quiz);
         tvQuestion = findViewById(R.id.question);
         imageQuestion = findViewById(R.id.questionImage);
         rbAnswer1 = findViewById(R.id.option1);

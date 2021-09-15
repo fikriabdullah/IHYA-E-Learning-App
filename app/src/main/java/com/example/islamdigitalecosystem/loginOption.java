@@ -11,7 +11,7 @@ public class loginOption extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_option);
+        setContentView(R.layout.login_option);
     }
 
     public void logTeacher(View view) {

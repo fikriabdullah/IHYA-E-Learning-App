@@ -11,7 +11,7 @@ public class AuthOption extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth_option);
+        setContentView(R.layout.auth_option);
     }
 
 

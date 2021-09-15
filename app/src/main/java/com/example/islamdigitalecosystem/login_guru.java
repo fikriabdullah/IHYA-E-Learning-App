@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public class login_guru extends AppCompatActivity {
 
@@ -30,7 +29,7 @@ public class login_guru extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_guru);
+        setContentView(R.layout.login_guru);
         firebaseAuth = FirebaseAuth.getInstance();
         email = findViewById(R.id.emailLg1);
         password = findViewById(R.id.passwordLg1);

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +37,7 @@ public class addNewPost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_post);
+        setContentView(R.layout.add_new_post);
         etPertanyaan = findViewById(R.id.etPertanyaan);
         btAddPost = findViewById(R.id.btPostQuestion);
         postProgress = new ProgressDialog(this);
