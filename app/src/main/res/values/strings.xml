@@ -11,6 +11,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tvPertanyaan">Pertanyaan :</string>
+    <string name="etPertanyaan">Pertanyaan</string>
+    <string name="btngantigambar">Ganti Gambar</string>
+    <string name="tvopt1">Pilihan 1 :</string>
+    <string name="pilihan_2">Pilihan 2 :</string>
+    <string name="pilihan_3">Pilihan 3</string>
+    <string name="pilihan_4">Pilihan 4</string>
+    <string name="kunci">Kunci :</string>
+    <string name="simpan_soal">Simpan Soal</string>
+    <string name="simpan">Simpan</string>
 
 
 </resources>

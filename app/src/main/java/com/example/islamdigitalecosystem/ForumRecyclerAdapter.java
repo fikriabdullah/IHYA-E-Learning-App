@@ -82,7 +82,6 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
         public void setQuestionView(String questionText){
             questionView = mView.findViewById(R.id.blogQuestion);
             questionView.setText(questionText);
-
         }
 
         public void setTime(String DateText){
