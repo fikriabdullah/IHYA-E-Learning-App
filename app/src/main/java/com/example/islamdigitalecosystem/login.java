@@ -138,4 +138,17 @@ public class login extends AppCompatActivity {
             }
         });
     }
+
+    public void resetEmail(View view) {
+        firebaseAuth.sendPasswordResetEmail(email.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.d(TAG, "reset link sent");
+                            Toast.makeText(getApplicationContext(), "Reset Password Link Has Been Sent To Your Registered Email, Check your Email", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
 }

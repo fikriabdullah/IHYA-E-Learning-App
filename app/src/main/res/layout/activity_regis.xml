@@ -61,7 +61,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notelp"
-        app:layout_constraintVertical_bias="0.578" />
+        app:layout_constraintVertical_bias="0.679" />
 
     <TextView
         android:id="@+id/textView"
@@ -127,18 +127,16 @@
 
     <EditText
         android:id="@+id/notelp"
-        android:layout_width="195dp"
+        android:layout_width="309dp"
         android:layout_height="41dp"
-        android:layout_alignStart="@+id/nama"
-        android:layout_alignLeft="@+id/nama"
+        android:layout_alignStart="@+id/password"
         android:layout_alignBottom="@+id/cardView"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bg_edit"
         android:ems="10"
-        android:hint="No Handphone"
+        android:hint="@string/no_handphone"
         android:inputType="text|number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
