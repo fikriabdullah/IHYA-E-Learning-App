@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,16 +20,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.security.PrivateKey;
+import java.util.Objects;
 
 public class regis extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference reference;
     EditText nama;
     EditText kontak;
     EditText email;
     EditText password;
+    Spinner selectRole;
+    String Role;
     private static final String TAG = "register : ";
 
     @Override
@@ -40,8 +47,13 @@ public class regis extends AppCompatActivity {
         kontak = findViewById(R.id.notelp);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        selectRole = findViewById(R.id.spinner);
 
-        firebaseAuth = firebaseAuth.getInstance();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        //Role = String.valueOf(selectRole.getSelectedItem());
+
     }
 
     public void regis(View view) {
@@ -49,6 +61,7 @@ public class regis extends AppCompatActivity {
         final String Email = email.getText().toString();
         final String Password = password.getText().toString();
         final String NoTelp = kontak.getText().toString();
+        Role = String.valueOf(selectRole.getSelectedItem());
 
         firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -58,9 +71,16 @@ public class regis extends AppCompatActivity {
                     UserCntr userCntr = new UserCntr(
                             username,
                             Email,
-                            NoTelp
+                            NoTelp,
+                            Role
                     );
-                    FirebaseDatabase.getInstance().getReference("UserDatabase").child("Student")
+                    String chld;
+                    if(Role.equals("Murid")){
+                        chld = "Student";
+                    }else {
+                        chld = "Guru";
+                    }
+                    FirebaseDatabase.getInstance().getReference("UserDatabase").child(chld)
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userCntr)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -79,9 +99,15 @@ public class regis extends AppCompatActivity {
                                                         user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
-                                                                startActivity(new Intent(regis.this, home.class));
-                                                                Log.d(TAG, "Giving Username a name : " + user.getDisplayName());
-                                                                Log.d(TAG, "Sending to Home");
+                                                                if(Role.equals("Guru")){
+                                                                    startActivity(new Intent(regis.this, DashboardGuru.class));
+                                                                    Log.d(TAG, "Giving Username a name : " + user.getDisplayName());
+                                                                    Log.d(TAG, "Sending to Dashboard");
+                                                                }else if(Role.equals("Murid")){
+                                                                    startActivity(new Intent(regis.this, home.class));
+                                                                    Log.d(TAG, "Giving Username a name : " + user.getDisplayName());
+                                                                    Log.d(TAG, "Sending to Home");
+                                                                }
                                                             }
                                                         }).addOnFailureListener(new OnFailureListener() {
                                                             @Override

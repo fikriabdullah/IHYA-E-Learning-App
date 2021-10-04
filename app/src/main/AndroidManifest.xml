@@ -24,11 +24,7 @@
             android:name=".addNewPost"
             android:parentActivityName=".forumMain" />
         <activity android:name=".setting" />
-        <activity android:name=".loginOption" />
-        <activity android:name=".regOption" />
         <activity android:name=".DashboardGuru" />
-        <activity android:name=".register_guru" />
-        <activity android:name=".login_guru" />
         <activity android:name=".quiz" />
         <activity android:name=".regis" />
         <activity android:name=".login" />

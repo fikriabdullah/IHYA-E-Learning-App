@@ -17,12 +17,12 @@ public class AuthOption extends AppCompatActivity {
 
 
     public void login(View view) {
-        Intent intent = new Intent(AuthOption.this, loginOption.class);
+        Intent intent = new Intent(AuthOption.this, login.class);
         startActivity(intent);
     }
 
     public void regis(View view) {
-        Intent intent = new Intent(AuthOption.this, regOption.class);
+        Intent intent = new Intent(AuthOption.this, regis.class);
         startActivity(intent);
     }
 }

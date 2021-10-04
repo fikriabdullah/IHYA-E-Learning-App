@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,11 +16,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference reference;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor sharedPrefEdit;
+    String child;
+    private static final String TAG = " Login : ";
 
     EditText email;
     EditText password;
@@ -38,6 +50,7 @@ public class login extends AppCompatActivity {
         sharedPrefEdit = sharedPreferences.edit();
 
         checkSharedPref();
+
     }
 
     private void checkSharedPref(){
@@ -84,7 +97,40 @@ public class login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    startActivity(new Intent(login.this, home.class));
+                    child = "Guru";
+                    firebaseDatabase = FirebaseDatabase.getInstance();
+                    reference = firebaseDatabase.getReference().child("UserDatabase").child(child);
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            dataSnapshot.getChildren();
+                            String Role = dataSnapshot.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).child("Role").getValue(String.class);
+                            Log.d(TAG, "Role of this user : " + Role);
+                            if (Role == null){
+                                child = "Student";
+                                reference = firebaseDatabase.getReference().child("UserDatabase").child(child);
+                                reference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        dataSnapshot.getChildren();
+                                        String Role = dataSnapshot.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).child("Role").getValue(String.class);
+                                        Log.d(TAG, "Role of this user : " + Role);
+                                        startActivity(new Intent(login.this, home.class));
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.d(TAG, "get role error : " + databaseError.getMessage());
+                                    }
+                                });
+                            }else {
+                                startActivity(new Intent(login.this, DashboardGuru.class));
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d(TAG, "get role error : " + databaseError.getMessage());
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
