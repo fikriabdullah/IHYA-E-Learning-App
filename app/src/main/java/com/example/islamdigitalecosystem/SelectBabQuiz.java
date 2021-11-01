@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,6 +31,7 @@ public class SelectBabQuiz extends AppCompatActivity {
     BabListAdapter babListAdapter;
     private static final String TAG = "SelectBabQuiz";
     FirebaseFirestore db;
+    SwipeRefreshLayout swipeRefreshLayout;
     Task<QuerySnapshot> collectionReference;
 
     private ArrayList<bablistmodel> list;
@@ -43,9 +45,34 @@ public class SelectBabQuiz extends AppCompatActivity {
         babListAdapter = new BabListAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
-
         recyclerView.setAdapter(babListAdapter);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutSelectQuiz);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                list.clear();
+                Log.d(TAG, " List Cleared, reloading data");
+                collectionReference = db.collection("quiz").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot documentSnapshots : queryDocumentSnapshots.getDocuments()){
+                            Log.d(TAG, documentSnapshots.getId());
+                            String babList = documentSnapshots.getId();
+                            bablistmodel bablistmodel = new bablistmodel(babList);
+                            list.add(bablistmodel);
+                        }
+                        babListAdapter.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Get Document Id Failed :" + e.getMessage());
+                    }
+                });
+            }
+        });
 
         collectionReference = db.collection("quiz").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

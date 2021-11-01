@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class BabListEditKuis extends AppCompatActivity {
     EditQuizAdapter editQuizAdapter;
     private final static String TAG = "BabListEditQUiz";
     FirebaseFirestore db;
+    SwipeRefreshLayout swipeRefreshLayout;
     Task<QuerySnapshot> collectionReference;
     private ArrayList<bablistmodel> list;
 
@@ -44,6 +46,7 @@ public class BabListEditKuis extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
         recyclerView.setAdapter(editQuizAdapter);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         collectionReference = db.collection("quiz").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -62,24 +65,31 @@ public class BabListEditKuis extends AppCompatActivity {
                 Log.d(TAG, "Get Document Id Failed :" + e.getMessage());
             }
         });
-/**
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    String bablist = dataSnapshot1.child("babList").getValue(String.class);
-                    bablistmodel bablistmodel = new bablistmodel(bablist);
-                    list.add(bablistmodel);
-                }
-                editQuizAdapter.notifyDataSetChanged();
-            }
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                list.clear();
+                Log.d(TAG, " List Cleared, reloading data");
+                collectionReference = db.collection("quiz").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot documentSnapshots : queryDocumentSnapshots.getDocuments()){
+                            Log.d(TAG, documentSnapshots.getId());
+                            String babList = documentSnapshots.getId();
+                            bablistmodel bablistmodel = new bablistmodel(babList);
+                            list.add(bablistmodel);
+                        }
+                        editQuizAdapter.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Get Document Id Failed :" + e.getMessage());
+                    }
+                });
             }
         });
- **/
-
     }
 }
