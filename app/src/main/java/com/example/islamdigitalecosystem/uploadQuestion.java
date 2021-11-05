@@ -124,27 +124,9 @@ public class uploadQuestion extends AppCompatActivity {
                 });
     }
 
-
-    public void saveBabList(){
-        databaseReference = firebaseDatabase.getReference("BabList");
-        bablistmodel bablistmodel = new bablistmodel(babQuiz.getText().toString());
-        databaseReference.push().setValue(bablistmodel).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Bab List Saved!!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-        });
-    }
-
     public void addQuestion(View view) {
         double imageName = Math.random();
         String imgName = String.valueOf(imageName);
-        saveBabList();
         if (imageSelectUri != null){
             final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(imgName);
             Log.d(TAG, "Image Ref : " + iRef);

@@ -20,6 +20,14 @@
     <string name="no_handphone">No Handphone</string>
     <string name="click_here">Click Here</string>
     <string name="hello_user">Hello User</string>
+    <string name="soal">Soal</string>
+    <string name="pilihan">Pilihan :</string>
+    <string name="pil_1">Pil. 1 :</string>
+    <string name="pil_2">Pil. 2 :</string>
+    <string name="pil_3">Pil. 3 :</string>
+    <string name="pil_4">Pil. 4 :</string>
+    <string name="kunci">Kunci :</string>
+    <string name="changeMedia">Change Media :</string>
 
 
 </resources>

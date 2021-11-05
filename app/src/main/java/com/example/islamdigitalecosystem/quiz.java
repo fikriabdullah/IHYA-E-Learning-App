@@ -158,7 +158,7 @@ public class quiz extends AppCompatActivity {
                             Picasso.with(quiz.this).load(imageUri).into(ivBasicImage);
                         }else {
                             imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                            //load audio
+                            //thenload audio
                         }
                         loadQuis.setIndeterminate(false);
                         loadQuis.setVisibility(View.INVISIBLE);
