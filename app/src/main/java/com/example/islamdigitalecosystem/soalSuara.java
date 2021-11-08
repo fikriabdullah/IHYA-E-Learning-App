@@ -216,6 +216,7 @@ public class soalSuara extends AppCompatActivity {
             mRecorder.prepare();
             mRecorder.start();
             Log.d(TAG, "Recording Started ");
+            Toast.makeText(this, "Recording Started", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(LOG_TAG, "Recording Failed : " + e.getMessage());

@@ -138,7 +138,6 @@ public class uploadQuestion extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             imgDownloadURL = uri;
                             Log.d(TAG, "Image Download URL : " + imgDownloadURL);
-
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override

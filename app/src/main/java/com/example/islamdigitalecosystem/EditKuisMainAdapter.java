@@ -11,18 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.data.DataHolder;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.security.AlgorithmConstraints;
 import java.util.ArrayList;
-
-import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapter.MyViewHolder> {
     ArrayList <Question> questionArrayList;
@@ -44,9 +41,9 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        String question = questionArrayList.get(position).getQuestion();
+        final String question = questionArrayList.get(position).getQuestion();
         holder.setQuestionData(question);
 
         String pil1 = questionArrayList.get(position).getOpt1();
@@ -64,7 +61,7 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
         String pilBenar = questionArrayList.get(position).getCrAnswer();
         holder.setPilBenar(pilBenar);
 
-        String imgDwnldUrl = questionArrayList.get(position).getImgDwnldUrl();
+        final String imgDwnldUrl = questionArrayList.get(position).getImgDwnldUrl();
         final String audioDwnldUrl = questionArrayList.get(position).getAudioDwnldUrl();
         if (imgDwnldUrl != null){
             holder.audioPlacehld.setVisibility(View.INVISIBLE);
@@ -95,8 +92,20 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
         }else {
           Log.d(TAG, "failed getting media dwnldUrl  :" + audioDwnldUrl + "\n" + imgDwnldUrl);
         }
-    }
 
+        holder.changeMedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "position : " + holder.getLayoutPosition());
+                Intent changeMedia = new Intent(context, changeMedia.class);
+                int pos = holder.getLayoutPosition();
+                changeMedia.putExtra("imgDwnldUrl", imgDwnldUrl);
+                changeMedia.putExtra("AudioDwnldUrl", audioDwnldUrl);
+                changeMedia.putExtra("documentRef", pos);
+                context.startActivity(changeMedia);
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {

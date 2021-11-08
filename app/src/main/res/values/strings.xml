@@ -28,6 +28,9 @@
     <string name="pil_4">Pil. 4 :</string>
     <string name="kunci">Kunci :</string>
     <string name="changeMedia">Change Media :</string>
+    <string name="save_media">Save Media</string>
+    <string name="change_image">Change Image</string>
+    <string name="change_audio">Change Audio</string>
 
 
 </resources>

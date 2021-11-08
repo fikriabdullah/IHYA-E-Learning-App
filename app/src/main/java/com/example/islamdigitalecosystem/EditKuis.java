@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -44,7 +45,6 @@ public class EditKuis extends AppCompatActivity {
         documentEditQuiz = getIntent().getStringExtra("BabReference");
         Log.d(TAG, "BabReference : " + documentEditQuiz);
 
-
         documentReference = db.collection("quiz").document(documentEditQuiz).collection(documentEditQuiz)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -58,5 +58,7 @@ public class EditKuis extends AppCompatActivity {
                     }
                 });
 
+        Singleton babref = Singleton.getInstance();
+        babref.setBabReference(documentEditQuiz);
     }
 }
