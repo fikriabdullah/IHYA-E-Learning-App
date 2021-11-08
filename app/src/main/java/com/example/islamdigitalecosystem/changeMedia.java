@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
@@ -43,7 +44,7 @@ public class changeMedia extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     private ImageView mediaPlaceHld;
     private String getAudioDwnldUrl, getImgDwnldUrl, BabReference;
-    Singleton babref;
+    private Singleton babref;
     int getDocumentRef, documentReferences;
     private MediaRecorder mRecorder;
     Uri imageSelectUri, imageSelectUriTemp, imgDownloadUrl;
@@ -54,9 +55,6 @@ public class changeMedia extends AppCompatActivity {
     StorageReference storage;
     private static final String RECORD_LOG = "recordLog : ";
     private static final int PICK_IMAGE_REQUEST = 1;
-    DocumentReference documentReference;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +108,7 @@ public class changeMedia extends AppCompatActivity {
         //findout how to get babref w/o using intent
         //update new Media uri to firebase frstr and frbase strg !!WARNING ADD THE DOCREF +1
         //if success, send back to edit quiz main page
+        final Context context = view.getContext();
         if (getAudioDwnldUrl != null){
             //save to field audiodwnldurl on firebase
             if (audioRecordUri != null){
@@ -137,6 +136,7 @@ public class changeMedia extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d(TAG, "Update Media Failed!!"+ e.getMessage());
+                                        Toast.makeText(context, "Update Media Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -144,6 +144,7 @@ public class changeMedia extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "Get Dwnld URL failed " + e.getMessage());
+                                Toast.makeText(context, "Get Download Media Failed", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -151,6 +152,7 @@ public class changeMedia extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "Put audio file failed " + e.getMessage());
+                        Toast.makeText(context, "Upload audio File Failed", Toast.LENGTH_LONG).show();
                     }
                 });
             }else {
@@ -186,6 +188,7 @@ public class changeMedia extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d(TAG, "Udate Dwnld Img url failed"+e.getMessage());
+                                        Toast.makeText(context, "Update Media Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -193,6 +196,7 @@ public class changeMedia extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "get img dwnld url failed"+e.getMessage());
+                                Toast.makeText(context, "get Download URL Media Failed", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -200,6 +204,7 @@ public class changeMedia extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "Put image failed" + e.getMessage());
+                        Toast.makeText(context, "Upload Image Failed", Toast.LENGTH_LONG).show();
                     }
                 });
             }

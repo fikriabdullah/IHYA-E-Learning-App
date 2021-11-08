@@ -11,22 +11,32 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.data.DataHolder;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapter.MyViewHolder> {
     ArrayList <Question> questionArrayList;
     Context context;
     MediaPlayer mediaPlayer;
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private Singleton babRef;
     private static final String TAG ="EditKuisMainAdapter : ";
+    FirebaseFirestore db;
 
     public EditKuisMainAdapter(ArrayList<Question> questionArrayList){
         this.questionArrayList = questionArrayList;
@@ -42,7 +52,6 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-
         final String question = questionArrayList.get(position).getQuestion();
         holder.setQuestionData(question);
 
@@ -63,6 +72,10 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
 
         final String imgDwnldUrl = questionArrayList.get(position).getImgDwnldUrl();
         final String audioDwnldUrl = questionArrayList.get(position).getAudioDwnldUrl();
+        babRef = Singleton.getInstance();
+        final String babReference = babRef.getBabReference();
+        Log.d(TAG, "BabReference : " + babReference);
+
         if (imgDwnldUrl != null){
             holder.audioPlacehld.setVisibility(View.INVISIBLE);
             holder.loadImage(imgDwnldUrl);
@@ -105,6 +118,50 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                 context.startActivity(changeMedia);
             }
         });
+
+        holder.saveQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Context context = view.getContext();
+                String questionNew = holder.soal.getText().toString();
+                String pil1New = holder.pil1.getText().toString();
+                String pil2New = holder.pil2.getText().toString();
+                String pil3New = holder.pil3.getText().toString();
+                String pil4New = holder.pil4.getText().toString();
+                String pilCrNew = holder.pilBenar.getText().toString();
+
+                int postn = holder.getLayoutPosition()+1;
+                String Position = String.valueOf(postn);
+
+                Log.d(TAG, "babReference : " + babReference + "\n" + "document Reference : " + Position);
+
+                try {
+                    db = FirebaseFirestore.getInstance();
+                    db.collection("quiz").document(babReference).collection(babReference)
+                            .document("Question" + Position)
+                    .update("question", questionNew,
+                            "opt1", pil1New,
+                            "opt2", pil2New,
+                            "opt3", pil3New,
+                            "opt4", pil4New,
+                            "crAnswer", pilCrNew).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Success");
+                            Toast.makeText(context, "Update Saved!!", Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Failed : " + e.getMessage());
+                        }
+                    });
+                }catch (Exception e){
+                    Log.d(TAG, "Error : " + e.getMessage());
+                    Toast.makeText(context, "Update document Failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -116,14 +173,14 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
         private ImageView imgPlacehld, audioPlacehld;
         Context context;
         private EditText soal, pil1, pil2, pil3, pil4, pilBenar;
-        private Button changeMedia;
+        private Button changeMedia, saveQuestion;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             audioPlacehld = itemView.findViewById(R.id.imageOrVoiceEdit2);
             imgPlacehld = itemView.findViewById(R.id.imageOrVoiceEdit);
             context = itemView.getContext();
             changeMedia = itemView.findViewById(R.id.btChangeMedia);
-
+            saveQuestion = itemView.findViewById(R.id.btSaveEdit);
         }
         public void setQuestionData(String questionData){
             soal = itemView.findViewById(R.id.etEditQuestMain);

@@ -274,11 +274,23 @@
                 android:id="@+id/btChangeMedia"
                 android:layout_width="155dp"
                 android:layout_height="38dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/bg_button"
                 android:text="@string/changeMedia"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.55"
+                app:layout_constraintHorizontal_bias="0.521"
+                app:layout_constraintStart_toEndOf="@+id/imageOrVoiceEdit"
+                app:layout_constraintTop_toBottomOf="@+id/etCrAnswerEdit" />
+
+            <Button
+                android:id="@+id/btSaveEdit"
+                android:layout_width="155dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="92dp"
+                android:background="@drawable/bg_button"
+                android:text="@string/save_question"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.521"
                 app:layout_constraintStart_toEndOf="@+id/imageOrVoiceEdit"
                 app:layout_constraintTop_toBottomOf="@+id/etCrAnswerEdit" />
 

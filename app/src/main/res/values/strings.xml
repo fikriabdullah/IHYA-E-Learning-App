@@ -31,6 +31,7 @@
     <string name="save_media">Save Media</string>
     <string name="change_image">Change Image</string>
     <string name="change_audio">Change Audio</string>
+    <string name="save_question">Save Question</string>
 
 
 </resources>
