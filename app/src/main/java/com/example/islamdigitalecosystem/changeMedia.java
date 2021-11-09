@@ -21,16 +21,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -208,9 +201,9 @@ public class changeMedia extends AppCompatActivity {
                     }
                 });
             }
-            }else {
-                Toast.makeText(this, "Tekan Change Image Untuk Pilih Gambar", Toast.LENGTH_LONG).show();
-            }
+        }else {
+            Toast.makeText(this, "Tekan Change Image Untuk Pilih Gambar", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void changeImage(View view) {

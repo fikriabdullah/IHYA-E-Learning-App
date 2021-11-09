@@ -17,7 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,8 +24,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class BabListEditKuis extends AppCompatActivity {
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference reference;
     private RecyclerView recyclerView;
     EditQuizAdapter editQuizAdapter;
     private final static String TAG = "BabListEditQUiz";
@@ -43,7 +40,6 @@ public class BabListEditKuis extends AppCompatActivity {
         recyclerView = findViewById(R.id.bablistEditQuizRV);
         editQuizAdapter = new EditQuizAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        firebaseDatabase = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
         recyclerView.setAdapter(editQuizAdapter);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);

@@ -32,6 +32,11 @@
     <string name="change_image">Change Image</string>
     <string name="change_audio">Change Audio</string>
     <string name="save_question">Save Question</string>
-
+    <string name="tulis_materi_disini_optional">Tulis Materi Disini (Optional)</string>
+    <string name="judul_materi">Judul Materi</string>
+    <string name="upload">Upload</string>
+    <string name="select_file">Select File</string>
+    <string name="download_file">Download File</string>
+    <string name="please_dwnld">Silahkan Klik Download PDF untuk mendownload Materi</string>
 
 </resources>

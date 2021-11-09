@@ -16,22 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.data.DataHolder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapter.MyViewHolder> {
-    ArrayList <Question> questionArrayList;
+    ArrayList<Question> questionArrayList;
     Context context;
     MediaPlayer mediaPlayer;
     private Singleton babRef;
@@ -103,7 +97,7 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                 }
             });
         }else {
-          Log.d(TAG, "failed getting media dwnldUrl  :" + audioDwnldUrl + "\n" + imgDwnldUrl);
+            Log.d(TAG, "failed getting media dwnldUrl  :" + audioDwnldUrl + "\n" + imgDwnldUrl);
         }
 
         holder.changeMedia.setOnClickListener(new View.OnClickListener() {
@@ -139,12 +133,12 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                     db = FirebaseFirestore.getInstance();
                     db.collection("quiz").document(babReference).collection(babReference)
                             .document("Question" + Position)
-                    .update("question", questionNew,
-                            "opt1", pil1New,
-                            "opt2", pil2New,
-                            "opt3", pil3New,
-                            "opt4", pil4New,
-                            "crAnswer", pilCrNew).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .update("question", questionNew,
+                                    "opt1", pil1New,
+                                    "opt2", pil2New,
+                                    "opt3", pil3New,
+                                    "opt4", pil4New,
+                                    "crAnswer", pilCrNew).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Success");

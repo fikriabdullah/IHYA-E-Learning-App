@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -44,9 +43,11 @@ public class EditQuizAdapter extends RecyclerView.Adapter<EditQuizAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final  String babListData = bablistmodels.get(position).getBabList();
+        holder.setBabList(babListData);
+
         db = FirebaseFirestore.getInstance();
         collectionReference = db.collection("quiz");
-        holder.setBabList(babListData);
+
 
         holder.startEditQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +60,18 @@ public class EditQuizAdapter extends RecyclerView.Adapter<EditQuizAdapter.MyView
         holder.deleteBab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collectionReference.document(babListData).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Document Deleted");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Delete Document Failed : " + e.getMessage());
-                    }
-                });
+                try {
+                    collectionReference.document(babListData).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Document Deleted");
+                            Toast.makeText(context, "Document Deleted, Pull Down To Refresh Page", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }catch (Exception e){
+                    Log.d(TAG, "Delete Document Failed : " + e.getMessage());
+                    Toast.makeText(context, "Document Delete Failed ", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

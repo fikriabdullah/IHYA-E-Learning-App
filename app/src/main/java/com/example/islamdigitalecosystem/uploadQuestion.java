@@ -129,7 +129,6 @@ public class uploadQuestion extends AppCompatActivity {
         String imgName = String.valueOf(imageName);
         if (imageSelectUri != null){
             final StorageReference imageReference = FirebaseStorage.getInstance().getReference().child("image").child(imgName);
-            Log.d(TAG, "Image Ref : " + iRef);
             imageReference.putFile(imageSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
