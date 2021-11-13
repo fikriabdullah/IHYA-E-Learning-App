@@ -51,17 +51,23 @@ public class materiBab1 extends AppCompatActivity {
                     pdfDwnldUrl = modelClass.getFileDwnldUrl();
                     Log.d(TAG, "cntn1 : " + contentMateri + "\n" + "url1 : " + pdfDwnldUrl);
                     try {
-                        if (!contentMateri.equals(null) || !contentMateri.equals(" ")){
-                            Log.d(TAG, "cntn : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
+                        if (pdfDwnldUrl.equals(null) && (!contentMateri.equals(" ")&&!contentMateri.equals(null))){
+                            Log.d(TAG, "pdf gak, materi ada : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
                             textview.setText(contentMateri);
                             textview.setMovementMethod(new ScrollingMovementMethod());
                             dwnldPDF.setVisibility(View.INVISIBLE);
                             dwnldPDF.setClickable(false);
-                        }else if ((contentMateri.equals(null)||contentMateri.equals(" "))&&!pdfDwnldUrl.equals(null)){
-                            Log.d(TAG, "cntn : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
+                        }else if ((contentMateri.equals(null) && contentMateri.equals(" ")) && !pdfDwnldUrl.equals(null)){
+                            Log.d(TAG, "materi gak, pdf ada : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
                             dwnldPDF.setVisibility(View.VISIBLE);
                             dwnldPDF.setClickable(true);
                             textview.setText(R.string.please_dwnld);
+                        }else if ((!contentMateri.equals(null) && !contentMateri.equals(" ")) && !pdfDwnldUrl.equals(null)) {
+                            Log.d(TAG, "pdf ada, materi ada : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
+                           dwnldPDF.setVisibility(View.VISIBLE);
+                           dwnldPDF.setClickable(true);
+                           textview.setText(contentMateri);
+                           textview.setMovementMethod(new ScrollingMovementMethod());
                         }
                         else {
                             throw new Exception("Something Went Wrong..");

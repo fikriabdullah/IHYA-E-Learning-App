@@ -48,16 +48,16 @@ public class uploadMateri extends AppCompatActivity {
 
     public void pushMateri(final View view) {
         try {
-            if (jdulField.getText().toString().equals(null)){
+            if (jdulField.getText().toString().trim().equals(null)){
                 throw new NullPointerException("Please Fill The Bab Field!!");
             }else {
                 try {
-                    if (materiField.getText().toString().equals(null) && pdfSelectUri==null ||
+                    if (materiField.getText().toString().trim().equals(null) && pdfSelectUri==null ||
                             materiField.getText().toString().equals("") && pdfSelectUri==null){
                             throw new NullPointerException("Please Fill Materi Form Or Selec A PDF File");
                     }else {
                         Log.d(TAG, "BabRefer:" + jdulField.getText().toString());
-                        if (pdfSelectUri != null && materiField.getText().toString().equals(null)) {
+                        if (pdfSelectUri != null && materiField.getText().toString().trim().equals(null)) {
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
                             pdfReference.putFile(pdfSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -106,9 +106,9 @@ public class uploadMateri extends AppCompatActivity {
                                     Toast.makeText(view.getContext(), "Uploading PDF failed", Toast.LENGTH_LONG).show();
                                 }
                             });
-                        } else if (pdfSelectUri == null && !materiField.getText().toString().equals(null)) {
+                        } else if (pdfSelectUri == null && !materiField.getText().toString().trim().equals(null)) {
                             materiModelClass modelClass = new materiModelClass();
-                            modelClass.setMateriContent(materiField.getText().toString());
+                            modelClass.setMateriContent(materiField.getText().toString().trim());
                             collectionReference = db.collection("Materi");
                             DocumentReference babRefDummy = collectionReference.document(jdulField.getText().toString());
                             Map<String, Object> dummyMapping = new HashMap<>();
@@ -130,7 +130,7 @@ public class uploadMateri extends AppCompatActivity {
                                 }
                             });
 
-                        }else if (pdfSelectUri != null && !jdulField.getText().toString().equals(null) ){
+                        }else if (pdfSelectUri != null && !jdulField.getText().toString().trim().equals(null) ){
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
                             pdfReference.putFile(pdfSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -143,7 +143,7 @@ public class uploadMateri extends AppCompatActivity {
 
                                             materiModelClass modelClass = new materiModelClass();
                                             modelClass.setFileDwnldUrl(pdfDwnldUrl);
-                                            modelClass.setMateriContent(materiField.getText().toString());
+                                            modelClass.setMateriContent(materiField.getText().toString().trim());
 
                                             collectionReference = db.collection("Materi");
                                             DocumentReference babRefDummy = collectionReference.document(jdulField.getText().toString());

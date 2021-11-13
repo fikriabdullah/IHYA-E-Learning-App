@@ -15,17 +15,17 @@
         android:gravity="top|start"
         android:hint="@string/tulis_materi_disini_optional"
         android:inputType="textMultiLine"
+        android:background="@drawable/bg_edit"
         android:lines="8"
         android:maxLines="10"
         android:minLines="6"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <EditText
         android:id="@+id/etBabMateri"
-        android:layout_width="421dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@drawable/bg_edit"
         android:gravity="center_vertical"
