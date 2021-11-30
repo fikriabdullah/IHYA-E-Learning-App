@@ -2,6 +2,7 @@ package com.example.islamdigitalecosystem;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.Date;
 import java.util.List;
 
 public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.ViewHolder> {
+    private static final String TAG = "CommentRecyclerAdapter";
     public List<Comments> comments_list;
     private Context context;
 
@@ -39,11 +43,13 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         String userID = comments_list.get(position).getUserID();
         holder.setUserId(userID);
 
-        long dateText = comments_list.get(position).getTimestamp().getTime();
-        String dateString = DateFormat.format("dd/MM/yyy", new Date(dateText)).toString();
-        holder.setCommentDate(dateString);
-
-
+        try {
+            long dateText = comments_list.get(position).getTimestamp().getTime();
+            String dateString = DateFormat.format("dd/MM/yyyy  hh:mm", new Date(dateText)).toString();
+            holder.setCommentDate(dateString);
+        }catch (Exception e){
+            Log.d(TAG, "Failed to load date : " +e.getMessage());
+        }
     }
 
     @Override

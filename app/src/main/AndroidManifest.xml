@@ -34,6 +34,7 @@
         <activity android:name=".alquranfitur" />
         <activity android:name=".pengetahuan" />
         <activity android:name=".uploadQuestion" />
+        <activity android:name=".edit_profile" />
         <activity android:name=".soalSuara" />
         <activity android:name=".uploadMateri" />
         <activity android:name=".pilihanSoal" />

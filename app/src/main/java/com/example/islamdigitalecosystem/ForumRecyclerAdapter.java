@@ -47,7 +47,7 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
         holder.setUserID(userIDdata);
 
         long milisecond = forum_list.get(position).getTimestamp().getTime();
-        String dateString = DateFormat.format("dd/MM/yyyy", new Date(milisecond)).toString();
+        String dateString = DateFormat.format("dd/MM/yyyy  hh:mm", new Date(milisecond)).toString();
         holder.setTime(dateString);
 
         holder.blogCommentBtn.setOnClickListener(new View.OnClickListener() {

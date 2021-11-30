@@ -98,6 +98,7 @@ public class commentActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentReference> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(commentActivity.this, "Adding Comment Complete", Toast.LENGTH_LONG).show();
+                        commentfield.setText("");
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {

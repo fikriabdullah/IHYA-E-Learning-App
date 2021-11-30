@@ -4,194 +4,217 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/android"
+    android:background="@drawable/biru"
     tools:context=".uploadQuestion">
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="184dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50"
-        app:layout_constraintGuide_begin="162dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.75"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="162dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.92"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="162dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.05"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="162dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideliner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95"
-        app:layout_constraintGuide_begin="162dp" />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08"
-        app:layout_constraintGuide_begin="162dp" />
-
-    <EditText
-        android:id="@+id/etBabQuiz"
-        android:layout_width="90dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/bg_edit"
-        android:hint="Bab :"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideliner"
-        app:layout_constraintTop_toBottomOf="@+id/guidelinet" />
-
-    <ImageView
-        android:id="@+id/imgSelection"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="104dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintEnd_toStartOf="@id/pilihGambar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/guidelinel"
-        app:layout_constraintTop_toBottomOf="@id/guidelinet" />
-
-    <Button
-        android:id="@+id/pilihGambar"
-        android:layout_width="144dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/bg_button"
-        android:onClick="pickImage"
-        android:text="Pilih Gambar"
-        app:layout_constraintEnd_toStartOf="@+id/guideliner"
-        app:layout_constraintTop_toBottomOf="@+id/guideline1" />
-
-    <EditText
-        android:id="@+id/etOpt1"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="316dp"
-        android:layout_marginEnd="208dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Jawaban 1"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@id/guidelinet" />
-
-    <EditText
-        android:id="@+id/etPert"
-        android:layout_width="421dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="264dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Pertanyaan"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@id/guidelinet" />
-
-    <EditText
-        android:id="@+id/etOpt4"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="208dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Jawaban 4"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@id/etOpt3" />
-
-    <EditText
-        android:id="@+id/etOpt3"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="208dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Jawaban 3"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@id/etOpt2" />
-
-    <EditText
-        android:id="@+id/etOpt2"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="208dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Jawaban 2"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@+id/etOpt1" />
-
-    <EditText
-        android:id="@+id/etCrOpt"
-        android:layout_width="88dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:hint="Kunci"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintTop_toBottomOf="@+id/etOpt4"
-        app:layout_constraintVertical_bias="0.327" />
-
-    <Button
-        android:id="@+id/btUploadQuestion"
-        android:layout_width="155dp"
-        android:layout_height="38dp"
-        android:background="@drawable/bg_button"
-        android:onClick="addQuestion"
-        android:text="Upload Question"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@id/guideliner"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toEndOf="@id/guidelinel"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.901" />
 
     <ProgressBar
         android:id="@+id/progressBarUpQ"
-        app:layout_constraintTop_toBottomOf="@id/guidelinet"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="83dp" />
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="393dp"
+        android:layout_height="642dp"
+        android:background="@drawable/bg_login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="184dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="162dp"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="162dp"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="162dp"
+            app:layout_constraintGuide_percent="0.92" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="162dp"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideliner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="162dp"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="29dp"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <EditText
+            android:id="@+id/etBabQuiz"
+            android:layout_width="90dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/bg_kuis"
+            android:hint="Bab :"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideliner"
+            app:layout_constraintTop_toBottomOf="@+id/guidelinet" />
+
+        <ImageView
+            android:id="@+id/imgSelection"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="36dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toStartOf="@id/pilihGambar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/guidelinel"
+            app:layout_constraintTop_toBottomOf="@id/guidelinet" />
+
+        <Button
+            android:id="@+id/pilihGambar"
+            android:layout_width="145dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_button"
+            android:onClick="pickImage"
+            android:text="Pilih Gambar"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/guideliner"
+            app:layout_constraintTop_toBottomOf="@+id/guideline1" />
+
+        <EditText
+            android:id="@+id/etOpt1"
+            android:layout_width="170dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="276dp"
+            android:layout_marginEnd="188dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Jawaban 1"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintTop_toBottomOf="@id/guidelinet" />
+
+        <EditText
+            android:id="@+id/etPert"
+            android:layout_width="359dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="220dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Pertanyaan"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guidelinet" />
+
+        <EditText
+            android:id="@+id/etOpt4"
+            android:layout_width="170dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Jawaban 4"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintTop_toBottomOf="@+id/etOpt2" />
+
+        <EditText
+            android:id="@+id/etOpt3"
+            android:layout_width="170dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="188dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Jawaban 3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintTop_toBottomOf="@+id/etOpt1" />
+
+        <EditText
+            android:id="@+id/etOpt2"
+            android:layout_width="170dp"
+            android:layout_height="35dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Jawaban 2"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.54" />
+
+        <EditText
+            android:id="@+id/etCrOpt"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="268dp"
+            android:background="@drawable/bg_kuis"
+            android:gravity="center_vertical"
+            android:hint="Kunci"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintTop_toBottomOf="@+id/etOpt4"
+            app:layout_constraintVertical_bias="0.201" />
+
+        <Button
+            android:id="@+id/btUploadQuestion"
+            android:layout_width="188dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_button"
+            android:onClick="addQuestion"
+            android:text="Upload Question"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
+            app:layout_constraintEnd_toStartOf="@id/guideliner"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toEndOf="@id/guidelinel"
+            app:layout_constraintTop_toTopOf="@+id/guideline4"
+            app:layout_constraintVertical_bias="0.901" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

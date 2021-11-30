@@ -235,6 +235,10 @@ public class changeMedia extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
                     if (ActivityCompat.checkSelfPermission(changeMedia.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                             && ActivityCompat.checkSelfPermission(changeMedia.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(changeMedia.this, new String[]{Manifest.permission.RECORD_AUDIO}, 10);

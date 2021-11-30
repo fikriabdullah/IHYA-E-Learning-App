@@ -38,5 +38,7 @@
     <string name="select_file">Select File</string>
     <string name="download_file">Download File</string>
     <string name="please_dwnld">Silahkan Klik Download PDF untuk mendownload Materi</string>
+    <string name="Username" />
+    <string name="delete_question">Delete Question</string>
 
 </resources>
