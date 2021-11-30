@@ -6,85 +6,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/biru">
 
-<<<<<<< HEAD
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/upload"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-=======
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:gravity="top|start"
-        android:hint="@string/tulis_materi_disini_optional"
-        android:inputType="textMultiLine"
-        android:background="@drawable/bg_edit"
-        android:lines="8"
-        android:maxLines="10"
-        android:minLines="6"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-    <EditText
-        android:id="@+id/etBabMateri"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="@drawable/bg_edit"
-        android:gravity="center_vertical"
-        android:inputType="text"
-        android:hint="@string/judul_materi"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="298dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="132dp"
-        android:fontFamily="@font/baloo"
-        android:text="Upload Materi"
-        android:textColor="#B3E8E6E6"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.407"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/selectFile"
-        android:layout_width="164dp"
-        android:layout_height="46dp"
-        android:background="@drawable/bg_button"
-        android:onClick="pickDocument"
-        android:text="@string/select_file"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.93"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.714" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="149dp"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_button"
-        android:text="@string/upload"
-        android:onClick="pushMateri"
-        app:layout_constraintBottom_toBottomOf="parent"
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.625" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,7 +92,3 @@
             app:layout_constraintVertical_bias="0.973" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-=======
-        app:layout_constraintVertical_bias="0.955" />
-</androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b

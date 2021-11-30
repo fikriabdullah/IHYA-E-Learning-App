@@ -44,13 +44,8 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
     FlipperLayout flipperLayout;
     MeowBottomNavigation bottomNavigation;
     private final int ID_Home = 1;
-<<<<<<< HEAD
     private static final String TAG = "homeMainAct: ";
     private final int ID_profile = 2;
-=======
-    private final int ID_profile = 2;
-    private final int ID_pengetahuan = 3;
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
     private Object FrameLayout;
 
     @Override
@@ -60,7 +55,6 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
         MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_nav);
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_Home,R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_profile,R.drawable.ic_notification));
-<<<<<<< HEAD
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
@@ -74,13 +68,6 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
                     startActivity(intent);
                 }
 
-=======
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_pengetahuan,R.drawable.ic_games));
-        bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
-            @Override
-            public void onClickItem(MeowBottomNavigation.Model item) {
-                Toast.makeText(home.this, "cliked" + item.getId(),Toast.LENGTH_SHORT).show();
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
             }
         });
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
@@ -90,7 +77,6 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
                 switch (item.getId()){
                     case ID_Home: Name = "Home";
                     break;
-<<<<<<< HEAD
                     case ID_profile: Name = "notif";
                     break;
                     default:Name= "Home";
@@ -98,17 +84,6 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         });
         bottomNavigation.setCount(ID_Home,"2");
-=======
-                    case ID_pengetahuan: Name = "Pengetahuan";
-                    break;
-                    case ID_profile: Name = "notif";
-                    break;
-                    default:Name= "";
-                }
-            }
-        });
-        bottomNavigation.setCount(ID_pengetahuan,"3");
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         bottomNavigation.show(ID_Home,true);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

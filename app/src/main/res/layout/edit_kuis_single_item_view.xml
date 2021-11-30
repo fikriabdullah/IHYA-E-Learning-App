@@ -19,7 +19,6 @@
         <LinearLayout
             android:id="@+id/startEditQuizButton"
             android:layout_width="match_parent"
-<<<<<<< HEAD
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -49,28 +48,6 @@
 
             </LinearLayout>
 
-=======
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:id="@+id/tvBabView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Bab 1"
-                android:layout_marginLeft="140dp"
-                android:textSize="40dp"
-                android:textStyle="bold" />
-            <ImageView
-                android:id="@+id/deleteBab"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/delete"
-                />
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>

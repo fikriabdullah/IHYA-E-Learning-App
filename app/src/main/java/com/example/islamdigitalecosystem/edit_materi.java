@@ -2,7 +2,6 @@ package com.example.islamdigitalecosystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.util.Log;
 import android.view.View;
 
@@ -32,18 +31,10 @@ public class edit_materi extends AppCompatActivity {
     private static final String TAG = "editMateriBablist";
     private ArrayList<pengetahuanData> list;
 
-=======
-import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class edit_materi extends AppCompatActivity {
-
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_materi);
-<<<<<<< HEAD
         list = new ArrayList<>();
         recyclerView = findViewById(R.id.editMateriBabListrv);
         edit_materi_adapter = new edit_materi_adapter(list);
@@ -94,9 +85,6 @@ public class edit_materi extends AppCompatActivity {
                 });
             }
         });
-=======
-
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
     }
 
 

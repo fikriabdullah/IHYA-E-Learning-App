@@ -46,11 +46,8 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-<<<<<<< HEAD
         db = FirebaseFirestore.getInstance();
 
-=======
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         final String question = questionArrayList.get(position).getQuestion();
         holder.setQuestionData(question);
 
@@ -135,10 +132,6 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                 Log.d(TAG, "babReference : " + babReference + "\n" + "document Reference : " + Position);
 
                 try {
-<<<<<<< HEAD
-=======
-                    db = FirebaseFirestore.getInstance();
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
                     db.collection("quiz").document(babReference).collection(babReference)
                             .document("Question" + Position)
                             .update("question", questionNew,
@@ -164,7 +157,6 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                 }
             }
         });
-<<<<<<< HEAD
 
         holder.deleteQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,8 +186,6 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
                 }
             }
         });
-=======
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
     }
 
     @Override
@@ -207,11 +197,7 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
         private ImageView imgPlacehld, audioPlacehld;
         Context context;
         private EditText soal, pil1, pil2, pil3, pil4, pilBenar;
-<<<<<<< HEAD
         private Button changeMedia, saveQuestion, deleteQuestion;
-=======
-        private Button changeMedia, saveQuestion;
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             audioPlacehld = itemView.findViewById(R.id.imageOrVoiceEdit2);
@@ -219,10 +205,7 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
             context = itemView.getContext();
             changeMedia = itemView.findViewById(R.id.btChangeMedia);
             saveQuestion = itemView.findViewById(R.id.btSaveEdit);
-<<<<<<< HEAD
             deleteQuestion = itemView.findViewById(R.id.btDelQuestion);
-=======
->>>>>>> bfe16d6cce04ec4d17082ab3cd813ad3f359d98b
         }
         public void setQuestionData(String questionData){
             soal = itemView.findViewById(R.id.etEditQuestMain);
