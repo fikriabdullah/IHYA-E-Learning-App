@@ -5,6 +5,7 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -102,43 +104,82 @@ public class quiz extends AppCompatActivity {
     public void getQuestionSet() {
         loadQuis.setVisibility(View.VISIBLE);
         loadQuis.setIndeterminate(true);
-        AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
-                .addPathParameter("bab", FinalBabRefereence)
-                .addPathParameter("QNumber",docRef )
-                .setTag(this)
-                .setPriority(Priority.IMMEDIATE)
-                .build()
-                .getAsObject(Question.class, new ParsedRequestListener<Question>() {
-                    @Override
-                    public void onResponse(Question question) {
-                       String Quest =  question.getQuestion();
-                       String opt1 = question.getOpt1();
-                       String opt2 = question.getOpt2();
-                       String opt3 = question.getOpt3();
-                       String opt4 = question.getOpt4();
 
-                        if (Quest == null){
-                            tvQuestion.setVisibility(View.INVISIBLE);
-                            imageQuestion.setImageResource(R.drawable.ic_play_audio);
-                            Log.d(TAG, "question result : " + Quest);
-                            getQuestionImage(); //check and load audio
+           AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                   .addPathParameter("bab", FinalBabRefereence)
+                   .addPathParameter("QNumber",docRef )
+                   .setTag(this)
+                   .setPriority(Priority.IMMEDIATE)
+                   .build()
+                   .getAsObject(Question.class, new ParsedRequestListener<Question>() {
+                       @Override
+                       public void onResponse(Question question) {
+                           String Quest =  question.getQuestion();
+                           String opt1 = question.getOpt1();
+                           String opt2 = question.getOpt2();
+                           String opt3 = question.getOpt3();
+                           String opt4 = question.getOpt4();
 
-                        }else {
-                            tvQuestion.setVisibility(View.VISIBLE);
-                            tvQuestion.setText(Quest);
-                            getQuestionImage();//load question image using picasso
-                        }
-                        rbAnswer1.setText(opt1);
-                        rbAnswer2.setText(opt2);
-                        rbAnswer3.setText(opt3);
-                        rbAnswer4.setText(opt4);
-                    }
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d(TAG, "Getting Question Errror : " + anError.getCause());
-                    }
-                });
-            }
+                           if (Quest == null){
+                               tvQuestion.setVisibility(View.INVISIBLE);
+                               imageQuestion.setImageResource(R.drawable.ic_play_audio);
+                               Log.d(TAG, "question result : " + Quest);
+                               getQuestionImage(); //check and load audio
+
+                           }else {
+                               tvQuestion.setVisibility(View.VISIBLE);
+                               tvQuestion.setText(Quest);
+                               getQuestionImage();//load question image using picasso
+                           }
+                           rbAnswer1.setText(opt1);
+                           rbAnswer2.setText(opt2);
+                           rbAnswer3.setText(opt3);
+                           rbAnswer4.setText(opt4);
+                       }
+                       @Override
+                       public void onError(ANError anError) {
+                           Log.d(TAG, "first attempt Question Errror : " + anError.getCause());
+                           qNum = qNum+1;
+                           docRef = "Question"+qNum;
+                                   AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
+                                           .addPathParameter("bab", FinalBabRefereence)
+                                           .addPathParameter("QNumber",docRef )
+                                           .setTag(this)
+                                           .setPriority(Priority.IMMEDIATE)
+                                           .build()
+                                           .getAsObject(Question.class, new ParsedRequestListener<Question>() {
+                                               @Override
+                                               public void onResponse(Question question) {
+                                                   String Quest =  question.getQuestion();
+                                                   String opt1 = question.getOpt1();
+                                                   String opt2 = question.getOpt2();
+                                                   String opt3 = question.getOpt3();
+                                                   String opt4 = question.getOpt4();
+                                                   Log.d(TAG, "docref:" + docRef);
+                                                   if (Quest == null){
+                                                       tvQuestion.setVisibility(View.INVISIBLE);
+                                                       imageQuestion.setImageResource(R.drawable.ic_play_audio);
+                                                       Log.d(TAG, "question result : " + Quest);
+                                                       getQuestionImage(); //check and load audio
+
+                                                   }else {
+                                                       tvQuestion.setVisibility(View.VISIBLE);
+                                                       tvQuestion.setText(Quest);
+                                                       getQuestionImage();//load question image using picasso
+                                                   }
+                                                   rbAnswer1.setText(opt1);
+                                                   rbAnswer2.setText(opt2);
+                                                   rbAnswer3.setText(opt3);
+                                                   rbAnswer4.setText(opt4);
+                                               }
+                                               @Override
+                                               public void onError(ANError anError) {
+                                                   Log.d(TAG, "Getting Question Errror : " + anError.getCause());
+                                               }
+                                           });
+                                     }
+                   });
+       }
 
     public void getQuestionImage(){
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
