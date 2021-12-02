@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -44,12 +45,61 @@ public class DashboardGuru extends AppCompatActivity {
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
     FlipperLayout flipperLayout;
+    MeowBottomNavigation bottomNavigation;
+    private final int ID_Home = 1;
+    private static final String TAG = "homeMainAct: ";
+    private final int ID_profile = 2;
+    private Object FrameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_guru);
         flipperLayout = (FlipperLayout) findViewById(R.id.imageSlider);
         setLayout();
+        MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_nav);
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_Home,R.drawable.ic_home));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_profile,R.drawable.account));
+        bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
+            @Override
+            public void onClickItem(MeowBottomNavigation.Model item) {
+                if(item.getId() == 1){
+                    Log.d(TAG, "item id : " + item.getId()+ "\nStarting Dashboard");
+                    Intent intent = new Intent(DashboardGuru.this, DashboardGuru.class);
+                    startActivity(intent);
+                }else if (item.getId() == 2){
+                    Log.d(TAG, "item id : " + item.getId() + "\nStarting Edit Profile");
+                    Intent intent = new Intent(DashboardGuru.this, edit_profile.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                Log.d(TAG, ""+item.getId());
+            }
+        });
+
+        bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+            @Override
+            public void onShowItem(MeowBottomNavigation.Model item) {
+                String Name;
+                switch (item.getId()){
+                    case ID_Home: Name = "Home";
+                        break;
+                    case ID_profile: Name = "notif";
+                        break;
+                    default:Name= "Home";
+                }
+            }
+        });
+        bottomNavigation.setCount(ID_Home,"2");
+        bottomNavigation.show(ID_Home,true);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
     }
     private void setLayout() {
         int image[] = {

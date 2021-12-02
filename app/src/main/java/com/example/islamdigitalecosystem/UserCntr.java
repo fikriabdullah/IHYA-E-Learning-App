@@ -2,6 +2,10 @@ package com.example.islamdigitalecosystem;
 
 public class UserCntr {
 
+    public UserCntr(){
+
+    }
+
     public UserCntr(String username, String email, String noTelp, String role) {
         this.username = username;
         Email = email;

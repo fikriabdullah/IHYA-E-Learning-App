@@ -30,6 +30,7 @@
         <activity android:name=".regis" />
         <activity android:name=".edit_materi" />
         <activity android:name=".login" />
+        <activity android:name=".edit_profile_student"/>
         <activity android:name=".kisah" />
         <activity android:name=".alquranfitur" />
         <activity android:name=".pengetahuan" />

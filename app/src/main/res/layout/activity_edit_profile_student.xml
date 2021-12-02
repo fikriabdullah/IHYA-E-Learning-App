@@ -61,7 +61,7 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/teacherEmail"
+                        android:id="@+id/studentEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
@@ -91,7 +91,7 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/teacherPhone"
+                        android:id="@+id/studentPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
@@ -122,7 +122,7 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/teacherRole"
+                        android:id="@+id/userRole1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
@@ -170,7 +170,7 @@
         app:layout_constraintVertical_bias="0.59" />
 
     <TextView
-        android:id="@+id/teacherName"
+        android:id="@+id/studentName"
         android:layout_width="226dp"
         android:layout_height="53dp"
         android:layout_margin="10dp"

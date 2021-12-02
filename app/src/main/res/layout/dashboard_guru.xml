@@ -55,8 +55,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="389dp"
-        android:layout_height="459dp"
+        android:layout_width="387dp"
+        android:layout_height="475dp"
         android:background="@drawable/bg_login"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -302,6 +302,18 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:mbn_backgroundBottomColor="#FFFFFF"
+        app:mbn_circleColor="#56B4DF"
+        app:mbn_countBackgroundColor="#ff6f00"
+        app:mbn_countTextColor="@color/color2"
+        app:mbn_selectedIconColor="#3c415e"
+        app:mbn_shadowColor="@color/colors2"
+        tools:layout_editor_absoluteX="10dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

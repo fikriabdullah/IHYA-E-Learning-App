@@ -25,27 +25,26 @@ import java.util.Objects;
 
 import technolifestyle.com.imageslider.FlipperLayout;
 
-public class edit_profile extends AppCompatActivity {
+public class edit_profile_student extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
-    TextView teacherPhone, teacherRole, teacherName, teacherEmail;
     FlipperLayout flipperLayout;
     MeowBottomNavigation bottomNavigation;
     private final int ID_Home = 1;
     private static final String TAG = "homeMainAct: ";
     private final int ID_profile = 2;
     private Object FrameLayout;
+    TextView studentPhone, studentEmail, studentRole, studentName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
-
-        teacherPhone = findViewById(R.id.teacherPhone);
-        teacherName = findViewById(R.id.teacherName);
-        teacherRole = findViewById(R.id.teacherRole);
-        teacherEmail = findViewById(R.id.teacherEmail);
+        setContentView(R.layout.activity_edit_profile_student);
+        studentPhone = findViewById(R.id.studentPhone);
+        studentName = findViewById(R.id.studentName);
+        studentRole = findViewById(R.id.userRole1);
+        studentEmail = findViewById(R.id.studentEmail);
 
         readUserData();
 
@@ -56,17 +55,17 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
                 if(item.getId() == 1){
-                    Log.d(TAG, "item id : " + item.getId()+ "\nStarting Dashboard");
-                    Intent intent = new Intent(edit_profile.this, DashboardGuru.class);
+                    Log.d(TAG, "item id : " + item.getId()+ "\nStarting Home");
+                    Intent intent = new Intent(edit_profile_student.this, home.class);
                     startActivity(intent);
                 }else if (item.getId() == 2){
                     Log.d(TAG, "item id : " + item.getId() + "\nStarting Edit Profile");
-                    Intent intent = new Intent(edit_profile.this, edit_profile.class);
+                    Intent intent = new Intent(edit_profile_student.this, edit_profile_student.class);
                     startActivity(intent);
                 }
-
             }
         });
+
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -74,7 +73,7 @@ public class edit_profile extends AppCompatActivity {
                 switch (item.getId()){
                     case ID_Home: Name = "Home";
                         break;
-                    case ID_profile: Name = "notif";
+                    case ID_profile: Name = "edit_profile";
                         break;
                     default:Name= "Home";
                 }
@@ -88,18 +87,24 @@ public class edit_profile extends AppCompatActivity {
             }
         });
 
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                Log.d(TAG, "onReselect : " + item.getId());
+            }
+        });
+
         bottomNavigation.setCount(ID_Home,"2");
         bottomNavigation.show(ID_profile,true);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     public void readUserData(){
         final FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
 
-        String child = "Guru";
+        String child = "Student";
         DatabaseReference userDataRef = FirebaseDatabase.getInstance().getReference().child("UserDatabase").child(child);
         userDataRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -108,16 +113,16 @@ public class edit_profile extends AppCompatActivity {
                 UserCntr userData = dataSnapshot.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).getValue(UserCntr.class);
 
                 String userName = userData.username;
-                teacherName.setText(userName);
+                studentName.setText(userName);
 
                 String userPhone = userData.NoTelp;
-                teacherPhone.setText(userPhone);
+                studentPhone.setText(userPhone);
 
                 String userEmail = userData.Email;
-                teacherEmail.setText(userEmail);
+                studentEmail.setText(userEmail);
 
                 String userRole = userData.Role;
-                teacherRole.setText(userRole);
+                studentRole.setText(userRole);
             }
 
             @Override
@@ -127,6 +132,6 @@ public class edit_profile extends AppCompatActivity {
         });
     }
 
-    public void logut(View view) { startActivity(new Intent(edit_profile.this, login.class));
+    public void logut(View view) { startActivity(new Intent(edit_profile_student.this, login.class));
     }
 }

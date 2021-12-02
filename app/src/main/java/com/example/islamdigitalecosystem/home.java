@@ -54,7 +54,7 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
         MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_nav);
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_Home,R.drawable.ic_home));
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_profile,R.drawable.ic_notification));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_profile,R.drawable.account));
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
@@ -64,7 +64,7 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
                     startActivity(intent);
                 }else if (item.getId() == 2){
                     Log.d(TAG, "item id : " + item.getId() + "\nStarting Edit Profile");
-                    Intent intent = new Intent(home.this, edit_profile.class);
+                    Intent intent = new Intent(home.this, edit_profile_student.class);
                     startActivity(intent);
                 }
 
@@ -83,6 +83,14 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
                 }
             }
         });
+
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                Log.d(TAG, ""+item.getId());
+            }
+        });
+
         bottomNavigation.setCount(ID_Home,"2");
         bottomNavigation.show(ID_Home,true);
         toolbar = findViewById(R.id.toolbar);
