@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +29,7 @@ public class pengetahuan extends AppCompatActivity {
     pengetahuanAdapter pengetahuanAdapter;
     Task<QuerySnapshot> collectionReference;
     private ArrayList<pengetahuanData> data;
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -35,8 +37,9 @@ public class pengetahuan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengetahuan);
         data = new ArrayList<>();
-        recyclerView = findViewById(R.id.anjing);
+        recyclerView = findViewById(R.id.pengetahuanRv);
         pengetahuanAdapter = new pengetahuanAdapter(data);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutPengetahuan);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
         recyclerView.setAdapter(pengetahuanAdapter);
@@ -56,6 +59,32 @@ public class pengetahuan extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "Load Materi List Dataset Failed" + e.getMessage());
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                data.clear();
+                Log.d(TAG, "on refresh, list cleared");
+                collectionReference = db.collection("Materi").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()){
+                            Log.d(TAG, documentSnapshot.getId());
+                            String jdulList = documentSnapshot.getId();
+                            pengetahuanData pengetahuanData = new pengetahuanData(jdulList);
+                            data.add(pengetahuanData);
+                        }
+                        pengetahuanAdapter.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Load Materi List Dataset Failed" + e.getMessage());
+                    }
+                });
             }
         });
     }

@@ -5,7 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,10 +36,14 @@ public class uploadMateri extends AppCompatActivity {
     private static final String TAG = "uploadMateri";
     private
     File file;
+    TextView tvHargaMateri;
     CollectionReference collectionReference;
-    EditText materiField, jdulField;
+    EditText materiField, jdulField, hargaMateri;
     String fileName, pdfDwnldUrl;
     FirebaseFirestore db;
+    FirebaseAuth firebaseAuth;
+    boolean isBerbayar;
+    CheckBox isPaid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +52,39 @@ public class uploadMateri extends AppCompatActivity {
         materiField = findViewById(R.id.editText);
         jdulField = findViewById(R.id.etBabMateri);
         db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        isPaid = findViewById(R.id.isPaidMateri);
+        hargaMateri = findViewById(R.id.etHargaMateri);
+        tvHargaMateri = findViewById(R.id.tvHargaMateri);
+        hargaMateri.setVisibility(View.INVISIBLE);
+        tvHargaMateri.setVisibility(View.INVISIBLE);
+
+        isPaid.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    hargaMateri.setVisibility(View.VISIBLE);
+                    tvHargaMateri.setVisibility(View.VISIBLE);
+                    isBerbayar = compoundButton.isChecked();
+                }else if (!(compoundButton.isChecked())){
+                    hargaMateri.setVisibility(View.INVISIBLE);
+                    tvHargaMateri.setVisibility(View.INVISIBLE);
+                    isBerbayar = compoundButton.isChecked();
+                }
+            }
+        });
     }
 
     public void pushMateri(final View view) {
         try {
-            if (jdulField.getText().toString().equals(null)){
+            if (jdulField.getText().toString().equals(null)) {
                 throw new NullPointerException("Please Fill The Bab Field!!");
-            }else {
+            } else {
                 try {
-                    if (materiField.getText().toString().equals(null) && pdfSelectUri==null ||
-                            materiField.getText().toString().equals("") && pdfSelectUri==null){
-                            throw new NullPointerException("Please Fill Materi Form Or Selec A PDF File");
-                    }else {
+                    if (materiField.getText().toString().equals(null) && pdfSelectUri == null ||
+                            materiField.getText().toString().equals("") && pdfSelectUri == null) {
+                        throw new NullPointerException("Please Fill Materi Form Or Selec A PDF File");
+                    } else {
                         Log.d(TAG, "BabRefer:" + jdulField.getText().toString());
                         if (pdfSelectUri != null && materiField.getText().toString().equals(null)) {
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
@@ -67,8 +96,18 @@ public class uploadMateri extends AppCompatActivity {
                                         public void onSuccess(Uri uri) {
                                             pdfDwnldUrl = uri.toString();
                                             Log.d(TAG, "pdf dwnld url " + pdfDwnldUrl);
+
                                             materiModelClass modelClass = new materiModelClass();
                                             modelClass.setFileDwnldUrl(pdfDwnldUrl);
+                                            modelClass.setAuthor(firebaseAuth.getCurrentUser().getDisplayName());
+                                            modelClass.setPaidmateri(isBerbayar);
+                                            if (hargaMateri.getText().toString().equals(null)
+                                                    || hargaMateri.getText().toString().equals("")){
+                                                modelClass.setHargaMateri(null);
+                                            }else {
+                                                Double hrgMtr = Double.parseDouble(hargaMateri.getText().toString());
+                                                modelClass.setHargaMateri(hrgMtr);
+                                            }
 
                                             collectionReference = db.collection("Materi");
                                             DocumentReference babRefDummy = collectionReference.document(jdulField.getText().toString());
@@ -107,8 +146,19 @@ public class uploadMateri extends AppCompatActivity {
                                 }
                             });
                         } else if (pdfSelectUri == null && !materiField.getText().toString().equals(null)) {
+
                             materiModelClass modelClass = new materiModelClass();
                             modelClass.setMateriContent(materiField.getText().toString());
+                            modelClass.setAuthor(firebaseAuth.getCurrentUser().getDisplayName());
+                            modelClass.setPaidmateri(isBerbayar);
+                            if (hargaMateri.getText().toString().equals(null)
+                                    || hargaMateri.getText().toString().equals("")){
+                                modelClass.setHargaMateri(null);
+                            }else {
+                                Double hrgMtr = Double.parseDouble(hargaMateri.getText().toString());
+                                modelClass.setHargaMateri(hrgMtr);
+                            }
+
                             collectionReference = db.collection("Materi");
                             DocumentReference babRefDummy = collectionReference.document(jdulField.getText().toString());
                             Map<String, Object> dummyMapping = new HashMap<>();
@@ -130,7 +180,7 @@ public class uploadMateri extends AppCompatActivity {
                                 }
                             });
 
-                        }else if (pdfSelectUri != null && !jdulField.getText().toString().equals(null) ){
+                        } else if (pdfSelectUri != null && !jdulField.getText().toString().equals(null)) {
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
                             pdfReference.putFile(pdfSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -142,8 +192,17 @@ public class uploadMateri extends AppCompatActivity {
                                             Log.d(TAG, "pdf dwnld url " + pdfDwnldUrl);
 
                                             materiModelClass modelClass = new materiModelClass();
-                                            modelClass.setFileDwnldUrl(pdfDwnldUrl);
                                             modelClass.setMateriContent(materiField.getText().toString());
+                                            modelClass.setFileDwnldUrl(pdfDwnldUrl);
+                                            modelClass.setAuthor(firebaseAuth.getCurrentUser().getDisplayName());
+                                            modelClass.setPaidmateri(isBerbayar);
+                                            if (hargaMateri.getText().toString().equals(null)
+                                                    || hargaMateri.getText().toString().equals("")){
+                                                modelClass.setHargaMateri(null);
+                                            }else {
+                                                Double hrgMtr = Double.parseDouble(hargaMateri.getText().toString());
+                                                modelClass.setHargaMateri(hrgMtr);
+                                            }
 
                                             collectionReference = db.collection("Materi");
                                             DocumentReference babRefDummy = collectionReference.document(jdulField.getText().toString());
@@ -181,18 +240,18 @@ public class uploadMateri extends AppCompatActivity {
                                     Toast.makeText(view.getContext(), "Uploading PDF failed", Toast.LENGTH_LONG).show();
                                 }
                             });
-                        }else {
+                        } else {
                             Toast.makeText(this, "Please Select a PDF file or fill the field Above!!", Toast.LENGTH_LONG).show();
                             Log.d(TAG, "No Materi to upload" + pdfSelectUri + materiField.getText().toString());
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(this, "Please Select a PDF file or fill the field Above!!", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Materi and pdf uri empty!!" + materiField.getText().toString() + pdfSelectUri);
                 }
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Please Fill The Bab Field!!", Toast.LENGTH_LONG).show();
         }
     }
@@ -223,6 +282,7 @@ public class uploadMateri extends AppCompatActivity {
             }
         }
     }
+
 
 }
 

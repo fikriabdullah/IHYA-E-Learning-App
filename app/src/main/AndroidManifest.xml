@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
-        <activity android:name=".changeMedia"></activity>
+        <activity android:name=".changeMedia" />
         <activity android:name=".BabListEditKuis" />
         <activity android:name=".EditKuis" />
         <activity android:name=".SelectBabQuiz" />
@@ -30,7 +30,7 @@
         <activity android:name=".regis" />
         <activity android:name=".edit_materi" />
         <activity android:name=".login" />
-        <activity android:name=".edit_profile_student"/>
+        <activity android:name=".edit_profile_student" />
         <activity android:name=".kisah" />
         <activity android:name=".alquranfitur" />
         <activity android:name=".pengetahuan" />

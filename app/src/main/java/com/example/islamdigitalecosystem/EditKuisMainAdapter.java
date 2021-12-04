@@ -41,6 +41,7 @@ public class EditKuisMainAdapter extends RecyclerView.Adapter<EditKuisMainAdapte
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_single_item_view_edit_quiz, parent, false);
         context = parent.getContext();
+        Log.d(TAG, "OnCreate : ");
         return new MyViewHolder(view);
     }
 
