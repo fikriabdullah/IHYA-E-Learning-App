@@ -67,6 +67,12 @@ public class changeMedia extends AppCompatActivity {
         loadOldMedia();
         Log.d(TAG, "Intent Extras : " + getImgDwnldUrl + "\n" + getDocumentRef +"\n" +getAudioDwnldUrl+"\n"+BabReference);
         documentReferences = getDocumentRef + 1;
+
+        if (ActivityCompat.checkSelfPermission(changeMedia.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(changeMedia.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(changeMedia.this, new String[]{Manifest.permission.RECORD_AUDIO}, 10);
+            ActivityCompat.requestPermissions(changeMedia.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
+        }
     }
     public void loadOldMedia(){
         if (getAudioDwnldUrl != null ){

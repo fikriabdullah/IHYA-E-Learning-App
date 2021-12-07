@@ -97,6 +97,12 @@ public class soalSuara extends AppCompatActivity {
         eRecordBtn = findViewById(R.id.suara);
         mProgress = new ProgressDialog(this);
 
+        if (ActivityCompat.checkSelfPermission(soalSuara.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(soalSuara.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(soalSuara.this, new String[]{Manifest.permission.RECORD_AUDIO}, 10);
+            ActivityCompat.requestPermissions(soalSuara.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
+        }
+
         eRecordBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
