@@ -21,10 +21,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="393dp"
-        android:layout_height="583dp"
-        android:layout_marginTop="232dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
         android:background="@drawable/bg_login"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,6 +34,10 @@
             android:id="@+id/relativeLayout"
             android:layout_width="390dp"
             android:layout_height="371dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +151,10 @@
             android:id="@+id/button"
             android:layout_width="203dp"
             android:layout_height="52dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/bg_button"
             android:onClick="logut"
             android:text="Logout"
@@ -184,17 +193,21 @@
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.597" />
+
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:mbn_backgroundBottomColor="#FFFFFF"
         app:mbn_circleColor="#56B4DF"
         app:mbn_countBackgroundColor="#ff6f00"
         app:mbn_countTextColor="@color/color2"
         app:mbn_selectedIconColor="#3c415e"
-        app:mbn_shadowColor="@color/colors2"
-        tools:layout_editor_absoluteX="10dp" />
+        app:mbn_shadowColor="@color/colors2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

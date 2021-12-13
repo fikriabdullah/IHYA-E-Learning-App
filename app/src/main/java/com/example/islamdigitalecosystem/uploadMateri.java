@@ -34,7 +34,6 @@ public class uploadMateri extends AppCompatActivity {
     private static final int PICK_FILE_REQUEST_CODE =1;
     private Uri pdfSelectUri, pdfUriTemp;
     private static final String TAG = "uploadMateri";
-    private
     File file;
     TextView tvHargaMateri;
     CollectionReference collectionReference;
@@ -87,6 +86,7 @@ public class uploadMateri extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "BabRefer:" + jdulField.getText().toString());
                         if (pdfSelectUri != null && materiField.getText().toString().equals(null)) {
+                            //materi ga, pdf ada
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
                             pdfReference.putFile(pdfSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -101,6 +101,7 @@ public class uploadMateri extends AppCompatActivity {
                                             modelClass.setFileDwnldUrl(pdfDwnldUrl);
                                             modelClass.setAuthor(firebaseAuth.getCurrentUser().getDisplayName());
                                             modelClass.setPaidmateri(isBerbayar);
+                                            modelClass.setMateriContent(null);
                                             if (hargaMateri.getText().toString().equals(null)
                                                     || hargaMateri.getText().toString().equals("")){
                                                 modelClass.setHargaMateri(null);
@@ -146,7 +147,7 @@ public class uploadMateri extends AppCompatActivity {
                                 }
                             });
                         } else if (pdfSelectUri == null && !materiField.getText().toString().equals(null)) {
-
+                            //pdf ga, materi ada
                             materiModelClass modelClass = new materiModelClass();
                             modelClass.setMateriContent(materiField.getText().toString());
                             modelClass.setAuthor(firebaseAuth.getCurrentUser().getDisplayName());
@@ -181,6 +182,7 @@ public class uploadMateri extends AppCompatActivity {
                             });
 
                         } else if (pdfSelectUri != null && !jdulField.getText().toString().equals(null)) {
+                            //both ada
                             final StorageReference pdfReference = FirebaseStorage.getInstance().getReference().child("fileMateri").child(fileName);
                             pdfReference.putFile(pdfSelectUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override

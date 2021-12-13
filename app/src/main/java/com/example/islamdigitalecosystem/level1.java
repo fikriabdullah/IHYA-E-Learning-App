@@ -1,5 +1,6 @@
 package com.example.islamdigitalecosystem;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,10 +22,6 @@ public class level1 extends AppCompatActivity {
 
     }
 
-    public void play(View v) {
-        if (player == null) {
-            player = MediaPlayer.create(this, R.raw.alf);
-        }
-        player.start();
+    public void lanjut(View view) {startActivity(new Intent(level1.this, level1_lanjutan.class));
     }
 }

@@ -4,51 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/android"
+    android:background="@drawable/biru"
     tools:context=".addNewPost">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="387dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="92dp"
-        android:fontFamily="@font/baloo"
-        android:text="Post Pertanyaan Anda"
-        android:textAlignment="center"
-        android:textColor="#D9EDE9E9"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPertanyaan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etPertanyaan"
-        android:layout_width="365dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="324dp"
-        android:background="@drawable/bg_edit"
-        android:hint="Tambahkan Pertanyaan"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btPostQuestion"
-        android:layout_width="163dp"
-        android:layout_height="43dp"
-        android:background="@drawable/bg_button"
-        android:elevation="30dp"
-        android:onClick="post"
-        android:text="Post"
-        android:textColor="@color/lightgray"
-        android:textSize="20sp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/bg_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPertanyaan"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.384">
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="268dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="92dp"
+            android:text="Post Pertanyaan Anda"
+            android:textAlignment="center"
+            android:textColor="#D9000000"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/etPertanyaan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/etPertanyaan"
+            android:layout_width="387dp"
+            android:layout_height="261dp"
+            android:layout_marginTop="168dp"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/bg_edit"
+            android:hint="Tambahkan Pertanyaan"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/btPostQuestion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btPostQuestion"
+            android:layout_width="163dp"
+            android:layout_height="43dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/bg_button"
+            android:elevation="30dp"
+            android:onClick="post"
+            android:text="Post"
+            android:textColor="@color/lightgray"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPertanyaan"
+            app:layout_constraintVertical_bias="0.435" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

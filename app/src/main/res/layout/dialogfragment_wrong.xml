@@ -6,16 +6,16 @@
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="440dp"
-        android:background="@drawable/background1">
+        android:background="@drawable/biru">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jawaban Kamu Salah"
-            android:textSize="30sp"
+            android:layout_width="289dp"
+            android:layout_height="57dp"
+            android:layout_gravity="center"
+            android:text="   JAWABAN SALAH"
             android:textColor="#fff"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

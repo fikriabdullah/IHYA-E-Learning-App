@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/biru"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="10dp"
-    android:padding="10dp"
-    android:layout_marginTop="50dp">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
-        app:cardElevation="10dp"
-        app:cardCornerRadius="10dp"
+        android:layout_width="401dp"
+        android:layout_height="126dp"
         android:layout_margin="5dp"
-        android:background="@drawable/bg_edit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
+            android:background="@drawable/bg_list"
             android:id="@+id/startEditQuizButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,4 +47,4 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    </androidx.cardview.widget.CardView>
+</LinearLayout>

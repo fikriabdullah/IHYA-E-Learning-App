@@ -125,7 +125,6 @@ public class soalSuara extends AppCompatActivity {
         });
     }
 
-
     public void questionReady() { //ambil jumlah pertanyaan kalo ada babnya, buat di increment tiap nambahin ke bab yg sama
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
                 .setPriority(Priority.MEDIUM)

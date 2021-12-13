@@ -31,24 +31,33 @@
         android:id="@+id/button"
         android:layout_width="298dp"
         android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="3dp"
         android:background="@drawable/bg_buton"
         android:onClick="login"
-        android:text="Login"
+        android:text="I HAVE AN ACCOUNT"
         android:textColor="#45B4EF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.755" />
+        app:layout_constraintVertical_bias="0.898" />
 
     <Button
         android:id="@+id/regis"
         android:layout_width="298dp"
         android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_buton"
         android:onClick="regis"
-        android:text="Register"
+        android:text="SIGN UP"
         android:textColor="#45B4EF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +65,7 @@
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.863" />
+        app:layout_constraintVertical_bias="0.83" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appCompatImageView"

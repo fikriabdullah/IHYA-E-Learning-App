@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
+        <activity
+            android:name=".editMateriMain"
+            android:exported="false" />
         <activity android:name=".changeMedia" />
         <activity android:name=".BabListEditKuis" />
         <activity android:name=".EditKuis" />
@@ -44,6 +47,8 @@
         <activity android:name=".bab1" />
         <activity android:name=".materiBab1" />
         <activity android:name=".Main" />
+        <activity android:name=".level1_lanjutan" />
+        <activity android:name=".level1_lanjutan2" />
         <activity
             android:name=".latihan"
             android:theme="@style/AppTheme.NoActionBar" />

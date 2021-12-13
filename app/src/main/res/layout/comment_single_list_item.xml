@@ -9,6 +9,7 @@
         android:id="@+id/main_blog_post"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,6 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_list"
             android:layout_margin="10dp">
 
             <TextView
@@ -24,28 +26,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="70dp"
                 android:text="Username"
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.054"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25" />
+                app:layout_constraintVertical_bias="0.120000005" />
 
             <TextView
                 android:id="@+id/commentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="7dp"
                 android:text="Date Time"
                 android:textColor="#000"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/commentPH"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.084"
+                app:layout_constraintHorizontal_bias="0.02"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cmnUsername" />
 
@@ -53,13 +61,12 @@
                 android:id="@+id/commentPH"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="20dp"
                 android:text="Ini Comment user"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/commentDate"
                 app:layout_constraintVertical_bias="1.0" />

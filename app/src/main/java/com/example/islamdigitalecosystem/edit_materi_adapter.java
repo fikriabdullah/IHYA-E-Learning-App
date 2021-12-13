@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Constraints;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,7 +52,7 @@ public class edit_materi_adapter extends RecyclerView.Adapter<edit_materi_adapte
            holder.goEditMtr.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   Intent intent = new Intent(context, materiBab1.class);
+                   Intent intent = new Intent(context, editMateriMain.class);
                    intent.putExtra("babMateriRef", jdulMateri);
                    context.startActivity(intent);
                }
@@ -76,8 +77,7 @@ public class edit_materi_adapter extends RecyclerView.Adapter<edit_materi_adapte
                        });
                    }catch (Exception e){
                        Log.d(TAG, "Delete Document Failed : " + e.getMessage());
-                   }
-               }
+                   }               }
            });
 
            holder.babImage.setImageResource(R.drawable.aljabar);

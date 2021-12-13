@@ -91,7 +91,7 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         });
 
-        bottomNavigation.setCount(ID_Home,"2");
+        bottomNavigation.setCount(ID_Home,"");
         bottomNavigation.show(ID_Home,true);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,9 +104,10 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
                 R.drawable.kata1,
                 R.drawable.kata2,
                 R.drawable.kata4,
-                R.drawable.kata3
+                R.drawable.kata3,
+                R.drawable.ist1
         };
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             FlipperView view = new FlipperView(getBaseContext());
             view.setImageDrawable(image[i]);
             flipperLayout.addFlipperView(view);

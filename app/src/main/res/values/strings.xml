@@ -40,5 +40,8 @@
     <string name="please_dwnld">Silahkan Klik Download PDF untuk mendownload Materi</string>
     <string name="Username" />
     <string name="delete_question">Delete Question</string>
+    <string name="defaultScreen">Silahkan Klik Download PDF untuk mendownload pdf</string>
+    <string name="save_change">Save Change</string>
+    <string name="materi_not_available">Materi Is Not Available</string>
 
 </resources>

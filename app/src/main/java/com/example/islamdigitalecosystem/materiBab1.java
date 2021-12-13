@@ -37,7 +37,6 @@ public class materiBab1 extends AppCompatActivity {
         textview =findViewById(R.id.text1);
         db = FirebaseFirestore.getInstance();
         dwnldPDF = findViewById(R.id.downloadPDF);
-        final Context context = super.getBaseContext();
 
         DocRefMateri = getIntent().getStringExtra("babMateriRef");
 
@@ -50,27 +49,28 @@ public class materiBab1 extends AppCompatActivity {
                     contentMateri = modelClass.getMateriContent();
                     pdfDwnldUrl = modelClass.getFileDwnldUrl();
                     Log.d(TAG, "cntn1 : " + contentMateri + "\n" + "url1 : " + pdfDwnldUrl);
-                    try {
-                        if (!contentMateri.equals(null) || !contentMateri.equals(" ")){
-                            Log.d(TAG, "cntn : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
-                            textview.setText(contentMateri);
-                            textview.setMovementMethod(new ScrollingMovementMethod());
-                            dwnldPDF.setVisibility(View.INVISIBLE);
-                            dwnldPDF.setClickable(false);
-                        }else if ((contentMateri.equals(null)||contentMateri.equals(" "))&&!pdfDwnldUrl.equals(null)){
-                            Log.d(TAG, "cntn : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
+                        if (contentMateri.length() == 0 ){
+                            //get pdf only, show default screen
+                            Log.d(TAG, "pdf only available " + pdfDwnldUrl);
+                            textview.setText(R.string.defaultScreen);
                             dwnldPDF.setVisibility(View.VISIBLE);
                             dwnldPDF.setClickable(true);
-                            textview.setText(R.string.please_dwnld);
+                        }else {
+                            //check if pdf is null, => get pdf and text
+                            if (pdfDwnldUrl != null ){
+                                Log.d(TAG, "both available : " + pdfDwnldUrl);
+                                textview.setText(contentMateri);
+                                textview.setMovementMethod(new ScrollingMovementMethod());
+                                dwnldPDF.setVisibility(View.VISIBLE);
+                                dwnldPDF.setClickable(true);
+                            }else {
+                                Log.d(TAG, "pdf not available" + pdfDwnldUrl);
+                                dwnldPDF.setVisibility(View.INVISIBLE);
+                                dwnldPDF.setClickable(false);
+                                textview.setText(contentMateri);
+                                textview.setMovementMethod(new ScrollingMovementMethod());
+                            }
                         }
-                        else {
-                            throw new Exception("Something Went Wrong..");
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(context, "Something Went Wrong ", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "cntn : " + contentMateri + "\n" + "url : " + pdfDwnldUrl);
-                        Log.d(TAG, "error fetch data" + e.getMessage());
-                    }
                 }
             }
         });
