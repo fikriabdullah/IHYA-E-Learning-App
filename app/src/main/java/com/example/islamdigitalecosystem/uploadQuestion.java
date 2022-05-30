@@ -167,6 +167,7 @@ public class uploadQuestion extends AppCompatActivity {
                                     Toast.makeText(uploadQuestion.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            onBackPressed();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

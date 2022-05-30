@@ -42,6 +42,7 @@ public class editMateriMain extends AppCompatActivity {
     String pdfDwnldUrl, contentMateri, DocRefMateri;
     FirebaseFirestore db;
     Boolean isPaid;
+    String HargaMateri;
     Double hargaMateri;
     FirebaseAuth firebaseAuth;
     CollectionReference collectionReference;
@@ -103,12 +104,15 @@ public class editMateriMain extends AppCompatActivity {
                             cbIsPaid.setChecked(true);
                             tvHargaMateri.setVisibility(View.VISIBLE);
                             EtHargaMateri.setVisibility(View.VISIBLE);
+                            HargaMateri = String.valueOf(hargaMateri);
+                            EtHargaMateri.setText(HargaMateri);
                         }else {
                             //materi gratis,
                             cbIsPaid.setVisibility(View.VISIBLE);
                             cbIsPaid.setChecked(false);
                             tvHargaMateri.setVisibility(View.INVISIBLE);
                             EtHargaMateri.setVisibility(View.INVISIBLE);
+
                         }
                         Log.d(TAG, "pdf only available " + pdfDwnldUrl);
                         EditcontentMateri.setText(R.string.materi_not_available);
@@ -123,6 +127,8 @@ public class editMateriMain extends AppCompatActivity {
                                 cbIsPaid.setChecked(true);
                                 tvHargaMateri.setVisibility(View.VISIBLE);
                                 EtHargaMateri.setVisibility(View.VISIBLE);
+                                HargaMateri = String.valueOf(hargaMateri);
+                                EtHargaMateri.setText(HargaMateri);
                             }else {
                                 //materi gratis,
                                 cbIsPaid.setVisibility(View.VISIBLE);
@@ -143,6 +149,8 @@ public class editMateriMain extends AppCompatActivity {
                                 cbIsPaid.setChecked(true);
                                 tvHargaMateri.setVisibility(View.VISIBLE);
                                 EtHargaMateri.setVisibility(View.VISIBLE);
+                                HargaMateri = String.valueOf(hargaMateri);
+                                EtHargaMateri.setText(HargaMateri);
                             }else {
                                 //materi gratis,
                                 cbIsPaid.setVisibility(View.VISIBLE);

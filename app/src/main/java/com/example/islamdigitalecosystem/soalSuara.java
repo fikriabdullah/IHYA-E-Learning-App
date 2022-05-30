@@ -185,6 +185,7 @@ public class soalSuara extends AppCompatActivity {
                                     Toast.makeText(com.example.islamdigitalecosystem.soalSuara.this, "Uploading Question Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            onBackPressed();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

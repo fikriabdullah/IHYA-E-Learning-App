@@ -39,7 +39,7 @@
                     android:id="@+id/textName"
                     android:textColor="#000"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_margin="10dp"
                     android:text="HURUF DASAR ARAB"
                     android:layout_width="match_parent"
@@ -49,4 +49,90 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="membaca"
+            android:background="@drawable/bg_list">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/two"
+                android:id="@+id/imageview1"
+                android:layout_width="120dp"
+                android:layout_height="150dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/goLatihan2"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textName2"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_margin="10dp"
+                    android:text="BELAJAR MEMBACA HURUF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="membaca2"
+            android:background="@drawable/bg_list">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/three"
+                android:id="@+id/imageview3"
+                android:layout_width="120dp"
+                android:layout_height="150dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/goLatihan3"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textName3"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_margin="10dp"
+                    android:text="BELAJAR MEMBACA HURUF 2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

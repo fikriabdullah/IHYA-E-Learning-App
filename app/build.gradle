@@ -11,12 +11,13 @@ android {
     flavorDimensions "mode"
     defaultConfig {
         applicationId "com.example.islamdigitalecosystem"
-        minSdkVersion 26
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     productFlavors {
         productFlavors {
@@ -43,13 +44,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-database:19.3.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-database:19.3.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     testImplementation 'junit:junit:4.12'
     implementation 'com.midtrans:uikit:1.28.0-SANDBOX'
@@ -72,4 +71,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

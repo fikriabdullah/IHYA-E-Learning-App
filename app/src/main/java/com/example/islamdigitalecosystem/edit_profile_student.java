@@ -29,6 +29,7 @@ public class edit_profile_student extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    FirebaseAuth firebaseAuth;
     ActionBarDrawerToggle toggle;
     FlipperLayout flipperLayout;
     MeowBottomNavigation bottomNavigation;
@@ -43,7 +44,7 @@ public class edit_profile_student extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile_student);
         studentPhone = findViewById(R.id.studentPhone);
         studentName = findViewById(R.id.studentName);
-        studentRole = findViewById(R.id.userRole1);
+        studentRole = findViewById(R.id.studentRole);
         studentEmail = findViewById(R.id.studentEmail);
 
         readUserData();
@@ -101,7 +102,6 @@ public class edit_profile_student extends AppCompatActivity {
     }
 
     public void readUserData(){
-        final FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
 
         String child = "Student";
@@ -132,6 +132,12 @@ public class edit_profile_student extends AppCompatActivity {
         });
     }
 
-    public void logut(View view) { startActivity(new Intent(edit_profile_student.this, login.class));
+    public void logut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(edit_profile_student.this, login.class));
+    }
+
+    public void editProfile(View view) {
+        startActivity(new Intent(edit_profile_student.this, EditProfileStudent.class));
     }
 }

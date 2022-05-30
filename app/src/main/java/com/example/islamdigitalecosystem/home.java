@@ -111,7 +111,7 @@ public class home extends AppCompatActivity implements NavigationView.OnNavigati
             FlipperView view = new FlipperView(getBaseContext());
             view.setImageDrawable(image[i]);
             flipperLayout.addFlipperView(view);
-            view.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setImageScaleType(ImageView.ScaleType.FIT_XY);
             view.setOnFlipperClickListener(new FlipperView.OnFlipperClickListener() {
                 @Override
                 public void onFlipperClick(FlipperView flipperView) {

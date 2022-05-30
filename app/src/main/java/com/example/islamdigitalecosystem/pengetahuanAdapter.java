@@ -83,6 +83,9 @@ public class pengetahuanAdapter extends RecyclerView.Adapter<pengetahuanAdapter.
        holder.goMateri.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(final View view) {
+               if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                   ActivityCompat.requestPermissions((Activity)view.getContext(), new String[]{Manifest.permission.READ_PHONE_STATE}, 101);
+               }
                //retrieve harga materi dan apakah materi berbayar
                db.collection("Materi").document(judulMateri).collection(judulMateri)
                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -123,9 +126,6 @@ public class pengetahuanAdapter extends RecyclerView.Adapter<pengetahuanAdapter.
                                                }else { //isOwned = false
                                                    Log.d(TAG, "materi is lunas" + isOwned);
                                                    //then request payment to midtrans
-                                                   if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                                       ActivityCompat.requestPermissions((Activity)view.getContext(), new String[]{Manifest.permission.READ_PHONE_STATE}, 101);
-                                                   }
                                                    SdkUIFlowBuilder.init()
                                                            .setClientKey("SB-Mid-client-PewuNr7kEHDpz8cu")
                                                            .setContext(view.getContext())

@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/bg_login"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
@@ -150,13 +150,27 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/editProfile"
             android:layout_width="203dp"
             android:layout_height="52dp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="150dp"
+            android:background="@drawable/bg_button"
+            android:onClick="editProfile"
+            android:text="Edit Profile"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="203dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_button"
             android:onClick="logut"
             android:text="Logout"
@@ -165,8 +179,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-            app:layout_constraintVertical_bias="0.406" />
+            app:layout_constraintTop_toBottomOf="@+id/editProfile"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
@@ -202,7 +216,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

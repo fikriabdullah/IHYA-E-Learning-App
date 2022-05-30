@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/biru"
     tools:context=".editMateriMain">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +25,7 @@
             android:layout_width="380dp"
             android:layout_height="150dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_kuis"
@@ -37,7 +38,6 @@
             android:scrollbars="vertical"
             app:layout_constraintBottom_toTopOf="@+id/edtisPaidMateri"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,13 +46,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="244dp"
+            android:layout_marginEnd="250dp"
+            android:layout_marginBottom="270dp"
             android:text="Harga Materi : "
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.069"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edtisPaidMateri"
             app:layout_constraintVertical_bias="0.0" />
@@ -61,15 +60,13 @@
             android:id="@+id/etedHargaMateri"
             android:layout_width="200dp"
             android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="110dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="68dp"
             android:background="@drawable/bg_kuis"
             android:hint="Harga Materi"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,11 +74,11 @@
             android:id="@+id/edtisPaidMateri"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="250dp"
             android:text="Materi Berbayar"
+            app:layout_constraintBottom_toTopOf="@+id/tvedHargaMateri"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editMateriContent" />
 

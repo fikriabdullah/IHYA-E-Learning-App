@@ -3,14 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/activity_edit_profile.xml" value="0.25905797101449274" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/activity_edit_profile_student.xml" value="0.2" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/activity_pengetahuan.xml" value="0.1334853090172239" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/activity_purchase_materi.xml" value="0.254981884057971" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/edit_kuis.xml" value="0.1334853090172239" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/edit_kuis_single_item_view.xml" value="0.14375" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/main_single_item_view_edit_quiz.xml" value="0.1" />
-        <entry key="..\:/Tugas Akhir/NEW PROJECT/kp/app/src/main/res/layout/upload_materi.xml" value="0.176" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_edit_materi_main.xml" value="0.14375" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_edit_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_edit_profile_student.xml" value="0.2" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_edit_profile_student2.xml" value="0.2717391304347826" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_edit_profile_teacher.xml" value="0.2" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/activity_quiz.xml" value="0.15942028985507245" />
+        <entry key="..\:/Users/Asus/Downloads/Compressed/progres/Kp/app/src/main/res/layout/edit_materi.xml" value="0.1337386018237082" />
       </map>
     </option>
   </component>

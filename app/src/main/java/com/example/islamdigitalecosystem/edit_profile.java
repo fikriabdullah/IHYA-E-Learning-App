@@ -13,8 +13,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +35,10 @@ public class edit_profile extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     TextView teacherPhone, teacherRole, teacherName, teacherEmail;
     FlipperLayout flipperLayout;
+    FirebaseAuth firebaseAuth;
     MeowBottomNavigation bottomNavigation;
     private final int ID_Home = 1;
-    private static final String TAG = "homeMainAct: ";
+    private static final String TAG = "editProfile: ";
     private final int ID_profile = 2;
     private Object FrameLayout;
     @Override
@@ -96,9 +100,7 @@ public class edit_profile extends AppCompatActivity {
     }
 
     public void readUserData(){
-        final FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
-
         String child = "Guru";
         DatabaseReference userDataRef = FirebaseDatabase.getInstance().getReference().child("UserDatabase").child(child);
         userDataRef.addValueEventListener(new ValueEventListener() {
@@ -127,6 +129,12 @@ public class edit_profile extends AppCompatActivity {
         });
     }
 
-    public void logut(View view) { startActivity(new Intent(edit_profile.this, login.class));
+    public void logut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(edit_profile.this, login.class));
+    }
+
+    public void editProfile(View view) {
+        startActivity(new Intent(edit_profile.this, EditProfileTeacher.class));
     }
 }

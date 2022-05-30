@@ -28,4 +28,9 @@ public class latihan extends AppCompatActivity {
 
     public void masukLatihan(View view) {startActivity(new Intent(latihan.this, level1.class));
     }
+
+    public void membaca(View view) {startActivity(new Intent(latihan.this, latihan_membaca.class));
+    }
+    public void membaca2(View view) {startActivity(new Intent(latihan.this, membaca_jilid.class));
+    }
 }

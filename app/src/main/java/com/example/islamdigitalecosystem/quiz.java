@@ -1,13 +1,19 @@
 package com.example.islamdigitalecosystem;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,6 +42,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.example.islamdigitalecosystem.be.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,28 +62,34 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class quiz extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     TextView tvQuestion;
-    ProgressBar loadQuis;
+//    ProgressBar loadQuis;
     private static final String TAG = "MyActivity";
     ImageView imageQuestion;
     String userAnswer;
     int questionNow;
     int qNum;
     String docRef;
-    int questionCount;
+    int questionTotal;
+    int questionCount = 0;
+    int questionCorrect = 0;
     ProgressBar progressBar;
     String FinalBabRefereence;
 
     RadioButton rbAnswer1, rbAnswer2, rbAnswer3, rbAnswer4;
+    AlertDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        loading = Util.setPD(this, "Loading..");
         tvQuestion = findViewById(R.id.question);
         imageQuestion = findViewById(R.id.questionImage);
         rbAnswer1 = findViewById(R.id.option1);
@@ -84,24 +97,25 @@ public class quiz extends AppCompatActivity {
         rbAnswer3 = findViewById(R.id.option3);
         rbAnswer4 = findViewById(R.id.option4);
         progressBar = findViewById(R.id.progressBar1);
-        loadQuis = findViewById(R.id.loadQuiz);
+//        loadQuis = findViewById(R.id.loadQuiz);
         questionNow = 1;
         qNum = 1;
 
         docRef = "Question" + qNum;
-        loadQuis.setVisibility(View.INVISIBLE);
+//        loadQuis.setVisibility(View.INVISIBLE);
 
         FinalBabRefereence = getIntent().getStringExtra("BabReference");
         Log.d(TAG, "babRef : " + FinalBabRefereence);
 
         getQuestionSet();
-        getQuestionCount();
+        getquestionTotal();
         progressBar.setProgress(0);
     }
 
     public void getQuestionSet() {
-        loadQuis.setVisibility(View.VISIBLE);
-        loadQuis.setIndeterminate(true);
+        loading.show();
+//        loadQuis.setVisibility(View.VISIBLE);
+//        loadQuis.setIndeterminate(true);
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
                 .addPathParameter("bab", FinalBabRefereence)
                 .addPathParameter("QNumber",docRef )
@@ -135,6 +149,7 @@ public class quiz extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError anError) {
+                        loading.dismiss();
                         Log.d(TAG, "Getting Question Errror : " + anError.getCause());
                     }
                 });
@@ -160,17 +175,20 @@ public class quiz extends AppCompatActivity {
                             imageQuestion.setImageResource(R.drawable.ic_play_audio);
                             //load audio
                         }
-                        loadQuis.setIndeterminate(false);
-                        loadQuis.setVisibility(View.INVISIBLE);
+//                        loadQuis.setIndeterminate(false);
+//                        loadQuis.setVisibility(View.INVISIBLE);
+                        loading.dismiss();
                     }
                     @Override
                     public void onError(ANError anError) {
                         Log.d(TAG, "Getting Question Resource Errror : " + anError.getCause());
+                        loading.dismiss();
                     }
                 });
     }
 
     public void playAudio(View view) {
+        loading.show();
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
                 .setTag(this)
                 .setPriority(Priority.IMMEDIATE)
@@ -180,14 +198,19 @@ public class quiz extends AppCompatActivity {
                 .getAsObject(Question.class, new ParsedRequestListener<Question>() {
                     @Override
                     public void onResponse(Question response) {
+                        loading.dismiss();
                         String audioUrl = response.getAudioDwnldUrl();
                         mediaPlayer = new MediaPlayer();
-                        mediaPlayer.setAudioAttributes(
-                                new AudioAttributes.Builder()
-                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                                .setUsage(AudioAttributes.USAGE_MEDIA)
-                                .build()
-                        );
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mediaPlayer.setAudioAttributes(
+                                    new AudioAttributes.Builder()
+                                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                                    .build()
+                            );
+                        }else{
+                            Toast.makeText(view.getContext(), "Media player only run on lolipop os and above", Toast.LENGTH_SHORT).show();
+                        }
                         try {
                             mediaPlayer.setDataSource(audioUrl);
                             mediaPlayer.prepare();
@@ -198,12 +221,13 @@ public class quiz extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError anError) {
+                        loading.dismiss();
                         Log.d(TAG, "Download Audio URL error : " + anError.getCause());
                     }
                 });
     }
 
-    public void getQuestionCount(){
+    public void getquestionTotal(){
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readQuestion/{bab}")
                 .addPathParameter("bab", FinalBabRefereence)
                 .setPriority(Priority.IMMEDIATE)
@@ -212,33 +236,38 @@ public class quiz extends AppCompatActivity {
                 .getAsObjectList(Question.class, new ParsedRequestListener<List<Question>>() {
                     @Override
                     public void onResponse(List<Question> response) {
-                       questionCount = response.size();
-                        Log.d(TAG, "Bab Question Count : " + questionCount);
+                       questionTotal = response.size();
+                        Log.d(TAG, "Bab Question Count : " + questionTotal);
                     }
 
                     @Override
                     public void onError(ANError anError) {
+                        onBackPressed();
                         Log.d(TAG, "get question count err : " + anError.getCause());
                     }
                 });
     }
 
     public void showNextQuestion() {
-        if (questionCount >= questionNow) {
+        if (questionTotal >= questionNow) {
             qNum++;
             docRef = "Question" + qNum;
             Log.d(TAG, "Question Stage, success " + questionNow);
-            Log.d(TAG, "Question Count After Next : " + questionCount);
+            Log.d(TAG, "Question Count After Next : " + questionTotal);
             Log.d(TAG, "Document next Reference : " + docRef);
             getQuestionSet();
-        } else if (questionCount <= questionNow) {
-            Log.d(TAG, "Question Count After Next, failed : " + questionCount);
+        } else if (questionTotal <= questionNow) {
+            Log.d(TAG, "Question Count After Next, failed : " + questionTotal);
             Log.d(TAG, "Question Stage, failed " + questionNow);
-            Toast.makeText(this, "bikin end screen, show score", Toast.LENGTH_LONG).show();
+        }
+
+        if(questionCount >= questionTotal){
+                getScore(quiz.this);
         }
     }
 
     public void checkAnswer() {
+        loading.show();
         AndroidNetworking.get("https://ihya-api.herokuapp.com/Quiz/readOneQ/{bab}/{QNumber}")
                 .setTag(this)
                 .addPathParameter("bab", FinalBabRefereence)
@@ -248,24 +277,26 @@ public class quiz extends AppCompatActivity {
                 .getAsObject(Question.class, new ParsedRequestListener<Question>() {
                     @Override
                     public void onResponse(Question response) {
+                        questionCount++;
+                        loading.dismiss();
+                        Log.d("checkAnswer", response.toString());
                         String corectAnswer = response.getCrAnswer();
                         if (userAnswer.equals(corectAnswer)) {
                             questionNow++;
+                            questionCorrect++;
                             openDialogFragmentCorrect();
-                            showNextQuestion();
                             clearAnswer();
-                            getQuestionSet();
+                            showNextQuestion();
                             updateProgressBar();
-
                         } else {
                             openDialogFragmentWrong();
                             clearAnswer();
                             showNextQuestion();
-                            getQuestionSet();
                         }
                     }
                     @Override
                     public void onError(ANError anError) {
+                        loading.dismiss();
                         Log.d(TAG, "Get crAnswer Error : " + anError.getCause());
                     }
                 });
@@ -291,10 +322,10 @@ public class quiz extends AppCompatActivity {
     }
 
     public void updateProgressBar() {
-        if (questionCount >= questionNow){
+        if (questionTotal >= questionNow){
             double qNow = questionNow;
-            double prg = qNow / questionCount;
-            Log.d(TAG, "Question Count : " + questionCount);
+            double prg = qNow / questionTotal;
+            Log.d(TAG, "Question Count : " + questionTotal);
             Log.d(TAG, "Question Stage : " + questionNow);
             Log.d(TAG, "prg : " + prg);
             double progres = prg * 100;
@@ -318,6 +349,17 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
+
+        rbAnswer1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    rbAnswer2.setChecked(false);
+                    rbAnswer3.setChecked(false);
+                    rbAnswer4.setChecked(false);
+                }
+            }
+        });
     }
 
     public void pick02(View view) {
@@ -325,6 +367,17 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(true);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(false);
+
+        rbAnswer2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    rbAnswer1.setChecked(false);
+                    rbAnswer3.setChecked(false);
+                    rbAnswer4.setChecked(false);
+                }
+            }
+        });
     }
 
     public void pick03(View view) {
@@ -332,6 +385,17 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(true);
         rbAnswer4.setChecked(false);
+
+        rbAnswer3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    rbAnswer1.setChecked(false);
+                    rbAnswer2.setChecked(false);
+                    rbAnswer4.setChecked(false);
+                }
+            }
+        });
     }
 
     public void pick04(View view) {
@@ -339,6 +403,17 @@ public class quiz extends AppCompatActivity {
         rbAnswer2.setChecked(false);
         rbAnswer3.setChecked(false);
         rbAnswer4.setChecked(true);
+
+        rbAnswer4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    rbAnswer1.setChecked(false);
+                    rbAnswer2.setChecked(false);
+                    rbAnswer3.setChecked(false);
+                }
+            }
+        });
     }
 
     public void confirm(View view) {
@@ -350,5 +425,42 @@ public class quiz extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Pilih Jawaban", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void getScore(Context c){
+        double totalQuiz = 100.0 / questionTotal;
+        double calcScore = totalQuiz * questionCorrect;
+        double totalScore = (int)(calcScore + 0.5);
+        NumberFormat decimalFormat = new DecimalFormat("0.#");
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setIcon(R.drawable.score);
+        builder.setTitle("Score");
+        builder.setMessage("Quiz selesai dikerjakan\nNilai kamu : "+String.valueOf(decimalFormat.format(totalScore)));
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+
+                dialog.dismiss();
+                startActivity(new Intent(c,home.class));
+                finishAffinity();
+            }
+        });
+
+//        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                // Do nothing
+//                dialog.dismiss();
+//            }
+//        });
+
+        builder.setCancelable(false);
+        AlertDialog alert = builder.create();
+        alert.getWindow().setGravity(Gravity.BOTTOM);
+        alert.show();
     }
 }
